@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/15/trunk/src/sojamo/geo
+END
+GeoLocationList.java
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoLocationList.java
+END
+GeoTrack.java
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoTrack.java
+END
+GeoLocation.java
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoLocation.java
+END
+GeoXMLParseException.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoXMLParseException.java
+END
+GeoXMLElement.java
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoXMLElement.java
+END
+GeoTrackPoint.java
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoTrackPoint.java
+END
+GeoUnit.java
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoUnit.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/15/trunk/src/sojamo/geo/package.html
+END
+GeoSatellite.java
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoSatellite.java
+END
+GeoTrackSegment.java
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoTrackSegment.java
+END
+GeoBox.java
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoBox.java
+END
+GeoGPX.java
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoGPX.java
+END
+GeoTrackList.java
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoTrackList.java
+END
+GeoUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/15/trunk/src/sojamo/geo/GeoUtils.java
+END
+SignalStrength.java
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/15/trunk/src/sojamo/geo/SignalStrength.java
+END

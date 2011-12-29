@@ -1,0 +1,30 @@
+TAS Interface is A Processing program that manages 
+the placement and scale of media files saved in a designated folder.
+The output is saved as an XML file that will be read by a
+program created with openFrameworks.
+
+
+/***************************
+  Libraries & Documentation
+****************************/
+Shapetween		http://www.leebyron.com/else/shapetween/
+ProXML				http://creativecomputing.cc/p5libs/proxml/
+controlP5			http://www.sojamo.de/libraries/controlP5/reference/index.html
+sDrop 				http://www.sojamo.de/libraries/drop/index.html
+
+
+
+/***************************
+  Helpful resources and discussions
+****************************/
+http://forum.processing.org/topic/use-controlp5-listbox-to-select-string
+
+
+load and Display images
+http://processing.org/learning/basics/loaddisplayimage.html
+
+Listing Files
+http://wiki.processing.org/w/Listing_files
+
+Java hidden files
+http://docs.oracle.com/javase/1.4.2/docs/api/java/io/File.html#isHidden()

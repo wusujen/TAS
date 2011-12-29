@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/9/trunk/src/sojamo/chat/jabber
+END
+JabberRoster.java
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/9/trunk/src/sojamo/chat/jabber/JabberRoster.java
+END
+JabberUser.java
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/9/trunk/src/sojamo/chat/jabber/JabberUser.java
+END
+Presence.java
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/9/trunk/src/sojamo/chat/jabber/Presence.java
+END
+JabberChat.java
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/9/trunk/src/sojamo/chat/jabber/JabberChat.java
+END
+Jabber.java
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/9/trunk/src/sojamo/chat/jabber/Jabber.java
+END
+JabberMessage.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/9/trunk/src/sojamo/chat/jabber/JabberMessage.java
+END
+JabberChannelChat.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/9/trunk/src/sojamo/chat/jabber/JabberChannelChat.java
+END

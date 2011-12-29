@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>sojamo.patch</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<h1>sojamo.patch</h1>
+<p>
+sojamo.patch is a library for java and processing that provides chat client implementations
+for the aim and irc protocols.
+</p>
+<!--
+<ul>
+<li><a href="../documentation/aim/index.htm">chatP5.aim</a></li>
+<li><a href="../documentation/irc/index.htm">chatP5.irc</a></li>
+</ul>
+-->
+@libname sojamo/patch
+@documentationLocation sojamo/patch
+@templatesLocation ../
+</body>
+</html>
