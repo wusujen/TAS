@@ -1,68 +1,38 @@
 import controlP5.*;
 
+ControlP5 controlP5;
+ListBox l;
 
-ControlP5 control;          // Declare the ControlP5
-ListBox mediaLib;           // Declare the controls that will be used
-int currentMediaIndex;      // stores the id of the active listbox item.
+void setup() {
+  size(400,400);
+  // Path
+  String path = sketchPath + "/media";
+  
+  // Test to see if sketch is picking up the files
+  println("Listing all filenames in a directory: ");
+  String[] filenames = listFileNames(path);
+  println(filenames);
+  
+  // Create settings for the list element
+  controlP5 = new ControlP5(this);
+  l = controlP5.addListBox("myList",100,100,120,120);
+  l.setItemHeight(15);
+  l.setBarHeight(15);
 
-
-void setup(){
-  // Path to media files
-  String rawMediaDir = sketchPath + "/media";
-  // save all media files in an array
-  // to access later
-  File[] files = listFiles(rawMediaDir);
-  
-  smooth();
-  size(1400, 900);
-  
-  control = new ControlP5(this);
-  // add the media library using ListBox object
-  mediaLib = control.addListBox("media",30,100,250,400);
-  mediaLib.setItemHeight(20);
-  mediaLib.setBarHeight(22);
-  mediaLib.captionLabel().set("Media Library");
-  mediaLib.captionLabel().style().marginTop = 3;
-  mediaLib.valueLabel().style().marginTop = 3; // the +/- sign
-  mediaLib.setId(1);
-  
-  // populate the listbox with items from the raw media folder
-  for(int i=0;i<files.length;i++) {
-    String fileName = files[i].getName();
-    // TODO: ignore hidden files
-    mediaLib.addItem(fileName,i);
+  l.captionLabel().toUpperCase(true);
+  l.captionLabel().set("Media Files");
+  l.captionLabel().style().marginTop = 3;
+  l.valueLabel().style().marginTop = 3; // the +/- sign
+  for(int i=0;i<filenames.length;i++) {
+    l.addItem(filenames[i],i);
   }
-
-
+  l.setColorBackground(color(164,170,183));
+  l.setColorActive(color(140,140,140));
 }
 
+// Nothing is drawn in this program and the draw() doesn't loop because
+// of the noLoop() in setup()
 void draw() {
 
 }
 
-void controlEvent(ControlEvent event){
-  if (event.isGroup()) {
-    // an event from a group e.g. ListBox
-      println(event.group().value() +" from "+event.group());
-      // controlEvent is called when a listbox-item
-      // has been activated, hence update the value
-      // of myCurrentIndex accordingly
-      currentMediaIndex = int(event.group().value());
-      println(currentMediaIndex);
-    }
-}
-
-
-
-// This function returns all the files in a directory as an array of File objects
-// This is useful if you want more info about the file
-File[] listFiles(String dir) {
-  File file = new File(dir);
-  if (file.isDirectory()) {
-    File[] files = file.listFiles();
-    return files;
-  } else {
-    // If it's not a directory
-    return null;
-  }
-}
