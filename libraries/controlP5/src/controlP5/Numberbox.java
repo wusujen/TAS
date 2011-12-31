@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,20 +20,19 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 /**
- * press the mouse inside a numberbox and move up and down to change the values
- * of a numberbox.
- * 
- * by default you increase and decrease numbers by dragging the mouse up and
- * down. use setDirection(Controller.HORIZONTAL) to change the mouse control to
- * left and right.
+ * Click and drag the mouse inside a numberbox and move up and down to change
+ * the value of a numberbox. By default the value changes when dragging the
+ * mouse up and down. use setDirection(Controller.HORIZONTAL) to change the
+ * mouse control to left and right.
  * 
  * Why do I get -1000000 as initial value when creating a numberbox without a
  * default value? the value of a numberbox defaults back to its minValue, which
@@ -45,7 +44,7 @@ import processing.core.PApplet;
  * increasing/decreasing, by default the multiplier is 1.
  * 
  * 
- * @example ControlP5numberbox
+ * @example controllers/ControlP5numberbox
  * @nosuperclasses Controller Controller
  */
 public class Numberbox extends Controller {
@@ -66,47 +65,34 @@ public class Numberbox extends Controller {
 
 	protected float _myMultiplier = 1;
 
-	protected static int autoWidth = 70;
+	public static int autoWidth = 70;
 
-	protected static int autoHeight = 15;
+	public static int autoHeight = 15;
 
-	protected CVector3f autoSpacing = new CVector3f(10, 20, 0);
+	protected PVector autoSpacing = new PVector(10, 20, 0);
+
+	float scrollSensitivity = 0.1f;
 
 	/**
 	 * 
-	 * 
-	 * 
-	 * @param theControlP5
-	 *          ControlP5
-	 * @param theParent
-	 *          Tab
-	 * @param theName
-	 *          String
-	 * @param theDefaultValue
-	 *          float
-	 * @param theX
-	 *          int
-	 * @param theY
-	 *          int
-	 * @param theWidth
-	 *          int
-	 * @param theHeight
-	 *          int
+	 * @param theControlP5 ControlP5
+	 * @param theParent Tab
+	 * @param theName String
+	 * @param theDefaultValue float
+	 * @param theX int
+	 * @param theY int
+	 * @param theWidth int
+	 * @param theHeight int
 	 */
-	public Numberbox(
-			ControlP5 theControlP5,
-			Tab theParent,
-			String theName,
-			float theDefaultValue,
-			int theX,
-			int theY,
-			int theWidth,
-			int theHeight) {
+	public Numberbox(ControlP5 theControlP5, Tab theParent, String theName, float theDefaultValue, int theX, int theY, int theWidth, int theHeight) {
 		super(theControlP5, theParent, theName, theX, theY, theWidth, theHeight);
+		_myMin = -Float.MAX_VALUE;
+		_myMax = Float.MAX_VALUE;
 		_myValue = theDefaultValue;
-		_myValueLabel = new Label("" + _myValue, theWidth, 12, color.colorValueLabel);
-		_myMin = -1000000;
-		_myMax = 1000000;
+		_myValueLabel = new Label(cp5, "" + _myValue, theWidth, 12, color.getValueLabel());
+		if (Float.isNaN(_myValue)) {
+			_myValue = 0;
+		}
 	}
 
 	/*
@@ -114,9 +100,10 @@ public class Numberbox extends Controller {
 	 * 
 	 * @see ControllerInterfalce.updateInternalEvents
 	 */
-	public void updateInternalEvents(PApplet theApplet) {
+	@ControlP5.Invisible
+	public Numberbox updateInternalEvents(PApplet theApplet) {
 		if (isActive) {
-			if (!ControlP5.keyHandler.isAltDown) {
+			if (!cp5.keyHandler.isAltDown) {
 				if (_myNumberCount == VERTICAL) {
 					setValue(_myValue + (_myControlWindow.mouseY - _myControlWindow.pmouseY) * _myMultiplier);
 				} else {
@@ -124,6 +111,7 @@ public class Numberbox extends Controller {
 				}
 			}
 		}
+		return this;
 	}
 
 	/*
@@ -131,6 +119,8 @@ public class Numberbox extends Controller {
 	 * 
 	 * @see controlP5.Controller#mousePressed()
 	 */
+	@Override
+	@ControlP5.Invisible
 	public void mousePressed() {
 		isActive = true;
 	}
@@ -140,6 +130,8 @@ public class Numberbox extends Controller {
 	 * 
 	 * @see controlP5.Controller#mouseReleased()
 	 */
+	@Override
+	@ControlP5.Invisible
 	public void mouseReleased() {
 		isActive = false;
 	}
@@ -149,45 +141,98 @@ public class Numberbox extends Controller {
 	 * 
 	 * @see controlP5.Controller#mouseReleasedOutside()
 	 */
+	@Override
+	@ControlP5.Invisible
 	public void mouseReleasedOutside() {
 		mouseReleased();
 	}
 
-	public void setMultiplier(float theMultiplier) {
+	/**
+	 * 
+	 * @param theMultiplier
+	 * @return Numberbox
+	 */
+	public Numberbox setMultiplier(float theMultiplier) {
 		_myMultiplier = theMultiplier;
+		return this;
 	}
 
-	public float multiplier() {
+	/**
+	 * 
+	 * @return float
+	 */
+	public float getMultiplier() {
 		return _myMultiplier;
 	}
 
 	/**
 	 * set the value of the numberbox.
 	 * 
-	 * @param theValue
-	 *          float
+	 * @param theValue float
+	 * @return Numberbox
 	 */
-	public void setValue(float theValue) {
+	@Override
+	public Numberbox setValue(float theValue) {
 		_myValue = theValue;
 		_myValue = Math.max(_myMin, Math.min(_myMax, _myValue));
 		broadcast(FLOAT);
 		_myValueLabel.set(adjustValue(_myValue));
+		return this;
 	}
 
 	/**
-	 * set the direction for changing the numberbox value when dragging the mouse.
-	 * by default this is up/down (VERTICAL), use
+	 * assigns a random value to the controller.
+	 * 
+	 * @return Numberbox
+	 */
+	public Numberbox shuffle() {
+		float r = (float) Math.random();
+		setValue(PApplet.map(r, 0, 1, getMin(), getMax()));
+		return this;
+	}
+
+	/**
+	 * sets the sensitivity for the scroll behavior when using the mouse wheel
+	 * or the scroll function of a multi-touch track pad. The smaller the value
+	 * (closer to 0) the higher the sensitivity.
+	 * 
+	 * @param theValue
+	 * @return Numberbox
+	 */
+	public Numberbox setScrollSensitivity(float theValue) {
+		scrollSensitivity = theValue;
+		return this;
+	}
+
+	/**
+	 * changes the value of the numberbox when hovering and using the mouse
+	 * wheel or the scroll function of a multi-touch track pad.
+	 * 
+	 * @param theRotationValue
+	 * @return Numberbox
+	 */
+	public Numberbox scrolled(int theRotationValue) {
+		float f = getValue();
+		f += (_myMultiplier == 1) ? (theRotationValue * scrollSensitivity) : theRotationValue * _myMultiplier;
+		setValue(f);
+		return this;
+	}
+
+	/**
+	 * set the direction for changing the numberbox value when dragging the
+	 * mouse. by default this is up/down (VERTICAL), use
 	 * setDirection(Controller.HORIZONTAL) to change to left/right or back with
 	 * setDirection(Controller.VERTICAL).
 	 * 
 	 * @param theValue
 	 */
-	public void setDirection(int theValue) {
+	public Numberbox setDirection(int theValue) {
 		if (theValue == HORIZONTAL || theValue == VERTICAL) {
 			_myNumberCount = theValue;
 		} else {
 			_myNumberCount = VERTICAL;
 		}
+		return this;
 	}
 
 	/*
@@ -195,54 +240,60 @@ public class Numberbox extends Controller {
 	 * 
 	 * @see controlP5.Controller#update()
 	 */
-	public void update() {
-		setValue(_myValue);
+	@Override
+	public Numberbox update() {
+		return setValue(_myValue);
 	}
 
-	public Controller linebreak() {
-		controlP5.linebreak(this, true, autoWidth, autoHeight, autoSpacing);
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Numberbox linebreak() {
+		cp5.linebreak(this, true, autoWidth, autoHeight, autoSpacing);
 		return this;
 	}
 
 	/**
-	 * 
-	 * @param theElement
-	 *          ControlP5XMLElement
+	 * {@inheritDoc}
 	 */
-	public void addToXMLElement(ControlP5XMLElement theElement) {
-		theElement.setAttribute("type", "numberbox");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see controlP5.Controller#updateDisplayMode(int)
-	 */
-	public void updateDisplayMode(int theMode) {
+	@Override
+	@ControlP5.Invisible
+	public Numberbox updateDisplayMode(int theMode) {
 		_myDisplayMode = theMode;
 		switch (theMode) {
 		case (DEFAULT):
-			_myDisplay = new NumberboxDisplay();
+			_myDisplay = new NumberboxView();
 		case (SPRITE):
 		case (IMAGE):
 		case (CUSTOM):
 		default:
 			break;
-
 		}
+		return this;
 	}
 
-	class NumberboxDisplay implements ControllerDisplay {
+	class NumberboxView implements ControllerView {
+
 		public void display(PApplet theApplet, Controller theController) {
-			theApplet.fill(color.colorBackground);
+			theApplet.fill(color.getBackground());
 			theApplet.rect(0, 0, width, height);
-			theApplet.fill((isActive) ? color.colorActive : color.colorForeground);
+			theApplet.fill((isActive) ? color.getActive() : color.getForeground());
 			int h = height / 2;
 			theApplet.triangle(0, h - 6, 6, h, 0, h + 6);
-
+			_myValueLabel.draw(theApplet, 10, (height - _myValueLabel.getHeight() + 4) / 2);
 			_myCaptionLabel.draw(theApplet, 0, height + 4);
-			_myValueLabel.draw(theApplet, 10, h - _myValueLabel.height() / 2 + 3);
 		}
 	}
 
+	/**
+	 * @see controlP5.Numberbox#setScrollSensitivity(float)
+	 * 
+	 * @param theValue
+	 * @return
+	 */
+	@Deprecated
+	public Numberbox setSensitivity(float theValue) {
+		return setScrollSensitivity(theValue);
+	}
 }

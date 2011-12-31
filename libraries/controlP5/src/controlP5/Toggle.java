@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,18 +20,19 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 /**
  * a toggle can have two states, true and false, where true has the value 1 and
  * false is 0.
  * 
- * @example ControlP5toggle
+ * @example controllers/ControlP5toggle
  * @nosuperclasses Controller Controller
  */
 public class Toggle extends Controller {
@@ -42,11 +43,11 @@ public class Toggle extends Controller {
 
 	protected float internalValue = -1;
 
-	protected static int autoWidth = 40;
+	public static int autoWidth = 40;
 
-	protected static int autoHeight = 20;
+	public static int autoHeight = 20;
 
-	protected CVector3f autoSpacing = new CVector3f(10, 20, 0);
+	protected PVector autoSpacing = new PVector(10, 20, 0);
 
 	/**
 	 * 
@@ -76,9 +77,10 @@ public class Toggle extends Controller {
 	 * 
 	 * @param theApplet PApplet
 	 */
+	@ControlP5.Invisible
 	public void draw(PApplet theApplet) {
 		theApplet.pushMatrix();
-		theApplet.translate(position().x(), position().y());
+		theApplet.translate(position.x, position.y);
 		_myDisplay.display(theApplet, this);
 		theApplet.popMatrix();
 	}
@@ -90,46 +92,61 @@ public class Toggle extends Controller {
 	protected void onLeave() {
 		isActive = false;
 	}
-
+	
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
+	@ControlP5.Invisible
 	public void mousePressed() {
 		setState(!isOn);
 		isActive = false;
 	}
 
 	/**
-	 * 
-	 * @param theValue float
+	 * {@inheritDoc}
 	 */
-	public void setValue(float theValue) {
+	@Override
+	public Toggle setValue(float theValue) {
 		if (theValue == 0) {
 			setState(false);
 		} else {
 			setState(true);
 		}
+		return this;
 	}
-
-	public void setValue(boolean theValue) {
+	
+	/**
+	 * @param theValue
+	 */
+	public Toggle setValue(boolean theValue) {
 		setValue((theValue == true) ? 1 : 0);
+		return this;
 	}
-
-	public void update() {
-		setValue(_myValue);
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Toggle update() {
+		return setValue(_myValue);
 	}
 
 	/**
-	 * set the state of the toggle, which can be true or false.
+	 * sets the state of the toggle, this can be true or false.
 	 * 
 	 * @param theFlag boolean
 	 */
-	public void setState(boolean theFlag) {
+	public Toggle setState(boolean theFlag) {
 		isOn = theFlag;
 		_myValue = (isOn == false) ? 0 : 1;
 		broadcast(FLOAT);
+		return this;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean getState() {
 		return isOn;
 	}
@@ -147,12 +164,13 @@ public class Toggle extends Controller {
 	/**
 	 * switch the state of a toggle.
 	 */
-	public void toggle() {
+	public Toggle toggle() {
 		if (isOn) {
 			setState(false);
 		} else {
 			setState(true);
 		}
+		return this;
 	}
 
 	/**
@@ -161,16 +179,9 @@ public class Toggle extends Controller {
 	 * 
 	 * @param theMode
 	 */
-	public void setMode(int theMode) {
+	public Toggle setMode(int theMode) {
 		updateDisplayMode(theMode);
-	}
-
-	/**
-	 * 
-	 * @param theElement ControlP5XMLElement
-	 */
-	public void addToXMLElement(ControlP5XMLElement theElement) {
-		theElement.setAttribute("type", "toggle");
+		return this;
 	}
 
 	/**
@@ -179,47 +190,58 @@ public class Toggle extends Controller {
 	 * 
 	 * @param theInternalValue
 	 */
+	@ControlP5.Invisible
 	public void setInternalValue(float theInternalValue) {
 		internalValue = theInternalValue;
 	}
-
+	
+	@ControlP5.Invisible
 	public float internalValue() {
 		return internalValue;
 	}
-
-	public Controller linebreak() {
-		controlP5.linebreak(this, true, autoWidth, autoHeight, autoSpacing);
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Toggle linebreak() {
+		cp5.linebreak(this, true, autoWidth, autoHeight, autoSpacing);
 		return this;
 	}
-
-	public void updateDisplayMode(int theState) {
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@ControlP5.Invisible
+	public Toggle updateDisplayMode(int theState) {
 		_myDisplayMode = theState;
 		switch (theState) {
 		case (DEFAULT):
-			_myDisplay = new ToggleDisplay();
+			_myDisplay = new ToggleView();
 			break;
 		case (SPRITE):
-			_myDisplay = new ToggleSpriteDisplay();
+			_myDisplay = new ToggleSpriteView();
 			break;
 		case (IMAGE):
-			_myDisplay = new ToggleImageDisplay();
+			_myDisplay = new ToggleImageView();
 			break;
 		case (SWITCH):
-			_myDisplay = new ToggleSwitchDisplay();
+			_myDisplay = new ToggleSwitchView();
 			break;
 		case (CUSTOM):
 		default:
 			break;
-
 		}
+		return this;
 	}
 
-	class ToggleDisplay implements ControllerDisplay {
+	class ToggleView implements ControllerView {
 		public void display(PApplet theApplet, Controller theController) {
 			if (isActive) {
-				theApplet.fill(color.colorActive);
+				theApplet.fill(isOn ? color.getActive() : color.getForeground());
 			} else {
-				theApplet.fill(isOn ? color.colorActive : color.colorBackground);
+				theApplet.fill(isOn ? color.getActive() : color.getBackground());
 			}
 			theApplet.rect(0, 0, width, height);
 			if (isLabelVisible) {
@@ -227,8 +249,9 @@ public class Toggle extends Controller {
 			}
 		}
 	}
-
-	class ToggleSpriteDisplay implements ControllerDisplay {
+	
+	@Deprecated
+	class ToggleSpriteView implements ControllerView {
 		public void display(PApplet theApplet, Controller theController) {
 			if (isActive) {
 				sprite.setState(1);
@@ -242,7 +265,7 @@ public class Toggle extends Controller {
 		}
 	}
 
-	class ToggleImageDisplay implements ControllerDisplay {
+	class ToggleImageView implements ControllerView {
 		public void display(PApplet theApplet, Controller theController) {
 			if (isActive) {
 				theApplet.image((availableImages[ACTIVE] == true) ? images[ACTIVE] : images[DEFAULT], 0, 0);
@@ -257,11 +280,11 @@ public class Toggle extends Controller {
 		}
 	}
 
-	class ToggleSwitchDisplay implements ControllerDisplay {
+	class ToggleSwitchView implements ControllerView {
 		public void display(PApplet theApplet, Controller theController) {
-			theApplet.fill(color.colorBackground);
+			theApplet.fill(color.getBackground());
 			theApplet.rect(0, 0, width, height);
-			theApplet.fill(color.colorActive);
+			theApplet.fill(color.getActive());
 			if (isOn) {
 				theApplet.rect(0, 0, width / 2, height);
 			} else {

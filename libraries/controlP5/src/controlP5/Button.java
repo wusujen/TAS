@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,19 +20,22 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
 import processing.core.PApplet;
 
 /**
+ * <p>
  * A button triggers an event after it has been release. Events can be linked to
  * functions and fields inside your program/sketch. for a full documentation of
  * this controller see the {@link Controller} class.
+ * </p>
  * 
- * @example ControlP5button
+ * @see controlP5.ControllerGroup
+ * @example controllers/ControlP5button
  */
 
 public class Button extends Controller {
@@ -43,45 +46,34 @@ public class Button extends Controller {
 
 	protected boolean isOn = false;
 
-	protected static int autoWidth = 70;
+	public static int autoWidth = 70;
 
-	protected static int autoHeight = 20;
+	public static int autoHeight = 20;
 
 	protected int activateBy = RELEASE;
 
 	protected boolean isSwitch = false;
 
-	protected Button(
-			ControlP5 theControlP5,
-			ControllerGroup theParent,
-			String theName,
-			float theDefaultValue,
-			int theX,
-			int theY,
-			int theWidth,
-			int theHeight) {
+	protected Button(ControlP5 theControlP5, ControllerGroup theParent, String theName, float theDefaultValue, int theX, int theY, int theWidth, int theHeight) {
 		super(theControlP5, theParent, theName, theX, theY, theWidth, theHeight);
 		_myValue = theDefaultValue;
 	}
 
-	protected Button(
-			ControlP5 theControlP5,
-			ControllerGroup theParent,
-			String theName,
-			float theDefaultValue,
-			int theX,
-			int theY,
-			int theWidth,
-			int theHeight,
-			boolean theBroadcastFlag) {
+	protected Button(ControlP5 theControlP5, ControllerGroup theParent, String theName, float theDefaultValue, int theX, int theY, int theWidth, int theHeight, boolean theBroadcastFlag) {
 		super(theControlP5, theParent, theName, theX, theY, theWidth, theHeight);
 		_myValue = theDefaultValue;
 	}
 
+	/**
+	 * @exclude
+	 */
 	public Button() {
 		super(null, null, null, 0, 0, 1, 1);
 	}
-
+	
+	/**
+	 * @exclude
+	 */
 	public Button(ControlP5 theControlP5, String theName) {
 		super(theControlP5, theControlP5.tab("default"), theName, 0, 0, 1, 1);
 	}
@@ -97,8 +89,10 @@ public class Button extends Controller {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @exclude
 	 */
+	@Override
+	@ControlP5.Invisible
 	public void mousePressed() {
 		isActive = getIsInside();
 		isPressed = true;
@@ -108,8 +102,10 @@ public class Button extends Controller {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @exclude
 	 */
+	@Override
+	@ControlP5.Invisible
 	public void mouseReleased() {
 		isPressed = false;
 		if (activateBy == RELEASE) {
@@ -119,7 +115,7 @@ public class Button extends Controller {
 	}
 
 	/**
-	 * A button can be activated by a mouse PRESSED or mouse RELEASE. Default
+	 *  A button can be activated by a mouse PRESSED or mouse RELEASE. Default
 	 * value is RELEASE.
 	 * 
 	 * @param theValue use ControlP5.PRESSED or ControlP5.RELEASE as parameter
@@ -137,47 +133,44 @@ public class Button extends Controller {
 	protected void activate() {
 		if (isActive) {
 			isActive = false;
-			if (parent() instanceof Tab) {
+			if (getParent() instanceof Tab) {
 				setIsInside(false);
 			}
-			setValue(_myValue);
 			isOn = !isOn;
+			setValue(_myValue);
+
 		}
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @exclude
 	 */
+	@Override
+	@ControlP5.Invisible
 	public void mouseReleasedOutside() {
 		mouseReleased();
 	}
 
 	/**
-	 * set the value of the button controller.
-	 * 
-	 * @param theValue float
+	 * {@inheritDoc}
 	 */
-	public void setValue(float theValue) {
+	@Override
+	public Button setValue(float theValue) {
 		_myValue = theValue;
 		broadcast(FLOAT);
+		return this;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void update() {
-		setValue(_myValue);
+	@Override
+	public Button update() {
+		return setValue(_myValue);
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public void addToXMLElement(ControlP5XMLElement theElement) {
-		theElement.setAttribute("type", "button");
-	}
-
-	/**
-	 * turn a button into a switch, or use toggle instead.
+	 * Turns a button into a switch, or use a Toggle instead.
 	 * 
 	 * @see controlP5.Toggle
 	 * @param theFlag turns the button into a switch when true
@@ -190,7 +183,7 @@ public class Button extends Controller {
 
 	/**
 	 * If the button acts as a switch, setOn will turn on the switch. Use
-	 * {@link #setSwitch(boolean) setSwitch} to turn a button into a switch.
+	 * {@link controlP5.Button#setSwitch(boolean) setSwitch} to turn a Button into a Switch.
 	 * 
 	 * @return Button
 	 */
@@ -205,7 +198,7 @@ public class Button extends Controller {
 
 	/**
 	 * If the button acts as a switch, setOff will turn off the switch. Use
-	 * {@link #setSwitch(boolean) setSwitch} to turn a button into a switch.
+	 * {@link controlP5.Button#setSwitch(boolean) setSwitch} to turn a Button into a Switch.
 	 * 
 	 * @return Button
 	 */
@@ -217,44 +210,125 @@ public class Button extends Controller {
 		}
 		return this;
 	}
-
+	
 	/**
-	 * Returns true or false and indicates the switch state of the
-	 * button. {@link setSwitch(boolean) setSwitch} should have been set before.
+	 * @return boolean
+	 */
+	public boolean isOn() {
+		return isOn;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public boolean isPressed() {
+		return isPressed;
+	}
+	/**
+	 * Returns true or false and indicates the switch state of the button.
+	 * {@link setSwitch(boolean) setSwitch} should have been set before.
 	 * 
 	 * @see controlP5.Button#setSwitch(boolean)
-	 * @return boolean 
+	 * @return boolean
 	 */
-	public boolean booleanValue() {
+	public boolean getBooleanValue() {
 		return isOn;
+	}
+	
+
+	/**
+	 * @exclude
+	 */
+	@Override
+	@ControlP5.Invisible
+	public Button updateDisplayMode(int theMode) {
+		return updateViewMode(theMode);
 	}
 
 	/**
-	 * {@inheritDoc}}
-	 * 
-	 * @see controlP5.Controller#updateDisplayMode(int)
+	 * @exclude
 	 */
-	public void updateDisplayMode(int theMode) {
+	@ControlP5.Invisible
+	public Button updateViewMode(int theMode) {
 		_myDisplayMode = theMode;
 		switch (theMode) {
 		case (DEFAULT):
-			_myDisplay = new ButtonDisplay();
+			_myDisplay = new ButtonView();
 			break;
 		case (IMAGE):
-			_myDisplay = new ButtonImageDisplay();
+			_myDisplay = new ButtonImageView();
 			break;
 		case (SPRITE):
-			_myDisplay = new ButtonSpriteDisplay();
+			_myDisplay = new ButtonSpriteView();
 			break;
 		case (CUSTOM):
 		default:
 			break;
 
 		}
+		return this;
 	}
 
+	private class ButtonView implements ControllerView {
 
-	class ButtonSpriteDisplay implements ControllerDisplay {
+		public void display(PApplet theApplet, Controller theController) {
+			if (isOn && isSwitch) {
+				theApplet.fill(color.getActive());
+			} else {
+				if (getIsInside()) {
+					if (isPressed) {
+						theApplet.fill(color.getActive());
+					} else {
+						theApplet.fill(color.getForeground());
+					}
+				} else {
+					theApplet.fill(color.getBackground());
+				}
+			}
+			theApplet.rect(0, 0, width, height);
+			if (isLabelVisible) {
+				_myCaptionLabel.draw(theApplet, 4, height / 2 - 3);
+			}
+		}
+	}
+
+	private class ButtonImageView implements ControllerView {
+
+		public void display(PApplet theApplet, Controller theController) {
+			if (isOn && isSwitch) {
+				theApplet.image((availableImages[HIGHLIGHT] == true) ? images[HIGHLIGHT] : images[DEFAULT], 0, 0);
+				return;
+			}
+			if (getIsInside()) {
+				if (isPressed) {
+					theApplet.image((availableImages[ACTIVE] == true) ? images[ACTIVE] : images[DEFAULT], 0, 0);
+				} else {
+					theApplet.image((availableImages[OVER] == true) ? images[OVER] : images[DEFAULT], 0, 0);
+				}
+			} else {
+				theApplet.image(images[DEFAULT], 0, 0);
+			}
+		}
+	}
+
+	/**
+	 * @exclude
+	 */
+	@Override
+	public String getInfo() {
+		return "type:\tButton\n" + super.getInfo();
+	}
+
+	/**
+	 * @exclude
+	 */
+	@Override
+	public String toString() {
+		return super.toString() + " [ " + getValue() + " ] " + "Button" + " (" + this.getClass().getSuperclass() + ")";
+	}
+
+	@Deprecated
+	private class ButtonSpriteView implements ControllerView {
 		public void display(PApplet theApplet, Controller theController) {
 			if (isOn && isSwitch) {
 				sprite.setState(2);
@@ -273,51 +347,13 @@ public class Button extends Controller {
 			sprite.draw(theApplet);
 		}
 	}
-
-	class ButtonDisplay implements ControllerDisplay {
-
-		public void display(PApplet theApplet, Controller theController) {
-			if (isOn && isSwitch) {
-				theApplet.fill(color.colorActive);
-			} else {
-				if (getIsInside()) {
-					if (isPressed) {
-						theApplet.fill(color.colorActive);
-					} else {
-						theApplet.fill(color.colorForeground);
-					}
-				} else {
-					theApplet.fill(color.colorBackground);
-				}
-			}
-			theApplet.rect(0, 0, width, height);
-			if (isLabelVisible) {
-				_myCaptionLabel.draw(theApplet, 4, height / 2 - 3);
-			}
-		}
-	}
-
-	class ButtonImageDisplay implements ControllerDisplay {
-
-		public void display(PApplet theApplet, Controller theController) {
-			if (isOn && isSwitch) {
-				theApplet.image((availableImages[HIGHLIGHT] == true) ? images[HIGHLIGHT] : images[DEFAULT], 0, 0);
-				return;
-			}
-			if (getIsInside()) {
-				if (isPressed) {
-					theApplet.image((availableImages[ACTIVE] == true) ? images[ACTIVE] : images[DEFAULT], 0, 0);
-				} else {
-					theApplet.image((availableImages[OVER] == true) ? images[OVER] : images[DEFAULT], 0, 0);
-				}
-			} else {
-				theApplet.image(images[DEFAULT], 0, 0);
-			}
-		}
-	}
 	
-	@Override
-	public String toString() {
-		return "type:\tButton\n"+super.toString();
+	/**
+	 * @deprecated
+	 * @exclude
+	 */
+	@Deprecated
+	public boolean booleanValue() {
+		return isOn;
 	}
 }

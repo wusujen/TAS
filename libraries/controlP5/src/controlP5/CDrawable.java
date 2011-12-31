@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,20 +20,20 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
 import processing.core.PApplet;
 
 /**
- * TODO
+ * The CDrawable interface is used to draw controllers, primarily for internal
+ * use.
  */
 public interface CDrawable {
 
 	/**
-	 * 
 	 * @param theApplet PApplet
 	 */
 	public void draw(PApplet theApplet);

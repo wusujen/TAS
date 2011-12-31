@@ -1,10 +1,9 @@
 package controlP5;
 
-
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -21,27 +20,24 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 /**
- * Tab extends ControllerGroup, for more available methods
- * see the ControllerGroup documentation.
+ * Tabs are used to organize controllers. Tabs are arranged horizontally from
+ * the top-left corner by default, Tab extends ControllerGroup, for more
+ * available methods see the ControllerGroup documentation. Reposition tabs with
+ * {@link controlP5.ControlWindow#setPositionOfTabs(int, int)}
  * 
- * @example ControlP5tab
- * @nosuperclasses ControllerGroup
- *  ControllerGroup
+ * @example controllers/ControlP5tab
+ * @nosuperclasses ControllerGroup ControllerGroup
  */
 public class Tab extends ControllerGroup {
-
-	/*
-	 * @todo
-	 * enable positioning of tabs.
-	 */
 
 	protected int _myOffsetX = -1000;
 
@@ -67,14 +63,13 @@ public class Tab extends ControllerGroup {
 		super(theControlP5, null, theName, 0, 0);
 		_myControlWindow = theControlWindow;
 
-		position = new CVector3f();
-		positionBuffer = new CVector3f();
-		absolutePosition = new CVector3f();
+		position = new PVector();
+		absolutePosition = new PVector();
 		isMoveable = false;
 		isEventActive = theControlP5.isTabEventsActive;
 		_myHeight = 16;
 		_myLabel.update();
-		_myWidth = _myLabel.width() + _myRightBorder;
+		_myWidth = _myLabel.getWidth() + _myRightBorder;
 		width();
 	}
 
@@ -89,14 +84,14 @@ public class Tab extends ControllerGroup {
 
 	protected boolean updateLabel() {
 		isInside = inside();
-		return _myControlWindow.tabs().size() > 2;
+		return _myControlWindow.getTabs().size() > 2;
 	}
 
 	protected void drawLabel(PApplet theApplet) {
 		theApplet.pushMatrix();
-		theApplet.fill(isInside ? color.colorForeground : color.colorBackground);
+		theApplet.fill(isInside ? color.getForeground() : color.getBackground());
 		if (isActive) {
-			theApplet.fill(color.colorActive);
+			theApplet.fill(color.getActive());
 		}
 		theApplet.rect(_myOffsetX, _myOffsetY, _myWidth - 1 + _myRightBorder, _myHeight);
 		_myLabel.draw(theApplet, _myOffsetX + 4, _myOffsetY + 5);
@@ -104,25 +99,25 @@ public class Tab extends ControllerGroup {
 	}
 
 	/**
-	 * set the label of the group.
-	 * TODO overwriting COntrollerGroup.setLabel to set the Width of a tab
-	 * after renaming. this should be temporary and fixed in the future.
+	 * set the label of the group. TODO overwriting COntrollerGroup.setLabel to
+	 * set the Width of a tab after renaming. this should be temporary and fixed
+	 * in the future.
 	 * 
-	 * @param theLabel
-	 *        String
+	 * @param theLabel String
+	 * @return Tab
 	 */
-	public void setLabel(String theLabel) {
+	public Tab setLabel(String theLabel) {
 		_myLabel.setFixedSize(false);
 		_myLabel.set(theLabel);
 		_myLabel.setFixedSize(true);
-		setWidth(_myLabel.width());
+		setWidth(_myLabel.getWidth());
+		return this;
 	}
 
 	protected int width() {
 		return _myWidth + _myRightBorder;
 	}
-	
-	
+
 	/**
 	 * @param theWidth
 	 * @return
@@ -131,38 +126,40 @@ public class Tab extends ControllerGroup {
 		_myWidth = theWidth + _myRightBorder;
 		return this;
 	}
-	
+
 	public Tab setHeight(int theHeight) {
 		_myHeight = theHeight;
 		return this;
 	}
-	
 
 	protected boolean inside() {
-		return (_myControlWindow.mouseX > _myOffsetX
-			&& _myControlWindow.mouseX < _myOffsetX + _myWidth + _myRightBorder
-			&& _myControlWindow.mouseY > _myOffsetY && _myControlWindow.mouseY < _myOffsetY + _myHeight);
+		return (_myControlWindow.mouseX > _myOffsetX && _myControlWindow.mouseX < _myOffsetX + _myWidth + _myRightBorder && _myControlWindow.mouseY > _myOffsetY && _myControlWindow.mouseY < _myOffsetY
+				+ _myHeight);
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
+	@ControlP5.Invisible
 	public void mousePressed() {
 		_myControlWindow.activateTab(this);
 		if (isEventActive) {
-			controlP5.controlbroadcaster().broadcast(new ControlEvent(this), ControlP5Constants.METHOD);
+			cp5.getControlBroadcaster().broadcast(new ControlEvent(this), ControlP5Constants.METHOD);
 		}
 	}
 
 	/**
+	 * Activates a tab.
 	 * 
 	 * @param theFlag boolean
 	 */
-	public void setActive(boolean theFlag) {
+	public Tab setActive(boolean theFlag) {
 		isActive = theFlag;
+		return this;
 	}
 
 	/**
+	 * checks if a tab is active.
 	 * 
 	 * @return boolean
 	 */
@@ -170,15 +167,23 @@ public class Tab extends ControllerGroup {
 		return isActive;
 	}
 
-	public void moveTo(ControlWindow theWindow) {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Tab moveTo(ControlWindow theWindow) {
 		_myControlWindow.removeTab(this);
-		setTab(theWindow, name());
+		setTab(theWindow, getName());
+		return this;
 	}
 
 	/**
-	 * activate or deactivate the Event status of a tab.
+	 * activates or deactivates the Event status of a tab, When activated a tab
+	 * will send a controlEvent to the main application. By default this is
+	 * disabled.
 	 * 
 	 * @param theFlag boolean
+	 * @return Tab
 	 */
 	public Tab activateEvent(boolean theFlag) {
 		isEventActive = theFlag;
@@ -186,52 +191,38 @@ public class Tab extends ControllerGroup {
 	}
 
 	/**
-	 * 
-	 * @param theElement ControlP5XMLElement
+	 * {@inheritDoc}
 	 */
-	public void addToXMLElement(ControlP5XMLElement theElement) {
-		theElement.setName("tab");
-		theElement.setAttribute("name", name());
-		theElement.setAttribute("id", new Integer(id()));
-		theElement.setAttribute("width", new Integer(width()));
-		theElement.removeAttribute("x");
-		theElement.removeAttribute("y");
-	}
-
-	/**
-	 * get the string value of the tab.
-	 * 
-	 * @return String
-	 */
-	public String stringValue() {
+	@Override
+	public String getStringValue() {
 		return _myStringValue;
 	}
 
 	/**
-	 * get the value of the tab.
-	 * 
-	 * @return float
+	 * {@inheritDoc}
 	 */
-	public float value() {
+	@Override
+	public float getValue() {
 		return _myValue;
 	}
 
 	/**
-	 * set the value of the tab.
-	 * 
-	 * @param theValue float
+	 * {@inheritDoc}
 	 */
-	public void setValue(float theValue) {
+	@Override
+	public Tab setValue(float theValue) {
 		_myValue = theValue;
+		return this;
 	}
 
-	/**
-	 * set the string value of the tab.
-	 * 
-	 * @param theValue String
-	 */
-	public void setStringValue(String theValue) {
-		_myStringValue = theValue;
+	@Deprecated
+	public float value() {
+		return _myValue;
+	}
+
+	@Deprecated
+	public String stringValue() {
+		return _myStringValue;
 	}
 
 }

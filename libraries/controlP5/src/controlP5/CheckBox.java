@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,17 +20,16 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
 /**
- * A checkBox is a multiple-choice radioButton. items are added to a checkBox
- * and can be organized in rows and columns. items of a checkBox are of type
- * Toggle.
+ * A multiple-choice radioButton. items are added to a checkBox and can be organized in rows and
+ * columns. items of a checkBox are of type Toggle.
  * 
- * @example ControlP5CheckBox
+ * @example controllers/ControlP5checkBox
  * 
  * @see controlP5.Toggle
  * 
@@ -38,28 +37,20 @@ package controlP5;
 public class CheckBox extends RadioButton {
 
 	/**
-	 * a CheckBox should only be added to controlP5 by using
-	 * controlP5.addCheckBox()
+	 * A CheckBox should only be added to controlP5 by using controlP5.addCheckBox()
 	 * 
+	 * @exclude
 	 * @param theControlP5
 	 * @param theParent
 	 * @param theName
 	 * @param theX
 	 * @param theY
 	 */
-	public CheckBox(
-			final ControlP5 theControlP5,
-			final ControllerGroup theParent,
-			final String theName,
-			final int theX,
-			final int theY) {
+	public CheckBox(final ControlP5 theControlP5, final ControllerGroup theParent, final String theName, final int theX, final int theY) {
 		super(theControlP5, theParent, theName, theX, theY);
 		isMultipleChoice = true;
 	}
 
-	/**
-	 * activate all checkBox items.
-	 */
 	public final void activateAll() {
 		int n = _myRadioToggles.size();
 		for (int i = 0; i < n; i++) {
@@ -69,7 +60,7 @@ public class CheckBox extends RadioButton {
 	}
 
 	/**
-	 * activate a single checkbox item (by index);
+	 * Activates a single checkbox item by index
 	 */
 	public final void activate(int theIndex) {
 		if (theIndex < _myRadioToggles.size()) {
@@ -79,7 +70,7 @@ public class CheckBox extends RadioButton {
 	}
 
 	/**
-	 * deactivate a single checkbox item (by index);
+	 * deactivate a single checkbox item by index
 	 */
 	public final void deactivate(int theIndex) {
 		if (theIndex < _myRadioToggles.size()) {
@@ -89,8 +80,9 @@ public class CheckBox extends RadioButton {
 	}
 
 	/**
-	 * toggle a single checkbox item (by index);
+	 * toggle a single checkbox item by index
 	 */
+	@Override
 	public final void toggle(int theIndex) {
 		if (theIndex < _myRadioToggles.size()) {
 			Toggle t = _myRadioToggles.get(theIndex);
@@ -102,15 +94,15 @@ public class CheckBox extends RadioButton {
 			updateValues();
 		}
 	}
-	
+
 	/**
-	 * deactivate a single checkbox item (by name);
+	 * deactivate a single checkbox item by name
 	 */
-	public final void toggle(String theRadioButtonName) {
+	public final void toggle(String theName) {
 		int n = _myRadioToggles.size();
 		for (int i = 0; i < n; i++) {
 			Toggle t = _myRadioToggles.get(i);
-			if (theRadioButtonName.equals(t.name())) {
+			if (theName.equals(t.getName())) {
 				if (t.getState() == true) {
 					t.deactivate();
 				} else {
@@ -123,13 +115,13 @@ public class CheckBox extends RadioButton {
 	}
 
 	/**
-	 * activate a single checkbox item (by name);
+	 * Activates a single checkbox item by name
 	 */
-	public final void activate(String theRadioButtonName) {
+	public final void activate(String theName) {
 		int n = _myRadioToggles.size();
 		for (int i = 0; i < n; i++) {
 			Toggle t = _myRadioToggles.get(i);
-			if (theRadioButtonName.equals(t.name())) {
+			if (theName.equals(t.getName())) {
 				t.activate();
 				updateValues();
 				return;
@@ -138,13 +130,13 @@ public class CheckBox extends RadioButton {
 	}
 
 	/**
-	 * deactivate a single checkbox item (by name);
+	 * Deactivates a single checkbox item by name
 	 */
-	public final void deactivate(String theRadioButtonName) {
+	public final void deactivate(String theName) {
 		int n = _myRadioToggles.size();
 		for (int i = 0; i < n; i++) {
 			Toggle t = _myRadioToggles.get(i);
-			if (theRadioButtonName.equals(t.name())) {
+			if (theName.equals(t.getName())) {
 				t.deactivate();
 				updateValues();
 				return;
@@ -156,9 +148,40 @@ public class CheckBox extends RadioButton {
 		_myValue = -1;
 		updateValues(true);
 	}
-	
+
+	/**
+	 * Sets the value for all CheckBox items according to the values of the array passed on. 0 will
+	 * turn off an item, any other value will turn it on.
+	 */
+	@Override
+	public CheckBox setArrayValue(float[] theArray) {
+		for (int i = 0; i < theArray.length; i++) {
+			if (_myArrayValue[i] != theArray[i]) {
+				if (theArray[i] == 0) {
+					_myRadioToggles.get(i).deactivate();
+				} else {
+					_myRadioToggles.get(i).activate();
+				}
+			}
+		}
+		super.setArrayValue(theArray);
+		return this;
+	}
+
+	/**
+	 * @exclude {@inheritDoc}
+	 */
+	@Override
+	public String getInfo() {
+		return "type:\tCheckBox\n" + super.getInfo();
+	}
+
+	/**
+	 * @exclude {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
-		return "type:\tCheckBox\n"+super.toString();
+		return super.toString();
 	}
+
 }

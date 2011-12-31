@@ -1,5 +1,8 @@
 package controlP5;
 
+/**
+ * Used by Chart, single chart data is stored here including value, (label) text, and color.
+ */
 public class ChartData {
 
 	protected float _myValue;

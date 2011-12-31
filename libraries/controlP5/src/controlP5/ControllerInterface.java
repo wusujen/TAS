@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,79 +20,70 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
-import processing.core.PApplet;
 import java.awt.event.KeyEvent;
 
+import processing.core.PApplet;
+import processing.core.PVector;
+
 /**
+ * 
+ * The ControllerInterface is inherited by all ControllerGroup and Controller
+ * classes.
  * 
  */
 public interface ControllerInterface {
 
-	/**
-	 * 
-	 */
+	
+	@ControlP5.Invisible
 	public void init();
-	
+
 	public int getWidth();
-	
+
 	public int getHeight();
-	
 
-	/**
-	 * 
-	 * @return CVector3f
-	 */
-	public CVector3f position();
+	public ControllerInterface setValue(float theValue);
 
-	/**
-	 * 
-	 * @param theX
-	 *        float
-	 * @param theY
-	 *        float
-	 */
-	public void setPosition(float theX, float theY);
+	public float getValue();
 
-	/**
-	 * 
-	 * @return CVector3f
-	 */
-	public CVector3f absolutePosition();
+	public ControllerInterface setStringValue(String theValue);
 
-	/**
-	 * 
-	 */
-	public void updateAbsolutePosition();
+	public String getStringValue();
 
-	/**
-	 * 
-	 */
-	public void update();
+	public float[] getArrayValue();
 
-	/**
-	 * 
-	 */
-	public void setUpdate(boolean theFlag);
+	public int getId();
 
-	/**
-	 * 
-	 * @return boolean
-	 */
+	public PVector getPosition();
+
+	@ControlP5.Invisible
+	public ControllerInterface setPosition(float theX, float theY);
+
+	@ControlP5.Invisible
+	public ControllerInterface setPosition(PVector thePVector);
+
+	public PVector getAbsolutePosition();
+
+	public ControllerInterface setAbsolutePosition(PVector thePVector);
+
+	public ControllerInterface updateAbsolutePosition();
+
+	public ControllerInterface getParent();
+
+	public ControllerInterface update();
+
+	public ControllerInterface setUpdate(boolean theFlag);
+
 	public boolean isUpdate();
 
-	/**
-	 * 
-	 */
-	public void updateEvents();
+	@ControlP5.Invisible
+	public ControllerInterface updateEvents();
 
-	/**
-	 * 
-	 */
+	@ControlP5.Invisible
 	public void continuousUpdateEvents();
 
 	/**
@@ -102,171 +93,104 @@ public interface ControllerInterface {
 	 * 
 	 * 
 	 */
-	public void updateInternalEvents(PApplet theApplet);
+	@ControlP5.Invisible
+	public ControllerInterface updateInternalEvents(PApplet theApplet);
 
-	/**
-	 * 
-	 * @param theApplet
-	 *        PApplet
-	 */
+	@ControlP5.Invisible
 	public void draw(PApplet theApplet);
 
-	/**
-	 * 
-	 * @param theElement
-	 *        ControllerInterface
-	 */
-	public void add(ControllerInterface theElement);
+	public ControllerInterface add(ControllerInterface theElement);
 
-	/**
-	 * 
-	 * @param theElement
-	 *        ControllerInterface
-	 */
-	public void remove(ControllerInterface theElement);
+	public ControllerInterface remove(ControllerInterface theElement);
 
-	/**
-	 * 
-	 */
 	public void remove();
 
-	/**
-	 * 
-	 * @return String
-	 */
-	public String name();
+	public String getName();
 
-	/**
-	 * 
-	 * @return ControlWindow
-	 */
+	public String getAddress();
+
 	public ControlWindow getWindow();
 
-	/**
-	 * 
-	 * @return Tab
-	 */
 	public Tab getTab();
 
-	/**
-	 * 
-	 * @param theStatus
-	 *        boolean
-	 * @return boolean
-	 */
 	public boolean setMousePressed(boolean theStatus);
 
-	/**
-	 * 
-	 * @param theEvent
-	 *        KeyEvent
-	 */
+	@ControlP5.Invisible
 	public void keyEvent(KeyEvent theEvent);
 
-	/**
-	 * 
-	 * @param theValue
-	 *        int
-	 */
-	public void setId(int theValue);
+	@ControlP5.Invisible
+	public ControllerInterface setAddress(String theAddress);
 
-	/**
-	 * 
-	 * @return int
-	 */
-	public int id();
+	public ControllerInterface setId(int theValue);
 
-	/**
-	 * 
-	 * @param theString
-	 *        String
-	 */
-	public void setLabel(String theString);
+	public ControllerInterface setLabel(String theString);
 
-	/**
-	 * 
-	 * @param theColor
-	 *        int
-	 */
-	public void setColorActive(int theColor);
+	public ControllerInterface setColorActive(int theColor);
 
-	/**
-	 * 
-	 * @param theColor
-	 *        int
-	 */
-	public void setColorForeground(int theColor);
+	public ControllerInterface setColorForeground(int theColor);
 
-	/**
-	 * 
-	 * @param theColor
-	 *        int
-	 */
-	public void setColorBackground(int theColor);
+	public ControllerInterface setColorBackground(int theColor);
 
-	/**
-	 * 
-	 * @param theColor
-	 *        int
-	 */
-	public void setColorLabel(int theColor);
+	public ControllerInterface setColorLabel(int theColor);
 
-	/**
-	 * 
-	 * @param theColor
-	 *        int
-	 */
-	public void setColorValue(int theColor);
+	public ControllerInterface setColorValue(int theColor);
+	
+	public ControllerInterface setColor(CColor theColor);
+	
+	public CColor getColor();
+	
+	public ControllerInterface show();
 
-	public CColor color();
+	public ControllerInterface hide();
 
-	/**
-	 * 
-	 * @param theXMLElement
-	 *        ControlP5XMLElement
-	 */
-	public void addToXMLElement(ControlP5XMLElement theXMLElement);
-
-	/**
-	 * 
-	 * @return ControlP5XMLElement
-	 */
-	public ControlP5XMLElement getAsXML();
-
-	/**
-	 * 
-	 */
-	public void show();
-
-	/**
-	 * 
-	 */
-	public void hide();
-
-	/**
-	 * 
-	 * @return boolean
-	 */
 	public boolean isVisible();
 
-	/**
-	 * 
-	 * @param theGroup
-	 *        ControlGroup
-	 * @param theTab
-	 *        Tab
-	 * @param theWindow
-	 *        ControlWindow
-	 */
-	public void moveTo(ControlGroup theGroup, Tab theTab, ControlWindow theWindow);
+	public ControllerInterface moveTo(ControllerGroup theGroup, Tab theTab, ControlWindow theWindow);
 
-	public float value();
+	public ControllerInterface moveTo(ControllerGroup theGroup);
 
-	public String stringValue();
 
-	public boolean isXMLsavable();
-
+	@ControlP5.Invisible
 	public int getPickingColor();
-	
+
+	@ControlP5.Invisible
 	public ControllerInterface parent();
+
+	public ControllerProperty getProperty(String thePropertyName);
+
+	public ControllerProperty getProperty(String theSetter, String theGetter);
+
+	public ControllerInterface registerProperty(String thePropertyName);
+
+	public ControllerInterface registerProperty(String theSetter, String theGetter);
+
+	public ControllerInterface removeProperty(String thePropertyName);
+
+	public ControllerInterface removeProperty(String theSetter, String theGetter);
+
+	public boolean isMouseOver();
+	
+	public ControllerInterface setMouseOver(boolean theFlag);
+	
+	/**
+	 * @exclude
+	 * @deprecated
+	 */
+	@Deprecated
+	public String name();
+	
+	/**
+	 * @exclude
+	 * @deprecated
+	 */
+	@Deprecated
+	public String stringValue();
+	
+	/**
+	 * @exclude
+	 * @deprecated
+	 */
+	@Deprecated
+	public int id();
+
 }

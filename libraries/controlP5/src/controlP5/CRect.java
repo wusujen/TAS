@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,14 +20,18 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
+
+import processing.core.PVector;
+
 /**
+ * Convenience class used for intersections.
  * 
  */
-public class CRect {
+class CRect {
 	private float x, y;
 
 	private float width, height;
@@ -143,7 +147,7 @@ public class CRect {
 		return x0 + " " + y0 + " " + x1 + " " + y1;
 	}
 
-	public static boolean inside(CRect theRect, CVector3f theVector) {
+	public static boolean inside(CRect theRect, PVector theVector) {
 		return (theVector.x > theRect.x0 && theVector.x < theRect.x1 && theVector.y > theRect.y0 && theVector.y < theRect.y1);
 	}
 

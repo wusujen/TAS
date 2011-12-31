@@ -1,31 +1,40 @@
 package controlP5;
 
+import java.io.Serializable;
+
 /**
  * controlP5 is a processing gui library.
- *
- *  2007-2010 by Andreas Schlegel
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1
- * of the License, or (at your option) any later version.
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General
- * Public License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- * Boston, MA 02111-1307 USA
- *
- * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
- *
+ * 
+ * 2006-2011 by Andreas Schlegel
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version. This library is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
+ * @author Andreas Schlegel (http://www.sojamo.de)
+ * @modified 11/13/2011
+ * @version 0.6.12
+ * 
  */
 
-public class ControllerStyle {
+/**
+ * Labels use the ControllerStyle class to store margin and padding information.
+ * 
+ * @see controlP5.Label#getStyle()
+ * 
+ * @example extra/ControlP5style
+ */
+public class ControllerStyle implements Serializable {
+
+	private static final long serialVersionUID = 3250201688970310633L;
 
 	public int paddingTop = 0;
 	public int paddingRight = 0;
@@ -40,104 +49,102 @@ public class ControllerStyle {
 	public int backgroundHeight = -1;
 	public int color;
 
-	/*
-	 * 
-	 */
-	public void margin(int theValue) {
+	public ControllerStyle margin(int theValue) {
 		marginTop = theValue;
 		marginRight = theValue;
 		marginBottom = theValue;
 		marginLeft = theValue;
+		return this;
 	}
 
-	/*
-	 * 
-	 */
-	public void padding(int theValue) {
+	public ControllerStyle padding(int theValue) {
 		paddingTop = theValue;
 		paddingRight = theValue;
 		paddingBottom = theValue;
 		paddingLeft = theValue;
+		return this;
 	}
 
-	public void setPadding(int theTop, int theRight, int theBottom, int theLeft) {
+	public ControllerStyle setPadding(int theTop, int theRight, int theBottom, int theLeft) {
 		padding(theTop, theRight, theBottom, theLeft);
-	}
-	
-	public void setPaddingTop(int theValue) {
-		paddingTop = theValue;
-	}
-	
-	public void setPaddingBottom(int theValue) {
-		paddingBottom = theValue;
-	}
-	
-	public void setPaddingRight(int theValue) {
-		paddingRight = theValue;
-	}
-	
-	public void setPaddingLeft(int theValue) {
-		paddingLeft = theValue;
+		return this;
 	}
 
-	
-	/*
-	 * 
-	 */
-	public void margin(int theTop, int theRight, int theBottom, int theLeft) {
+	public ControllerStyle setPaddingTop(int theValue) {
+		paddingTop = theValue;
+		return this;
+	}
+
+	public ControllerStyle setPaddingBottom(int theValue) {
+		paddingBottom = theValue;
+		return this;
+	}
+
+	public ControllerStyle setPaddingRight(int theValue) {
+		paddingRight = theValue;
+		return this;
+	}
+
+	public ControllerStyle setPaddingLeft(int theValue) {
+		paddingLeft = theValue;
+		return this;
+	}
+
+	public ControllerStyle margin(int theTop, int theRight, int theBottom, int theLeft) {
 		marginTop = theTop;
 		marginRight = theRight;
 		marginBottom = theBottom;
 		marginLeft = theLeft;
-	}
-	
-	public void setMargin(int theTop, int theRight, int theBottom, int theLeft) {
-		margin(theTop, theRight, theBottom, theLeft);
+		return this;
 	}
 
-	public void setMarginTop(int theValue) {
+	public ControllerStyle setMargin(int theTop, int theRight, int theBottom, int theLeft) {
+		margin(theTop, theRight, theBottom, theLeft);
+		return this;
+	}
+
+	public ControllerStyle setMarginTop(int theValue) {
 		marginTop = theValue;
+		return this;
 	}
-	
-	public void setMarginBottom(int theValue) {
+
+	public ControllerStyle setMarginBottom(int theValue) {
 		marginBottom = theValue;
+		return this;
 	}
-	
-	public void setMarginRight(int theValue) {
+
+	public ControllerStyle setMarginRight(int theValue) {
 		marginRight = theValue;
+		return this;
 	}
-	
-	public void setMarginLeft(int theValue) {
+
+	public ControllerStyle setMarginLeft(int theValue) {
 		marginLeft = theValue;
+		return this;
 	}
-	
-	/*
-	 * 
-	 */
-	public void padding(int theTop, int theRight, int theBottom, int theLeft) {
+
+	public ControllerStyle padding(int theTop, int theRight, int theBottom, int theLeft) {
 		paddingTop = theTop;
 		paddingRight = theRight;
 		paddingBottom = theBottom;
 		paddingLeft = theLeft;
+		return this;
 	}
 
-	/*
-	 * 
-	 */
-	public void moveMargin(int theTop, int theRight, int theBottom, int theLeft) {
+	public ControllerStyle moveMargin(int theTop, int theRight, int theBottom, int theLeft) {
 		marginTop += theTop;
 		marginRight += theRight;
 		marginBottom += theBottom;
 		marginLeft += theLeft;
+		return this;
 	}
 
-	/*
-	 * 
-	 */
-	public void movePadding(int theTop, int theRight, int theBottom, int theLeft) {
+	public ControllerStyle movePadding(int theTop, int theRight, int theBottom, int theLeft) {
 		paddingTop += theTop;
 		paddingRight += theRight;
 		paddingBottom += theBottom;
 		paddingLeft += theLeft;
+		return this;
 	}
+
 }

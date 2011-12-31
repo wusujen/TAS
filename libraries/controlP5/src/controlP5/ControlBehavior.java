@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,17 +20,19 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
 /**
- * control behavior is an abstract class and must be extended, update() must be
- * implemented in your custom control behavior. how to use ControlBehavior
- * please see the ControlP5behavior example in the examples folder.
+ * The abstract class control behavior allows you to add custom behavior to
+ * controllers. Since it is an abstract class it must be extended and method
+ * update() must be implemented in your custom control behavior. how to use
+ * ControlBehavior please see the ControlP5behavior example in the examples
+ * folder.
  * 
- * @example ControlP5behavior
+ * @example use/ControlP5behavior
  */
 public abstract class ControlBehavior {
 
@@ -45,40 +47,27 @@ public abstract class ControlBehavior {
 	}
 
 	/**
-	 * returns the controller this behavior is connected to.
+	 * Returns the controller this behavior is connected to.
 	 * 
 	 * @return Controller
 	 */
-	public Controller controller() {
+	public Controller getController() {
 		return _myController;
 	}
 
-	protected float getValue() {
+
+	
+	public float getValue() {
 		return value;
 	}
 
-	/**
-	 * set the value of the controller.
-	 * 
-	 * @param theValue float
-	 */
 	public void setValue(float theValue) {
 		value = theValue;
 		_myController.setValue(value);
 	}
 
 	/**
-	 * get the value of the controller this behavior is connected to.
-	 * 
-	 * @return float
-	 */
-
-	public float value() {
-		return value;
-	}
-
-	/**
-	 * when extending ControlBehavior, update() has to be overwritten.
+	 * When extending ControlBehavior, update() has to be overwritten.
 	 */
 	public abstract void update();
 
@@ -100,4 +89,19 @@ public abstract class ControlBehavior {
 		return isActive;
 	}
 
-}
+	/**
+	 * @exclude
+	 * @return
+	 */
+	@Deprecated
+	public float value() {
+		return value;
+	}
+	
+	/**
+	 * @exclude
+	 */
+	@Deprecated
+	public Controller controller() {
+		return _myController;
+	}}

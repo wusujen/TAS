@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,20 +20,22 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
 import processing.core.PApplet;
 
 /**
- * use a controlWindowCanvas to draw your custom content into a control window.
+ * Use a ControlWindowCanvas to draw custom graphics into a control window or
+ * the default sketch window.
  * 
- * be warned, for now ControlWindowCanvas and ControlCanvas are EXPERIMENTAL and
- * will undergo changes in the future!
+ * The ControlWindowCanvas is an abstract class and must be extended by your
+ * custom ControlWindowCanvas class, see the ControlP5canvas example for
+ * details.
  * 
- * @example ControlP5canvas
+ * @example controllers/ControlP5canvas
  * 
  */
 public abstract class ControlWindowCanvas {
@@ -43,10 +45,13 @@ public abstract class ControlWindowCanvas {
 	public final static int POST = 1;
 	protected int _myMode = PRE;
 
+	public void setup(PApplet theApplet) {
+	}
+
 	/**
-	 * controlWindowCanvas is an abstract class and therefore needs to be extended
-	 * by your class. draw(PApplet theApplet) is the only method that needs to be
-	 * overwritten.
+	 * controlWindowCanvas is an abstract class and therefore needs to be
+	 * extended by your class. draw(PApplet theApplet) is the only method that
+	 * needs to be overwritten.
 	 */
 	public abstract void draw(PApplet theApplet);
 

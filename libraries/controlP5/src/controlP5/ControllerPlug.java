@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,15 +20,20 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
 
-
+/**
+ * The ControllerPlug is used to do all the reflection procedures to link a
+ * controller to a variable or function inside your main application.
+ * 
+ * @example use/ControlP5plugTo
+ */
 public class ControllerPlug {
 
 	private Object _myObject;
@@ -49,25 +54,26 @@ public class ControllerPlug {
 
 	private Class<?>[] _myAcceptClassList;
 
-	public ControllerPlug(
-			final Object theObject,
-			final String theName,
-			final int theType,
-			final int theParameterType,
-			Class<?>[] theAcceptClassList) {
+	private Class<?> _myEventMethodParameter = ControlEvent.class;
+
+	public ControllerPlug(final Object theObject, final String theName, final int theType, final int theParameterType, Class<?>[] theAcceptClassList) {
 		set(theObject, theName, theType, theParameterType, theAcceptClassList);
 	}
 
-	protected void set(Object theObject) {
-		set(theObject, name(), type(), parameterType(), acceptClassList());
+	ControllerPlug(Class<?> param, final Object theObject, final String theName, final int theType, final int theParameterType) {
+		setEventMethodParameter(param);
+		set(theObject, theName, theType, theParameterType, null);
 	}
 
-	public void set(
-			final Object theObject,
-			final String theName,
-			final int theType,
-			final int theParameterType,
-			final Class<?>[] theAcceptClassList) {
+	void setEventMethodParameter(Class<?> theClass) {
+		_myEventMethodParameter = theClass;
+	}
+
+	protected void set(Object theObject) {
+		set(theObject, getName(), getType(), getParameterType(), getAcceptClassList());
+	}
+
+	public void set(final Object theObject, final String theName, final int theType, final int theParameterType, final Class<?>[] theAcceptClassList) {
 		_myObject = theObject;
 		_myName = theName;
 		_myType = theType;
@@ -101,19 +107,24 @@ public class ControllerPlug {
 			} catch (SecurityException e) {
 				printSecurityWarning(e);
 			} catch (NoSuchMethodException e) {
-				ControlP5.logger().warning(" plug() failed." + e);
+				if (_myParameterClass != CallbackEvent.class) {
+					ControlP5.logger().warning(" plug() failed. If function " + theName + " does exist, make it public. " + e);
+				}
 			}
 
 			/* check for controlEvent */
 		} else if (_myType == ControlP5Constants.EVENT) {
 			try {
-				_myMethod = _myObject.getClass().getMethod(_myName, new Class[] { ControlEvent.class });
+
+				_myMethod = _myObject.getClass().getMethod(_myName, new Class[] { _myEventMethodParameter });
 				_myMethod.setAccessible(true);
-				_myParameterClass = ControlEvent.class;
+				_myParameterClass = _myEventMethodParameter;
 			} catch (SecurityException e) {
 				printSecurityWarning(e);
 			} catch (NoSuchMethodException e) {
-				ControlP5.logger().warning(" plug() failed." + e);
+				if (_myEventMethodParameter != CallbackEvent.class) {
+					ControlP5.logger().warning(" plug() failed " + _myParameterClass + ". If function " + theName + " does exist, make it public. " + e);
+				}
 			}
 			/* check for fields */
 		} else if (_myType == ControlP5Constants.FIELD) {
@@ -126,8 +137,8 @@ public class ControllerPlug {
 				/**
 				 * note. when running in applet mode. for some reason
 				 * setAccessible(true) works for methods but not for fields.
-				 * theAccessControlException is thrown. therefore, make fields in your
-				 * code public.
+				 * theAccessControlException is thrown. therefore, make fields
+				 * in your code public.
 				 */
 				try {
 					_myField = myClass.getDeclaredField(_myName);
@@ -152,13 +163,36 @@ public class ControllerPlug {
 		// AccessControlException required for applets.
 		if (!ControlP5.isApplet) {
 			ControlP5.isApplet = true;
-			ControlP5.logger().warning("You are probably running in applet mode.\n"
-					+ "make sure fields and methods in your code are public.\n" + e);
+			ControlP5.logger().warning("You are probably running in applet mode.\n" + "make sure fields and methods in your code are public.\n" + e);
 		}
 	}
 
-	protected Object value() {
+	protected Object getValue() {
 		return _myValue;
+	}
+
+	protected Object getObject() {
+		return _myObject;
+	}
+
+	protected String getName() {
+		return _myName;
+	}
+
+	protected int getType() {
+		return _myType;
+	}
+
+	protected int getParameterType() {
+		return _myParameterType;
+	}
+
+	protected Class<?>[] getAcceptClassList() {
+		return _myAcceptClassList;
+	}
+
+	protected Class<?> getClassType() {
+		return _myParameterClass;
 	}
 
 	protected boolean checkType(int theType) {
@@ -167,26 +201,6 @@ public class ControllerPlug {
 
 	protected boolean checkName(String theName) {
 		return (_myName.equals(theName));
-	}
-
-	protected Object object() {
-		return _myObject;
-	}
-
-	protected String name() {
-		return _myName;
-	}
-
-	protected int type() {
-		return _myType;
-	}
-
-	protected int parameterType() {
-		return _myParameterType;
-	}
-
-	protected Class<?>[] acceptClassList() {
-		return _myAcceptClassList;
 	}
 
 	private Object get(float theValue) {
@@ -217,8 +231,39 @@ public class ControllerPlug {
 		return _myField;
 	}
 
+	@Deprecated
 	protected Class<?> classType() {
 		return _myParameterClass;
+	}
+
+	@Deprecated
+	protected Object value() {
+		return _myValue;
+	}
+
+	@Deprecated
+	protected Object object() {
+		return _myObject;
+	}
+
+	@Deprecated
+	protected String name() {
+		return _myName;
+	}
+
+	@Deprecated
+	protected int type() {
+		return _myType;
+	}
+
+	@Deprecated
+	protected int parameterType() {
+		return _myParameterType;
+	}
+
+	@Deprecated
+	protected Class<?>[] acceptClassList() {
+		return _myAcceptClassList;
 	}
 
 }

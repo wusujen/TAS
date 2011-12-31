@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,14 +20,14 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 import java.awt.event.KeyEvent;
 
 /**
- * 
+ * Constant variables used with ControlP5 are stored here.
  */
 public interface ControlP5Constants {
 
@@ -46,7 +46,7 @@ public interface ControlP5Constants {
 	public final static int METHOD = 0;
 
 	public final static int FIELD = 1;
-	
+
 	public final static int EVENT = 2;
 
 	public final static int INTEGER = 0;
@@ -59,12 +59,10 @@ public interface ControlP5Constants {
 
 	public final static int ARRAY = 4;
 
-	public final static Class<?>[] acceptClassList = {
-	  int.class, float.class, boolean.class, String.class
-	};
+	public final static Class<?>[] acceptClassList = { int.class, float.class, boolean.class, String.class };
 
 	public final static Class<?> controlEventClass = ControlEvent.class;
-	
+
 	public final static int UP = KeyEvent.VK_UP;
 
 	public final static int DOWN = KeyEvent.VK_DOWN;
@@ -120,23 +118,23 @@ public interface ControlP5Constants {
 	public static final int HORIZONTAL = 0;
 
 	public static final int VERTICAL = 1;
-	
+
 	public static final int DEFAULT = 0;
-	
+
 	public static final int OVER = 1;
-	
+
 	public static final int ACTIVE = 2;
-	
+
 	public static final int HIGHLIGHT = 3;
-	
+
 	public static final int IMAGE = 1;
-	
+
 	public static final int SPRITE = 2;
-	 
+
 	public static final int CUSTOM = 3;
-	
+
 	public static final int SWITCH = 100;
-	
+
 	public static final int MOVE = 0;
 
 	public static final int RELEASE = 1;
@@ -144,8 +142,39 @@ public interface ControlP5Constants {
 	public static final int PRESSED = 2;
 
 	public static final int LINE = 1;
-	
+
 	public static final int ELLIPSE = 2;
-	
+
 	public static final int ARC = 3;
+
+	public static final int INACTIVE = 0;
+
+	public static final int WAIT = 1;
+
+	public static final int FADEIN = 2;
+
+	public static final int IDLE = 3;
+
+	public static final int FADEOUT = 4;
+
+	public static final int DONE = 5;
+
+	public static final int SINGLE_COLUMN = 0;
+
+	public static final int SINGLE_ROW = 1;
+
+	public static final int MULTIPLES = 2;
+
+	public static final int ACTION_PRESSED = 1;
+
+	public static final int ACTION_ENTER = 2;
+
+	public static final int ACTION_LEAVE = 4;
+
+	public static final int ACTION_RELEASED = 8;
+
+	public static final int ACTION_RELEASEDOUTSIDE = 16;
+
+	public static final int ACTION_BROADCAST = 32;
+
 }

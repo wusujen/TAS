@@ -9,7 +9,6 @@ void createMediaList(String[] itemNameArray){
   mediaList.setId(1);
   mediaList.setItemHeight(15);
   mediaList.setBarHeight(15);
-
   mediaList.captionLabel().toUpperCase(true);
   mediaList.captionLabel().set("Media Files");
   mediaList.captionLabel().style().marginTop = 3;
@@ -17,8 +16,6 @@ void createMediaList(String[] itemNameArray){
   for(int i=0;i<itemNameArray.length;i++) {
     mediaList.addItem(itemNameArray[i],i);
   }
-  mediaList.setColorBackground(color(164,170,183));
-  mediaList.setColorActive(color(140,140,140));
 }
 
 /*========  createDragToList  =============*
@@ -26,7 +23,7 @@ void createMediaList(String[] itemNameArray){
  the media files will eventually rest on.
 *=========================================*/
 void createDragToList(){
-  controlP5 = new ControlP5(this);
+  //controlP5 = new ControlP5(this);
   dragToList = controlP5.addListBox("dragToList",200,50,120,300);
   dragToList.setId(2);
   dragToList.setItemHeight(15);
@@ -51,13 +48,19 @@ void controlEvent(ControlEvent theEvent) {
   if (theEvent.isGroup() && theEvent.group().id()==1) {
     dragListID=dragListID+1;
     println(theEvent.group().value()+" from "+theEvent.group());
-    int val=int(theEvent.group().value());
+    val=int(theEvent.group().value());
     
-    //Removes the item selected from Media list and
+    //Changes the original color of the clicked item
     //Adds the item to dragToList
-    String clickedItemName=itemNames[val];
+    clickedItemName=itemNames[val];
+    mediaList.item(clickedItemName).setColorBackground(color(255,0,0));
+    mediaList.item(clickedItemName).setColorForeground(color(255,0,0));
+    mediaList.item(clickedItemName).setColorActive(color(255,0,0));
+    mediaList.item(clickedItemName).setColorLabel(color(255));
+    
+    clicked=true;
+    
     println(clickedItemName);
-    mediaList.removeItem(clickedItemName);
     dragToList.addItem(clickedItemName,dragListID);
   }
 }

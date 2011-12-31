@@ -3,7 +3,7 @@ package controlP5;
 /**
  * controlP5 is a processing gui library.
  *
- *  2007-2010 by Andreas Schlegel
+ *  2006-2011 by Andreas Schlegel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -20,8 +20,8 @@ package controlP5;
  * Boston, MA 02111-1307 USA
  *
  * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
+ * @modified	11/13/2011
+ * @version		0.6.12
  *
  */
 
@@ -35,22 +35,16 @@ import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.Component;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
 /**
- * PAppletWIndow description.
- * 
- * 
+ * The PAppletWindow class is used when creating separate ControlWindows to draw
+ * controllers outside of the main window.
  */
 
-public class PAppletWindow extends PApplet implements WindowListener, ComponentListener {
+class PAppletWindow extends PApplet implements WindowListener, ComponentListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1773456691122668251L;
 
 	protected int width = 600;
@@ -81,32 +75,31 @@ public class PAppletWindow extends PApplet implements WindowListener, ComponentL
 
 	protected String _myRenderer = "";
 
-	protected int _myFrameRate = 15;
+	protected int _myFrameRate = 30;
+	
+	private final ControlP5 cp5;
 
 	/*
 	 * (non-Javadoc)
 	 */
-	public PAppletWindow() {
+	public PAppletWindow(ControlP5 theControlP5) {
 		super();
+		cp5 = theControlP5;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 */
-	public PAppletWindow(final String theName, final int theWidth, final int theHeight) {
-		this(theName, theWidth, theHeight, "", 15);
+	public PAppletWindow(ControlP5 theControlP5, final String theName, final int theWidth, final int theHeight) {
+		this(theControlP5, theName, theWidth, theHeight, "", 30);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 */
-	public PAppletWindow(
-			final String theName,
-			final int theWidth,
-			final int theHeight,
-			final String theRenderer,
-			final int theFrameRate) {
+	public PAppletWindow(ControlP5 theControlP5, final String theName, final int theWidth, final int theHeight, final String theRenderer, final int theFrameRate) {
 		super();
+		cp5 = theControlP5;
 		_myName = theName;
 		_myTitle = theName;
 		width = theWidth;
@@ -119,22 +112,16 @@ public class PAppletWindow extends PApplet implements WindowListener, ComponentL
 	/*
 	 * (non-Javadoc)
 	 */
-	public PAppletWindow(final String theName, final int theX, final int theY, final int theWidth, final int theHeight) {
-		this(theName, theX, theY, theWidth, theHeight, "", 15);
+	public PAppletWindow(ControlP5 theControlP5, final String theName, final int theX, final int theY, final int theWidth, final int theHeight) {
+		this(theControlP5, theName, theX, theY, theWidth, theHeight, "", 30);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 */
-	public PAppletWindow(
-			final String theName,
-			final int theX,
-			final int theY,
-			final int theWidth,
-			final int theHeight,
-			final String theRenderer,
-			final int theFrameRate) {
+	public PAppletWindow(ControlP5 theControlP5,final String theName, final int theX, final int theY, final int theWidth, final int theHeight, final String theRenderer, final int theFrameRate) {
 		super();
+		cp5 = theControlP5;
 		_myName = theName;
 		_myTitle = theName;
 		width = theWidth;
@@ -177,9 +164,9 @@ public class PAppletWindow extends PApplet implements WindowListener, ComponentL
 	/**
 	 * show/hide the controller window.
 	 * 
-	 * @param theValue
-	 *          boolean
+	 * @param theValue boolean
 	 */
+	@SuppressWarnings("deprecation")
 	protected void visible(boolean theValue) {
 		// frame.setVisible(theValue);
 		// frame.pack();
@@ -193,8 +180,7 @@ public class PAppletWindow extends PApplet implements WindowListener, ComponentL
 	/**
 	 * resize controller window.
 	 * 
-	 * @param theValue
-	 *          boolean
+	 * @param theValue boolean
 	 */
 	protected void resizeable(boolean theValue) {
 		frame.setResizable(theValue);
@@ -219,32 +205,14 @@ public class PAppletWindow extends PApplet implements WindowListener, ComponentL
 		} catch (Exception e) {
 
 		}
-		/*
-		 * method framrate is called frameRate from processing version 0117 on.
-		 * therefore check for backwards compatibility.
-		 */
-		String myFramerate = "frameRate";
-		Method[] myMethods = this.getClass().getMethods();
-		for (int i = 0; i < myMethods.length; i++) {
-			if (myMethods[i].getName().toLowerCase().equals("framerate")) {
-				myFramerate = myMethods[i].getName();
-				break;
-			}
-		}
-
-		try {
-			Method m = this.getClass().getMethod(myFramerate, new Class[] { float.class });
-			m.invoke(this, new Object[] { new Float(_myFrameRate) });
-		} catch (NoSuchMethodException e) {
-		} catch (IllegalAccessException e) {
-		} catch (InvocationTargetException e) {
-		}
+		frameRate(_myFrameRate);
 	}
 
 	protected void setControlWindow(ControlWindow theWindow) {
 		controlWindow = theWindow;
 	}
 
+	
 	@Override
 	public void draw() {
 	}
@@ -292,24 +260,24 @@ public class PAppletWindow extends PApplet implements WindowListener, ComponentL
 	 * (non-Javadoc)
 	 */
 	public void keyPressed(KeyEvent theKeyEvent) {
-		ControlP5.papplet.keyPressed(theKeyEvent);
-		ControlP5.keyHandler.keyEvent(theKeyEvent, this.controlWindow, false);
+		cp5.papplet.keyPressed(theKeyEvent);
+		cp5.keyHandler.keyEvent(theKeyEvent, this.controlWindow, false);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 */
 	public void keyReleased(KeyEvent theKeyEvent) {
-		ControlP5.papplet.keyReleased(theKeyEvent);
-		ControlP5.keyHandler.keyEvent(theKeyEvent, this.controlWindow, false);
+		cp5.papplet.keyReleased(theKeyEvent);
+		cp5.keyHandler.keyEvent(theKeyEvent, this.controlWindow, false);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 */
 	public void keyTyped(KeyEvent theKeyEvent) {
-		ControlP5.papplet.keyTyped(theKeyEvent);
-		ControlP5.keyHandler.keyEvent(theKeyEvent, this.controlWindow, false);
+		cp5.papplet.keyTyped(theKeyEvent);
+		cp5.keyHandler.keyEvent(theKeyEvent, this.controlWindow, false);
 	}
 
 	/*
@@ -375,7 +343,7 @@ public class PAppletWindow extends PApplet implements WindowListener, ComponentL
 	 * (non-Javadoc)
 	 */
 	public void componentResized(ComponentEvent e) {
-		Component c = e.getComponent();
+		// Component c = e.getComponent();
 		// System.out.println("componentResized event from " +
 		// c.getClass().getName() + "; new size: " + c.getSize().width
 		// + ", " + c.getSize().height);
@@ -402,7 +370,7 @@ public class PAppletWindow extends PApplet implements WindowListener, ComponentL
 		_myMode = NORMAL;
 	}
 
-	protected void dispose() {
+	public void dispose() {
 		controlWindow._myApplet.stop();
 		stop();
 		removeAll();

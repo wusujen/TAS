@@ -2,67 +2,66 @@ package controlP5;
 
 /**
  * controlP5 is a processing gui library.
- *
- *  2007-2010 by Andreas Schlegel
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1
- * of the License, or (at your option) any later version.
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General
- * Public License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- * Boston, MA 02111-1307 USA
- *
- * @author 		Andreas Schlegel (http://www.sojamo.de)
- * @modified	10/05/2010
- * @version		0.5.4
- *
- */
-
-/**
+ * 
+ * 2006-2011 by Andreas Schlegel
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version. This library is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * 
+ * @author Andreas Schlegel (http://www.sojamo.de)
+ * @modified 11/13/2011
+ * @version 0.6.12
  * 
  */
-public class CColor {
 
-	/*
-	 * TODO referring to this thread
-	 * http://processing.org/discourse/yabb2/YaBB.pl?num=1246553397/2#2 the color
-	 * handling is not very user friendly and should be revised. naming: take out
-	 * color from the fields make fields public or add getter for each color how
-	 * to change/edit only the alpha channel of a color?
-	 */
-	protected int colorBackground = 0xff003652;
+import java.io.Serializable;
 
-	protected int colorForeground = 0xff00698c;
+/**
+ * A CColor instance contains the colors of a controller including the foreground-, background-,
+ * active-, captionlabel- and valuelabel-colors.
+ */
 
-	protected int colorActive = 0xff08a2cf; // 0699C4;
+@SuppressWarnings("serial")
+public class CColor implements Serializable {
 
-	protected int colorCaptionLabel = 0xffffffff;
+	private int colorBackground = 0xff003652;
 
-	protected int colorValueLabel = 0xffffffff;
+	private int colorForeground = 0xff00698c;
 
-	protected int colorBackgroundAlpha = 0xff;
+	private int colorActive = 0xff08a2cf; // 0699C4;
 
-	protected int colorForegroundAlpha = 0xff;
+	private int colorCaptionLabel = 0xffffffff;
 
-	protected int colorActiveAlpha = 0xff; // 0699C4;
+	private int colorValueLabel = 0xffffffff;
 
-	protected int colorCaptionLabelAlpha = 0xff;
+	private int colorBackgroundAlpha = 0xff;
 
-	protected int colorValueLabelAlpha = 0xff;
+	private int colorForegroundAlpha = 0xff;
 
-	protected int alpha = 0xff;
+	private int colorActiveAlpha = 0xff; // 0699C4;
 
-	protected int maskA = 0x00ffffff;
-	protected int maskR = 0xff00ffff;
-	protected int maskG = 0xffff00ff;
-	protected int maskB = 0xffffff00;
+	private int colorCaptionLabelAlpha = 0xff;
+
+	private int colorValueLabelAlpha = 0xff;
+
+	private int alpha = 0xff;
+
+	private int maskA = 0x00ffffff;
+
+	int maskR = 0xff00ffff;
+
+	int maskG = 0xffff00ff;
+
+	int maskB = 0xffffff00;
 
 	protected void set(CColor theColor) {
 		colorBackground = theColor.colorBackground;
@@ -84,14 +83,37 @@ public class CColor {
 		theControl.setColorLabel(colorCaptionLabel);
 	}
 
+	/**
+	 * @exclude {@inheritDoc}
+	 */
 	public String toString() {
-		return ("bg (" + (colorBackground >> 16 & 0xff) + "," + (colorBackground >> 8 & 0xff) + ","
-				+ (colorBackground >> 0 & 0xff) + "), " + "fg (" + (colorForeground >> 16 & 0xff) + ","
-				+ (colorForeground >> 8 & 0xff) + "," + (colorForeground >> 0 & 0xff) + "), " + "active ("
-				+ (colorActive >> 16 & 0xff) + "," + (colorActive >> 8 & 0xff) + "," + (colorActive >> 0 & 0xff) + "), "
-				+ "captionlabel (" + (colorCaptionLabel >> 16 & 0xff) + "," + (colorCaptionLabel >> 8 & 0xff) + ","
-				+ (colorCaptionLabel >> 0 & 0xff) + "), " + "valuelabel " + (colorValueLabel >> 16 & 0xff) + ","
-				+ (colorValueLabel >> 8 & 0xff) + "," + (colorValueLabel >> 0 & 0xff)+")");
+		// return "{\"CColor\":[ "+
+		// "{\"colorBackground\":[" +
+		// (colorBackground >> 16 & 0xff) + "," + (colorBackground >> 8 & 0xff)
+		// +
+		// ","+ (colorBackground >> 0 & 0xff) +"]}, " +
+		// "{\"colorForeground\":[" +
+		// (colorForeground >> 16 & 0xff) + "," + (colorForeground >> 8 & 0xff)
+		// +
+		// ","+ (colorForeground >> 0 & 0xff) +"]}, " +
+		// "{\"colorActive\":[" +
+		// (colorActive >> 16 & 0xff) + "," + (colorActive >> 8 & 0xff) + ","+
+		// (colorActive >> 0 & 0xff) +"]}, " +
+		// "{\"colorCaptionLabel\":[" +
+		// (colorCaptionLabel >> 16 & 0xff) + "," + (colorCaptionLabel >> 8 &
+		// 0xff)
+		// + ","+ (colorCaptionLabel >> 0 & 0xff) +"]}, " +
+		// "{\"colorValueLabel\":[" +
+		// (colorValueLabel >> 16 & 0xff) + "," + (colorValueLabel >> 8 & 0xff)
+		// +
+		// ","+ (colorValueLabel >> 0 & 0xff) +"]}" +
+		// " ]}";
+
+		return ("bg (" + (colorBackground >> 16 & 0xff) + "," + (colorBackground >> 8 & 0xff) + "," + (colorBackground >> 0 & 0xff) + "), " + "fg ("
+				+ (colorForeground >> 16 & 0xff) + "," + (colorForeground >> 8 & 0xff) + "," + (colorForeground >> 0 & 0xff) + "), " + "active (" + (colorActive >> 16 & 0xff)
+				+ "," + (colorActive >> 8 & 0xff) + "," + (colorActive >> 0 & 0xff) + "), " + "captionlabel (" + (colorCaptionLabel >> 16 & 0xff) + ","
+				+ (colorCaptionLabel >> 8 & 0xff) + "," + (colorCaptionLabel >> 0 & 0xff) + "), " + "valuelabel (" + (colorValueLabel >> 16 & 0xff) + ","
+				+ (colorValueLabel >> 8 & 0xff) + "," + (colorValueLabel >> 0 & 0xff) + ")");
 	}
 
 	public CColor() {
@@ -101,15 +123,10 @@ public class CColor {
 		set(theColor);
 	}
 
-	public boolean equals(CColor theColor) {
-		if (colorBackground == theColor.colorBackground && colorForeground == theColor.colorForeground
-				&& colorActive == theColor.colorActive && colorCaptionLabel == theColor.colorCaptionLabel
-				&& colorValueLabel == theColor.colorValueLabel) {
-			return true;
-		}
-		return false;
-	}
-
+	/**
+	 * @exclude
+	 * @param theAlpha
+	 */
 	public void setAlpha(int theAlpha) {
 		alpha = theAlpha;
 		colorBackground = (colorBackground & maskA) | (int) (colorBackgroundAlpha * (alpha / 255.0f)) << 24;
@@ -169,4 +186,32 @@ public class CColor {
 		return colorValueLabel;
 	}
 
+	/**
+	 * @exclude {@inheritDoc}
+	 */
+	public int hashCode() {
+		int result = 23;
+		result = 37 * result + colorBackground;
+		result = 37 * result + colorForeground;
+		result = 37 * result + colorActive;
+		return result;
+	}
+
+	/**
+	 * @exclude {@inheritDoc}
+	 */
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		CColor cc = (CColor) o;
+		if (colorBackground != cc.colorBackground || colorForeground != cc.colorForeground || colorActive != cc.colorActive || colorCaptionLabel != cc.colorCaptionLabel
+				|| colorValueLabel != cc.colorValueLabel) {
+			return false;
+		}
+		return true;
+	}
 }

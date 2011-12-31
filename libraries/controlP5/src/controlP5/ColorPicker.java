@@ -1,11 +1,9 @@
 package controlP5;
 
-import processing.core.PApplet;
-
 /**
  * controlP5 is a processing gui library.
  * 
- * 2007-2010 by Andreas Schlegel
+ * 2006-2011 by Andreas Schlegel
  * 
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
@@ -20,28 +18,27 @@ import processing.core.PApplet;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  * 
  * @author Andreas Schlegel (http://www.sojamo.de)
- * @modified 10/05/2010
- * @version 0.5.4
+ * @modified 11/13/2011
+ * @version 0.6.12
  * 
  */
 
+import processing.core.PApplet;
 
+/**
+ * A simple color picker using sliders to adjust RGBA values.
+ * 
+ * @example controllers/ControlP5colorPicker
+ */
 public class ColorPicker extends ControlGroup {
 
 	protected Slider sliderRed;
 	protected Slider sliderGreen;
 	protected Slider sliderBlue;
 	protected Slider sliderAlpha;
-	protected ControlCanvas currentColor;
+	protected ControlWindowCanvas currentColor;
 
-	protected ColorPicker(
-			ControlP5 theControlP5,
-			ControllerGroup theParent,
-			String theName,
-			int theX,
-			int theY,
-			int theWidth,
-			int theHeight) {
+	protected ColorPicker(ControlP5 theControlP5, ControllerGroup theParent, String theName, int theX, int theY, int theWidth, int theHeight) {
 		super(theControlP5, theParent, theName, theX, theY, theWidth, theHeight);
 		isBarVisible = false;
 		isCollapse = false;
@@ -49,7 +46,8 @@ public class ColorPicker extends ControlGroup {
 
 		currentColor = addCanvas(new ColorField());
 
-		sliderRed = controlP5.addSlider(theName + "-red", 0, 255, 0, 0, theWidth, 10);
+		sliderRed = cp5.addSlider(theName + "-red", 0, 255, 0, 0, theWidth, 10);
+		cp5.removeProperty(sliderRed);
 		sliderRed.setId(0);
 		sliderRed.isBroadcast = false;
 		sliderRed.addListener(this);
@@ -59,10 +57,11 @@ public class ColorPicker extends ControlGroup {
 		sliderRed.setColorBackground(0xff660000);
 		sliderRed.setColorForeground(0xffaa0000);
 		sliderRed.setColorActive(0xffff0000);
-		sliderRed.captionLabel().setVisible(false);
+		sliderRed.getCaptionLabel().setVisible(false);
 		sliderRed.setDecimalPrecision(0);
 
-		sliderGreen = controlP5.addSlider(theName + "-green", 0, 255, 0, 11, theWidth, 10);
+		sliderGreen = cp5.addSlider(theName + "-green", 0, 255, 0, 11, theWidth, 10);
+		cp5.removeProperty(sliderGreen);
 		sliderGreen.setId(1);
 		sliderGreen.isBroadcast = false;
 		sliderGreen.addListener(this);
@@ -72,10 +71,11 @@ public class ColorPicker extends ControlGroup {
 		sliderGreen.setColorBackground(0xff006600);
 		sliderGreen.setColorForeground(0xff00aa00);
 		sliderGreen.setColorActive(0xff00ff00);
-		sliderGreen.captionLabel().setVisible(false);
+		sliderGreen.getCaptionLabel().setVisible(false);
 		sliderGreen.setDecimalPrecision(0);
 
-		sliderBlue = controlP5.addSlider(theName + "-blue", 0, 255, 0, 22, theWidth, 10);
+		sliderBlue = cp5.addSlider(theName + "-blue", 0, 255, 0, 22, theWidth, 10);
+		cp5.removeProperty(sliderBlue);
 		sliderBlue.setId(2);
 		sliderBlue.isBroadcast = false;
 		sliderBlue.addListener(this);
@@ -85,10 +85,11 @@ public class ColorPicker extends ControlGroup {
 		sliderBlue.setColorBackground(0xff000066);
 		sliderBlue.setColorForeground(0xff0000aa);
 		sliderBlue.setColorActive(0xff0000ff);
-		sliderBlue.captionLabel().setVisible(false);
+		sliderBlue.getCaptionLabel().setVisible(false);
 		sliderBlue.setDecimalPrecision(0);
 
-		sliderAlpha = controlP5.addSlider(theName + "-alpha", 0, 255, 0, 33, theWidth, 10);
+		sliderAlpha = cp5.addSlider(theName + "-alpha", 0, 255, 0, 33, theWidth, 10);
+		cp5.removeProperty(sliderAlpha);
 		sliderAlpha.setId(3);
 		sliderAlpha.isBroadcast = false;
 		sliderAlpha.addListener(this);
@@ -98,48 +99,69 @@ public class ColorPicker extends ControlGroup {
 		sliderAlpha.setColorBackground(0xff666666);
 		sliderAlpha.setColorForeground(0xffaaaaaa);
 		sliderAlpha.setColorActive(0xffffffff);
-		sliderAlpha.captionLabel().setVisible(false);
+		sliderAlpha.getCaptionLabel().setVisible(false);
 		sliderAlpha.setDecimalPrecision(0);
-		sliderAlpha.valueLabel().setColor(0xff000000);
+		sliderAlpha.getValueLabel().setColor(0xff000000);
 	}
 
+	/**
+	 * @exclude {@inheritDoc}
+	 */
+	@Override
+	@ControlP5.Invisible
 	public void controlEvent(ControlEvent theEvent) {
-		_myArrayValue[theEvent.id()] = theEvent.value();
+		_myArrayValue[theEvent.getId()] = theEvent.getValue();
 	}
 
-	public void setArrayValue(float[] theArray) {
+	/**
+	 * Requires an array of size 4 for RGBA
+	 * 
+	 * @return ColorPicker
+	 */
+	@Override
+	public ColorPicker setArrayValue(float[] theArray) {
 		sliderRed.setValue(theArray[0]);
 		sliderGreen.setValue(theArray[1]);
 		sliderBlue.setValue(theArray[2]);
 		sliderAlpha.setValue(theArray[3]);
 		_myArrayValue = theArray;
+		return this;
 	}
 
-	public void setColorValue(int theColor) {
-		setArrayValue(new float[] { theColor >> 16 & 0xff, theColor >> 8 & 0xff, theColor >> 0 & 0xff,
-				theColor >> 24 & 0xff });
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ColorPicker setColorValue(int theColor) {
+		setArrayValue(new float[] { theColor >> 16 & 0xff, theColor >> 8 & 0xff, theColor >> 0 & 0xff, theColor >> 24 & 0xff });
+		return this;
 	}
 
+	/**
+	 * @return int
+	 */
 	public int getColorValue() {
 		int cc = 0xffffffff;
-		return cc & (int) (_myArrayValue[3]) << 24 | (int) (_myArrayValue[0]) << 16 | (int) (_myArrayValue[1]) << 8
-				| (int) (_myArrayValue[2]) << 0;
+		return cc & (int) (_myArrayValue[3]) << 24 | (int) (_myArrayValue[0]) << 16 | (int) (_myArrayValue[1]) << 8 | (int) (_myArrayValue[2]) << 0;
 	}
 
-	class ColorField extends ControlCanvas {
+	private class ColorField extends ControlWindowCanvas {
 		public void draw(PApplet theApplet) {
 			theApplet.fill(_myArrayValue[0], _myArrayValue[1], _myArrayValue[2], _myArrayValue[3]);
 			theApplet.rect(0, 44, getWidth(), 15);
 		}
 	}
-	
+
+	/**
+	 * @exclude
+	 * {@inheritDoc}
+	 */
 	@Override
-	public String toString() {
-		return "type:\tColorPicker\n"+super.toString();
+	public String getInfo() {
+		return "type:\tColorPicker\n" + super.toString();
 	}
 }
 
-//this will become a color picker
-//some inspiration
-//http://www.nbdtech.com/blog/archive/2008/04/27/Calculating-the-Perceived-Brightness-of-a-Color.aspx
-//http://alienryderflex.com/hsp.html
+// some inspiration
+// http://www.nbdtech.com/blog/archive/2008/04/27/Calculating-the-Perceived-Brightness-of-a-Color.aspx
+// http://alienryderflex.com/hsp.html
