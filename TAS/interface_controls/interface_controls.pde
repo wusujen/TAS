@@ -2,6 +2,7 @@ import controlP5.*;
 
 ControlP5 controlP5;
 ListBox l;
+String[] itemNames; //stores all of the item names for later use
 
 void setup() {
   size(400,400);
@@ -11,11 +12,12 @@ void setup() {
   // Test to see if sketch is picking up the files
   println("Listing all filenames in a directory: ");
   String[] filenames = listFileNames(path);
+  itemNames=filenames;
   println(filenames);
   
   // Create settings for the list element
   controlP5 = new ControlP5(this);
-  l = controlP5.addListBox("myList",100,100,120,120);
+  l = controlP5.addListBox("myList",50,50,120,300);
   l.setItemHeight(15);
   l.setBarHeight(15);
 
@@ -33,6 +35,6 @@ void setup() {
 // Nothing is drawn in this program and the draw() doesn't loop because
 // of the noLoop() in setup()
 void draw() {
-
+background(0);
 }
 
