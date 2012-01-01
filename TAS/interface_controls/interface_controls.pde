@@ -6,7 +6,7 @@ ListBox dragToList;
 Button tryButton;
 String[] itemNames; //stores names of items from media folder for later use
 int dragListID=0; //stores how many items have been added to drag list
-boolean clicked=false;
+boolean dragging=false;
 String clickedItemName;
 int val;
 
@@ -31,14 +31,8 @@ void draw() {
   background(200);
   //creates the canvas
   dropCanvas(50,150,300,150);
-  
-  //when an item from ListBox is clicked
-  //create a tab as feedback to be placed
-  //onto the dropCanvas
-  if(clicked==true){ 
-    stroke(150);
-    noFill();
-    rect(mouseX,mouseY,120,15);
+  if(dragging){
+    dragCursor(int(mouseX),int(mouseY),120,15);
   }
 }
 

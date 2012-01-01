@@ -37,6 +37,22 @@ void createDragToList(){
   dragToList.setColorActive(color(140,140,140));
 }
 
+/*==============  dragCursor =============*
+ this is the cursor that follows the mouse
+ when the item is clicked. Ideally, it would
+ capture the name of the clicked item...but
+ because of the way the control events 
+ function, that is currently not possible.
+*=========================================*/
+void dragCursor(int x, int y, int w, int h){
+  //fill(255);
+  //textSize(9);
+  //text(name,x+2,y+12);
+  fill(150);
+  noStroke();
+  rect(x,y,w,h);
+}
+
 /*======  controlEvent(mediaList)  =======*
  this controlEvent applies to mediaList only.
  if an item is clicked in mediaList, then the
@@ -46,7 +62,6 @@ void controlEvent(ControlEvent theEvent) {
   //checks to see if the group id matches the list we
   //intend for it to
   if (theEvent.isGroup() && theEvent.group().id()==1) {
-    clicked=true;
     
     dragListID=dragListID+1;
     println(theEvent.group().value()+" from "+theEvent.group());
@@ -62,17 +77,27 @@ void controlEvent(ControlEvent theEvent) {
     
     println(clickedItemName);
     dragToList.addItem(clickedItemName,dragListID);
-    
-    tryButton = controlP5.addButton(clickedItemName,val,mouseX,mouseY,120,15);
   }
 }
 
-void mousePressed(ControlEvent theEvent,String dragItemName){
-  if(clicked){
-    tryButton.setPosition(mouseX,mouseY);
-  }
+// When mouse is being dragged set dragging
+// to true so the drag cursor will show
+void mouseDragged(){
+    dragging=true;
 }
 
+// If mouse is released within the bounds of the dropCanvas
+// then set the position of the item to the location of the
+// mouse
 void mouseReleased(){
-  clicked=false;
+   if(mouseX>50 && mouseX<350 && mouseY>150 && mouseY<300){
+      tryButton = controlP5.addButton(clickedItemName,val,mouseX,mouseY,120,15);
+      println("in");
+      tryButton.setPosition(mouseX,mouseY);
+      dragging=false;
+    }
+    else {
+      println("out");
+    }
+    dragging=false;
 }
