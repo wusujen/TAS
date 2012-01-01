@@ -3,6 +3,7 @@ import controlP5.*;
 ControlP5 controlP5;
 ListBox mediaList;
 ListBox dragToList;
+Button tryButton;
 String[] itemNames; //stores names of items from media folder for later use
 int dragListID=0; //stores how many items have been added to drag list
 boolean clicked=false;
@@ -34,12 +35,10 @@ void draw() {
   //when an item from ListBox is clicked
   //create a tab as feedback to be placed
   //onto the dropCanvas
-  if(clicked==true){
-     fill(0);
-     rect(mouseX+4,mouseY,120,15);
-     fill(255);
-     textSize(9);
-     text(clickedItemName.toUpperCase(),mouseX+8,mouseY+11);
+  if(clicked==true){ 
+    stroke(150);
+    noFill();
+    rect(mouseX,mouseY,120,15);
   }
 }
 

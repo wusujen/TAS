@@ -46,6 +46,8 @@ void controlEvent(ControlEvent theEvent) {
   //checks to see if the group id matches the list we
   //intend for it to
   if (theEvent.isGroup() && theEvent.group().id()==1) {
+    clicked=true;
+    
     dragListID=dragListID+1;
     println(theEvent.group().value()+" from "+theEvent.group());
     val=int(theEvent.group().value());
@@ -58,9 +60,19 @@ void controlEvent(ControlEvent theEvent) {
     mediaList.item(clickedItemName).setColorActive(color(255,0,0));
     mediaList.item(clickedItemName).setColorLabel(color(255));
     
-    clicked=true;
-    
     println(clickedItemName);
     dragToList.addItem(clickedItemName,dragListID);
+    
+    tryButton = controlP5.addButton(clickedItemName,val,mouseX,mouseY,120,15);
   }
+}
+
+void mousePressed(ControlEvent theEvent,String dragItemName){
+  if(clicked){
+    tryButton.setPosition(mouseX,mouseY);
+  }
+}
+
+void mouseReleased(){
+  clicked=false;
 }
