@@ -10,12 +10,24 @@ void createMediaList(String[] itemNameArray){
   mediaList.setItemHeight(15);
   mediaList.setBarHeight(15);
   mediaList.captionLabel().toUpperCase(true);
-  mediaList.captionLabel().set("Media Files");
+  mediaList.captionLabel().set(listTitle);
+  
   mediaList.captionLabel().style().marginTop = 3;
   mediaList.valueLabel().style().marginTop = 3; // the +/- sign
   for(int i=0;i<itemNameArray.length;i++) {
     mediaList.addItem(itemNameArray[i],i);
   }
+}
+
+/*========  createMediaList  =============*
+  resets the color of the clicked item
+  in the Media List listBox.
+*=========================================*/
+void resetMediaListItemColor(color bg, color fg, color active, color labelText){
+      mediaList.item(clickedItemName).setColorBackground(bg);
+      mediaList.item(clickedItemName).setColorForeground(fg);
+      mediaList.item(clickedItemName).setColorActive(active);
+      mediaList.item(clickedItemName).setColorLabel(labelText);
 }
 
 /*========  createDragToList  =============*
@@ -59,31 +71,28 @@ void dragCursor(int x, int y, int w, int h){
  item will be removed from mediaList.
 *=========================================*/
 void controlEvent(ControlEvent theEvent) {
-  //checks to see if the group id matches the list we
-  //intend for it to
+  // checks to see if the group id matches the list we intend for it to.
   if (theEvent.isGroup() && theEvent.group().id()==1) {
     
-    dragListID=dragListID+1;
-    println(theEvent.group().value()+" from "+theEvent.group());
+    // check the value of the group
+    //println(theEvent.group().value()+" from "+theEvent.group());
+    
+    // set the val for future use as an item id &
+    // retrieve the respective item name from the itemName array
     val=int(theEvent.group().value());
-    
-    //Changes the original color of the clicked item
-    //Adds the item to dragToList
     clickedItemName=itemNames[val];
-    mediaList.item(clickedItemName).setColorBackground(color(255,0,0));
-    mediaList.item(clickedItemName).setColorForeground(color(255,0,0));
-    mediaList.item(clickedItemName).setColorActive(color(255,0,0));
-    mediaList.item(clickedItemName).setColorLabel(color(255));
     
+    // up the dragList by 1, to keep track of what 
+    // has been dragged & add an Item to the dragToList
+    dragListID=dragListID+1;
     println(clickedItemName);
     dragToList.addItem(clickedItemName,dragListID);
   }
 }
 
-// When mouse is being dragged set dragging
-// to true so the drag cursor will show
+// Set to true if mouse is dragging
 void mouseDragged(){
-    dragging=true;
+  mouseDragging=true;
 }
 
 // If mouse is released within the bounds of the dropCanvas
@@ -91,13 +100,16 @@ void mouseDragged(){
 // mouse
 void mouseReleased(){
    if(mouseX>50 && mouseX<350 && mouseY>150 && mouseY<300){
-      tryButton = controlP5.addButton(clickedItemName,val,mouseX,mouseY,120,15);
+      resetMediaListItemColor(color(230),color(230),color(240),color(180));
+     
+      String labelname="label"+val;
+      label = controlP5.addTextlabel(labelname,clickedItemName,mouseX,mouseY);
       println("in");
-      tryButton.setPosition(mouseX,mouseY);
-      dragging=false;
     }
     else {
       println("out");
     }
-    dragging=false;
+    mouseDragging=false;
+    clickedItemName=null;
+    val=0;
 }

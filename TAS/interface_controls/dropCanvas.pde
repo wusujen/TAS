@@ -3,7 +3,8 @@
  files that the user drops onto it.
 *=========================================*/
 void dropCanvas(int xPos, int yPos, int w, int h){
-  stroke(50);
+  stroke(250);
+  fill(180);
   rect(xPos,yPos,w,h);
 }
 
