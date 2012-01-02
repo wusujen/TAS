@@ -136,6 +136,7 @@ void mouseReleased(){
       if(itemClicked==1){
         firstClicked=clickedItemName;
         println("I was first Clicked!: " + firstClicked);
+        itemClicked=itemClicked+2;
       }
     }
     mouseDragging=false;
