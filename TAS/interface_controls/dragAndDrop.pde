@@ -65,6 +65,17 @@ void dragCursor(int x, int y, int w, int h){
   rect(x,y,w,h);
 }
 
+/*====== resetClickedItemToDefault =======*
+ this is used to reset the mediaItems to
+ their default color, as well as remove
+ the items from the dropCanvas when the
+ items are clicked again.
+*=========================================*/
+void resetClickedItemToDefault(String itemName){
+  resetMediaListItemColor(color(0,54,82), color(0,105,140), color(8,162,207), color(255,255,255));
+  controlP5.remove("label"+val);
+}
+
 /*======  controlEvent(mediaList)  =======*
  this controlEvent applies to mediaList only.
  if an item is clicked in mediaList, then the
@@ -73,20 +84,36 @@ void dragCursor(int x, int y, int w, int h){
 void controlEvent(ControlEvent theEvent) {
   // checks to see if the group id matches the list we intend for it to.
   if (theEvent.isGroup() && theEvent.group().id()==1) {
-    
     // check the value of the group
-    //println(theEvent.group().value()+" from "+theEvent.group());
+    // println(theEvent.group().value()+" from "+theEvent.group());
     
     // set the val for future use as an item id &
     // retrieve the respective item name from the itemName array
     val=int(theEvent.group().value());
     clickedItemName=itemNames[val];
+   
+   // check to see if the default color matches the current color of the item
+   // if not, use as an indicator that the item has been clicked before
+   // the first item usually slips through the cracks, so also check the
+   // clicked name!
+   if((mediaList.item(clickedItemName).getColor()!=defaultColor) || (firstClicked==clickedItemName)){
+       resetClickedItemToDefault(clickedItemName);
+       println("val currently :" + val);
+       println("clicked Item Name currently :" + clickedItemName);
+   }
     
     // up the dragList by 1, to keep track of what 
     // has been dragged & add an Item to the dragToList
     dragListID=dragListID+1;
-    println(clickedItemName);
     dragToList.addItem(clickedItemName,dragListID);
+    
+    // get the default color the first time the item is clicked
+    // increment the itemClicked to signify that the first item has been clicked
+    if(itemClicked==0){
+      defaultColor=mediaList.item(clickedItemName).getColor();
+      itemClicked=itemClicked+1;
+      println("defaultColor: " + defaultColor);
+    }
   }
 }
 
@@ -99,15 +126,17 @@ void mouseDragged(){
 // then set the position of the item to the location of the
 // mouse
 void mouseReleased(){
-   if(mouseX>50 && mouseX<350 && mouseY>150 && mouseY<300){
+   if(mouseX>50 && mouseX<350 && mouseY>150 && mouseY<300 && clickedItemName!=null){
       resetMediaListItemColor(color(230),color(230),color(240),color(180));
      
-      String labelname="label"+val;
-      label = controlP5.addTextlabel(labelname,clickedItemName,mouseX,mouseY);
-      println("in");
-    }
-    else {
-      println("out");
+      labelName="label"+val;
+      label = controlP5.addTextlabel(labelName,clickedItemName,mouseX,mouseY);
+      
+      // store the name of the first item that was clicked!
+      if(itemClicked==1){
+        firstClicked=clickedItemName;
+        println("I was first Clicked!: " + firstClicked);
+      }
     }
     mouseDragging=false;
     clickedItemName=null;

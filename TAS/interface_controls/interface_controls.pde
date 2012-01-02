@@ -4,14 +4,19 @@ ControlP5 controlP5;
 ListBox mediaList;
 ListBox dragToList;
 Textlabel label;
+CColor defaultColor;
 
 String[] itemNames;             // stores names of items from media folder for later use
+int dropListID=0;               // stores how many items have been added to dropCanvas
 int dragListID=0;               // stores how many items have been added to drag list
 boolean clickOnController;      // check to see if the mouse is over the controller
+int itemClicked=0;              // stores the first time that a listBoxItem is clicked
 boolean mouseDragging=false;    // check to see if mouse is dragging
 
 String listTitle="Media Files"; // stores the title of the media List
 String clickedItemName;         // stores the name of the item clicked from mediaList
+String labelName;               // stores the name of the last created label
+String firstClicked;            // stores the name of the first item that was clicked
 int val;                        // stores the id of the item clicked from mediaList
 
 
@@ -30,6 +35,7 @@ void setup() {
   createMediaList(itemNames);
   // create the empty drag to List
   createDragToList();
+  // let dropListItems know what the max number of items can be
 }
 
 void draw() {
