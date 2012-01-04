@@ -1,52 +1,0 @@
-10
-
-dir
-16
-http://sojamo.googlecode.com/svn/trunk/src/sojamo/drop/examples
-http://sojamo.googlecode.com/svn
-
-
-
-2008-05-29T05:47:54.602634Z
-8
-sojamo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-ae107e73-614b-0410-a23d-3377eb54eec6
-
-DropLoadImage
-dir
-
-DropURL
-dir
-
-DropFilesAndFolders
-dir
-
-DropText
-dir
-
-DropBasics
-dir
-
-DropListener
-dir
-
-DropDropOnTarget
-dir
-
-DropControlWindow
-dir
-

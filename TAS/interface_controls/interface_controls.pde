@@ -1,4 +1,6 @@
 import controlP5.*;
+import proxml.*;
+import sojamo.drop.*;
 
 ControlP5 controlP5;
 ListBox mediaList;
@@ -7,6 +9,9 @@ Textlabel label;
 CColor defaultColor;
 DropCanvas canvas;
 ArrayList fileObjectArray;
+
+proxml.XMLElement media;        // xml element to store and load the media (must preface with library name)
+XMLInOut xmlIO;                
 
 String[] itemNames;             // stores names of items from media folder for later use
 int dropListID=0;               // stores how many items have been added to dropCanvas
@@ -21,12 +26,21 @@ String labelName;               // stores the name of the last created label
 String firstClicked;            // stores the name of the first item that was clicked
 int val;                        // stores the id of the item clicked from mediaList
 
+int appWidth = 1200;            // processing applet measurements
+int appHeight = 800;            
+
+int canvasX = 200;              // drop canvas measurements
+int canvasY = 100;
+int canvasWidth = 600;
+int canvasHeight = 600;
+
+boolean onCanvas;               // check that t 
+
 
 void setup() {
-  size(400,400);
-  // path to media folder
-  String path = sketchPath + "/media";
-  
+  size(appWidth, appHeight);
+  String path = sketchPath + "/media"; // path to media folder
+
   // test to see if sketch is picking up the files
   println("Listing all filenames in a directory: ");
   String[] filenames = listFileNames(path);
@@ -34,7 +48,7 @@ void setup() {
   println(filenames);
   
   //initialize dropCanvas
-  canvas=new DropCanvas(255,180,50,150,300,150);
+  canvas=new DropCanvas(255,180,canvasX, canvasY, canvasWidth, canvasHeight);
   //initialize fileObjectArray
   fileObjectArray=new ArrayList();
   // create the initial media list from media folder
@@ -42,6 +56,9 @@ void setup() {
   // create the empty drag to List
   createDragToList();
   // let dropListItems know what the max number of items can be
+  
+  // load XML file
+  loadXMLFile();
 }
 
 void draw() {

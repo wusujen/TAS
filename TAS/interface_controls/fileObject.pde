@@ -35,5 +35,10 @@ class FileObject {
     println("scene: "+scene);
     println("transition: "+transition);
   }
+  
+  String objName(){
+    String nameOfObject=name;
+    return nameOfObject;
+  }
 }
 

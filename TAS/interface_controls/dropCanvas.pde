@@ -31,7 +31,7 @@ class DropCanvas{
     if(mouseX>50 && mouseX<350 && mouseY>150 && mouseY<300 && clickedItemName!=null){
  
       numberOfFileObjects=numberOfFileObjects+2;
-      println("This is the number of file objects: " + numberOfFileObjects);
+      //println("This is the number of file objects: " + numberOfFileObjects);
       
       resetMediaListItemColor(color(230),color(230),color(240),color(180));
       
@@ -40,19 +40,21 @@ class DropCanvas{
   
       labelName="label"+val;
       label = controlP5.addTextlabel(labelName, clickedItemName, labelXpos, labelYpos);
-      
+      println("clickedItemName: " + clickedItemName);
+      println("LabelName: " + labelName);
       println("X: "+ labelXpos + " , " + mouseX);
       println("Y: "+ labelYpos + " , " + mouseY);
       
       fileObjectArray.add(new FileObject(clickedItemName, null, 120, 15, labelXpos, labelYpos, 1, null));
-      FileObject file=(FileObject) fileObjectArray.get(numberOfFileObjects-1);
-      file.displayProperties();
+      //FileObject file=(FileObject) fileObjectArray.get(numberOfFileObjects-1);
+      //file.displayProperties();
       // store the name of the first item that was clicked!
       if(itemClicked==1){
         firstClicked=clickedItemName;
-        println("I was first Clicked!: " + firstClicked);
+        // println("I was first Clicked!: " + firstClicked);
         itemClicked=itemClicked+1;
       }
+      xmlAddToCanvas();
     }
     mouseDragging=false;
     clickedItemName=null;
@@ -64,12 +66,15 @@ class DropCanvas{
    // if not, use as an indicator that the item has been clicked before
    // the first item usually slips through the cracks, so also check the
    // clicked name!
-   if((mediaList.item(clickedItemName).getColor()!=defaultColor) || (firstClicked==clickedItemName)){
-       resetClickedItemToDefault(clickedItemName);
-       numberOfFileObjects=numberOfFileObjects-1;
-       println("Number of File Objects decreased :" + numberOfFileObjects);
+   for(int i=0; i<fileObjectArray.size(); i++){
+     FileObject file=(FileObject) fileObjectArray.get(i);
+     String droppedObjectName=file.objName();
+     if((clickedItemName==droppedObjectName) || (firstClicked==clickedItemName)){
+         resetClickedItemToDefault(clickedItemName);
+         numberOfFileObjects=numberOfFileObjects-1;
+         println("Number of File Objects decreased :" + numberOfFileObjects);
+     }
    }
-   
     // get the default color the first time the item is clicked
     // increment the itemClicked to signify that the first item has been clicked
     if(itemClicked==0){
