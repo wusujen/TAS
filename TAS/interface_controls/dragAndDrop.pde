@@ -97,6 +97,8 @@ void controlEvent(ControlEvent theEvent) {
     val=int(theEvent.group().value());
     clickedItemName=itemNames[val];
    
+    // if the event is just a simple click
+    // remove the dropped item
     canvas.removeDroppedItem();
     
     // up the dragList by 1, to keep track of what 

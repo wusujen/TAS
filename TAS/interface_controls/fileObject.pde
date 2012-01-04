@@ -24,6 +24,13 @@ class FileObject {
     transition=objTransition;
   }
   
+  void drawFileObject(){
+    Button b;
+    controlP5.addButton(name,val,xPos,yPos,w,h);
+  }
+  
+  // this function is namely for testing purposes to see
+  // the stats of each object
   void displayProperties(){
     println("success");
     println("name: "+name);
@@ -36,9 +43,29 @@ class FileObject {
     println("transition: "+transition);
   }
   
+  // this function returns the name of the given object
   String objName(){
     String nameOfObject=name;
     return nameOfObject;
+  }
+  
+  // basic functions for updating the object
+  void updateTrigger(String newTrigger){
+    trigger=newTrigger;
+  }
+  void updateSize(int newWidth, int newHeight){
+    w=newWidth;
+    h=newHeight;
+  }
+  void updatePosition(int newX, int newY){
+    xPos=newX;
+    yPos=newY;
+  }
+  void updateScene(int newSceneNumber){
+    scene=newSceneNumber;
+  }
+  void updateTransition(String newTransition){
+    transition=newTransition;
   }
 }
 

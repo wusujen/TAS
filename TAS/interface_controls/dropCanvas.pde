@@ -10,7 +10,10 @@ class DropCanvas{
   int w;
   int h;
   
-  int numberOfFileObjects=0;
+  String firstClicked;            // stores the name of the first item that was clicked
+  String labelName;               // stores the name of the last created label
+  int fileNumber;                 // keeps track of what files a loop has gone through
+  int numberOfDroppedFiles=0;     // stores the total number of files in dropCanvas
   
   DropCanvas(int dropCanvasStroke, int dropCanvasFill, int dropCanvasXPos, int dropCanvasYPos, int dropCanvasWidth, int dropCanvasHeight){
     cs=dropCanvasStroke;
@@ -27,32 +30,30 @@ class DropCanvas{
     rect(xPos,yPos,w,h);
   }
   
+  /*=============   removeDroppedItem   ===============*
+  // this function detects whether or not the item has
+  // been dropped into the area of the dropCanvas, and if
+  // it has, create a fileObject and put it into the fileObjectArray
+  ====================================================*/
   void detectDroppedItem(){
     if(mouseX>xPos && mouseX<xPos+w && mouseY>yPos && mouseY<yPos+width && clickedItemName!=null){
- 
-      numberOfFileObjects=numberOfFileObjects+2;
-      //println("This is the number of file objects: " + numberOfFileObjects);
-      
+      // change the color of the mediaList item
       resetMediaListItemColor(color(230),color(230),color(240),color(180));
       
-      int labelXpos=mouseX;
-      int labelYpos=mouseY;
-  
+      // create a new label name for each label
+      // this should be changed later into drawFileObject() 
       labelName="label"+val;
-      label = controlP5.addTextlabel(labelName, clickedItemName, labelXpos, labelYpos);
-      println("clickedItemName: " + clickedItemName);
-      println("LabelName: " + labelName);
-      println("X: "+ labelXpos + " , " + mouseX);
-      println("Y: "+ labelYpos + " , " + mouseY);
+      //label = controlP5.addTextlabel(labelName, clickedItemName, mouseX, mouseY);
+
+      fileObjectArray.add(new FileObject(clickedItemName, null, 120, 15, mouseX, mouseY, 1, null));
+      FileObject cake=(FileObject) fileObjectArray.get(numberOfDroppedFiles);
+      cake.drawFileObject();
+      numberOfDroppedFiles=fileObjectArray.size();
       
-      fileObjectArray.add(new FileObject(clickedItemName, null, 120, 15, labelXpos, labelYpos, 1, null));
-      //FileObject file=(FileObject) fileObjectArray.get(numberOfFileObjects-1);
-      //file.displayProperties();
       // store the name of the first item that was clicked!
       if(itemClicked==1){
         firstClicked=clickedItemName;
-        // println("I was first Clicked!: " + firstClicked);
-        itemClicked=itemClicked+1;
+        itemClicked=itemClicked+2;
       }
       xmlAddToCanvas();
     }
@@ -61,18 +62,23 @@ class DropCanvas{
     val=0;
   }
   
+/*========   removeDroppedItem   =========*
+ removes a fileObject that has been put into
+ dropCanvas and changes the color of the
+ listBoxItem
+*=========================================*/
   void removeDroppedItem(){
-    // check to see if the default color matches the current color of the item
-   // if not, use as an indicator that the item has been clicked before
-   // the first item usually slips through the cracks, so also check the
-   // clicked name!
+   // loop through the fileObject array and check to see if the
+   // name of the currently clicked object matches any of those names
+   // if it does, then remove it and reset the listBoxItem color
    for(int i=0; i<fileObjectArray.size(); i++){
      FileObject file=(FileObject) fileObjectArray.get(i);
      String droppedObjectName=file.objName();
      if((clickedItemName==droppedObjectName) || (firstClicked==clickedItemName)){
          resetClickedItemToDefault(clickedItemName);
-         numberOfFileObjects=numberOfFileObjects-1;
-         println("Number of File Objects decreased :" + numberOfFileObjects);
+         controlP5.remove(droppedObjectName);
+         fileObjectArray.remove(i);
+         numberOfDroppedFiles=fileObjectArray.size();
      }
    }
     // get the default color the first time the item is clicked
@@ -80,8 +86,34 @@ class DropCanvas{
     if(itemClicked==0){
       defaultColor=mediaList.item(clickedItemName).getColor();
       itemClicked=itemClicked+1;
-      println("defaultColor: " + defaultColor);
     }
+  }
+
+
+/*========   getfileObjectById   =========*
+ returns a fileObject when given an id.
+*=========================================*/
+  FileObject getFileObjectById(int id){
+    FileObject file=(FileObject) fileObjectArray.get(id);
+    return file;
+  }
+  
+  
+/*=======   getfileObjectByName   =========*
+ returns a fileObject when given a name.
+ currently does not perform a check for 
+ null.
+*=========================================*/
+  FileObject getFileObjectByName(String name){
+    FileObject sampleFile;
+    for(int i=0; i<fileObjectArray.size(); i++){
+     sampleFile=(FileObject) fileObjectArray.get(i);
+     if(name==sampleFile.objName()){
+       fileNumber=i;
+     }
+    }
+    FileObject file=(FileObject) fileObjectArray.get(fileNumber);
+    return file;
   }
 }
 
