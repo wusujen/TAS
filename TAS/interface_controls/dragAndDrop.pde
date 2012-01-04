@@ -117,11 +117,3 @@ void mouseReleased(){
   canvas.detectDroppedItem();
 }
 
-void printContents(){
-  println("this is button");
-    for(int i=0;i<fileObjectArray.size();i++){
-      FileObject file=(FileObject) fileObjectArray.get(i);
-      file.displayProperties();
-      println("got it");
-  }
-}

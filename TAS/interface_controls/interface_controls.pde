@@ -6,7 +6,6 @@ ListBox dragToList;
 Textlabel label;
 CColor defaultColor;
 DropCanvas canvas;
-Button button;
 ArrayList fileObjectArray;
 
 String[] itemNames;             // stores names of items from media folder for later use
@@ -43,9 +42,6 @@ void setup() {
   // create the empty drag to List
   createDragToList();
   // let dropListItems know what the max number of items can be
-  
-  //this is the button that allows us to see how many items are in the arraylist
-  controlP5.addButton("PrintContents",1.0,50,350,100,20);
 }
 
 void draw() {

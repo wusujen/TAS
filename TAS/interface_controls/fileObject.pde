@@ -4,7 +4,6 @@
  into an Arraylist of these objects.
  *=========================================*/
 class FileObject {
-  int id;
   String name;
   String trigger;
   int w;
@@ -14,8 +13,7 @@ class FileObject {
   int scene;
   String transition;
 
-  FileObject(int objId, String objFilename, String objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
-    id=objId;
+  FileObject(String objFilename, String objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
     name=objFilename;
     trigger=objTrigger;
     w=objWidth;
@@ -27,7 +25,7 @@ class FileObject {
   }
   
   void displayProperties(){
-    println("ID: "+id);
+    println("success");
     println("name: "+name);
     println("trigger: "+trigger);
     println("width: "+w);

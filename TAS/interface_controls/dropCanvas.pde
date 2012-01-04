@@ -44,8 +44,9 @@ class DropCanvas{
       println("X: "+ labelXpos + " , " + mouseX);
       println("Y: "+ labelYpos + " , " + mouseY);
       
-      fileObjectArray.add(new FileObject(numberOfFileObjects, clickedItemName, null, 120, 15, labelXpos, labelYpos, 1, null));
-      
+      fileObjectArray.add(new FileObject(clickedItemName, null, 120, 15, labelXpos, labelYpos, 1, null));
+      FileObject file=(FileObject) fileObjectArray.get(numberOfFileObjects-1);
+      file.displayProperties();
       // store the name of the first item that was clicked!
       if(itemClicked==1){
         firstClicked=clickedItemName;
