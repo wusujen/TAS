@@ -5,6 +5,9 @@ ListBox mediaList;
 ListBox dragToList;
 Textlabel label;
 CColor defaultColor;
+DropCanvas canvas;
+Button button;
+ArrayList fileObjectArray;
 
 String[] itemNames;             // stores names of items from media folder for later use
 int dropListID=0;               // stores how many items have been added to dropCanvas
@@ -31,18 +34,25 @@ void setup() {
   itemNames=filenames;
   println(filenames);
   
+  //initialize dropCanvas
+  canvas=new DropCanvas(255,180,50,150,300,150);
+  //initialize fileObjectArray
+  fileObjectArray=new ArrayList();
   // create the initial media list from media folder
   createMediaList(itemNames);
   // create the empty drag to List
   createDragToList();
   // let dropListItems know what the max number of items can be
+  
+  //this is the button that allows us to see how many items are in the arraylist
+  controlP5.addButton("PrintContents",1.0,50,350,100,20);
 }
 
 void draw() {
   background(200);
   
-  // creates the canvas
-  dropCanvas(50,150,300,150);
+  // draws the canvas
+  canvas.drawDropCanvas();
   
   // checks to see if the mouse is over the controller
   // if the mouse is not dragging an item, the cursor

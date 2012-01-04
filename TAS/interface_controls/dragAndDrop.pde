@@ -92,28 +92,15 @@ void controlEvent(ControlEvent theEvent) {
     val=int(theEvent.group().value());
     clickedItemName=itemNames[val];
    
-   // check to see if the default color matches the current color of the item
-   // if not, use as an indicator that the item has been clicked before
-   // the first item usually slips through the cracks, so also check the
-   // clicked name!
-   if((mediaList.item(clickedItemName).getColor()!=defaultColor) || (firstClicked==clickedItemName)){
-       resetClickedItemToDefault(clickedItemName);
-       println("val currently :" + val);
-       println("clicked Item Name currently :" + clickedItemName);
-   }
+    canvas.removeDroppedItem();
     
     // up the dragList by 1, to keep track of what 
     // has been dragged & add an Item to the dragToList
     dragListID=dragListID+1;
     dragToList.addItem(clickedItemName,dragListID);
-    
-    // get the default color the first time the item is clicked
-    // increment the itemClicked to signify that the first item has been clicked
-    if(itemClicked==0){
-      defaultColor=mediaList.item(clickedItemName).getColor();
-      itemClicked=itemClicked+1;
-      println("defaultColor: " + defaultColor);
-    }
+  }
+  else{
+    println(theEvent.controller().name());
   }
 }
 
@@ -122,24 +109,19 @@ void mouseDragged(){
   mouseDragging=true;
 }
 
+
 // If mouse is released within the bounds of the dropCanvas
 // then set the position of the item to the location of the
 // mouse
 void mouseReleased(){
-   if(mouseX>50 && mouseX<350 && mouseY>150 && mouseY<300 && clickedItemName!=null){
-      resetMediaListItemColor(color(230),color(230),color(240),color(180));
-     
-      labelName="label"+val;
-      label = controlP5.addTextlabel(labelName,clickedItemName,mouseX,mouseY);
-      
-      // store the name of the first item that was clicked!
-      if(itemClicked==1){
-        firstClicked=clickedItemName;
-        println("I was first Clicked!: " + firstClicked);
-        itemClicked=itemClicked+2;
-      }
-    }
-    mouseDragging=false;
-    clickedItemName=null;
-    val=0;
+  canvas.detectDroppedItem();
+}
+
+void printContents(){
+  println("this is button");
+    for(int i=0;i<fileObjectArray.size();i++){
+      FileObject file=(FileObject) fileObjectArray.get(i);
+      file.displayProperties();
+      println("got it");
+  }
 }
