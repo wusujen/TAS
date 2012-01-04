@@ -28,7 +28,7 @@ class DropCanvas{
   }
   
   void detectDroppedItem(){
-    if(mouseX>50 && mouseX<350 && mouseY>150 && mouseY<300 && clickedItemName!=null){
+    if(mouseX>xPos && mouseX<xPos+w && mouseY>yPos && mouseY<yPos+width && clickedItemName!=null){
  
       numberOfFileObjects=numberOfFileObjects+2;
       //println("This is the number of file objects: " + numberOfFileObjects);
