@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<media>
+  <file filename="sitin.jpg">
+    <position yPos="182" xPos="282"/>
+    <scene number="SCENE NUM"/>
+    <size height="TODO" width="TODO"/>
+    <transition type="none"/>
+    <trigger trigger="-1"/>
+  </file>
+  <file filename="sitin.jpg"/>
+  <file filename="swannhome-etch.jpeg">
+    <trigger trigger="todo"/>
+  </file>
+  <file filename="sitin.jpg">
+    <trigger trigger="null"/>
+  </file>
+  <file filename="swannhome-etch.jpeg">
+    <trigger trigger="0"/>
+    <size height="15" width="120"/>
+    <position yPos="216" xPos="299"/>
+    <scene number="1"/>
+    <transition type="none"/>
+  </file>
+  <file filename="sitin.jpg">
+    <trigger trigger="0"/>
+    <size height="15" width="120"/>
+    <position yPos="290" xPos="294"/>
+    <scene number="1"/>
+    <transition type="none"/>
+  </file>
+  <file filename="sitin.jpg">
+    <trigger trigger="0"/>
+    <size height="15" width="120"/>
+    <position yPos="438" xPos="326"/>
+    <scene number="1"/>
+    <transition type="none"/>
+  </file>
+  <file filename="sitin.jpg">
+    <controls trigger="0"/>
+    <size height="15" width="120"/>
+    <position yPos="287" xPos="326"/>
+    <scene number="1"/>
+    <transition type="none"/>
+  </file>
+  <file filename="selmamarch.jpg">
+    <controls trigger="0"/>
+    <size height="15" width="120"/>
+    <position yPos="108" xPos="206"/>
+    <scene number="1"/>
+    <transition type="none"/>
+  </file>
+</media>

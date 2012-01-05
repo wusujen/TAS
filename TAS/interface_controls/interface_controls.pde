@@ -1,6 +1,5 @@
 import controlP5.*;
 import proxml.*;
-import sojamo.drop.*;
 
 ControlP5 controlP5;
 ListBox mediaList;

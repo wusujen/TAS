@@ -1,21 +1,21 @@
 /*==============  dropCanvas =============*
  the canvas that will hold all of the media
  files that the user drops onto it.
-*=========================================*/
-class DropCanvas{
+ *=========================================*/
+class DropCanvas {
   int cs;
   int cf;
   int xPos;
   int yPos;
   int w;
   int h;
-  
+
   String firstClicked;            // stores the name of the first item that was clicked
   String labelName;               // stores the name of the last created label
   int fileNumber;                 // keeps track of what files a loop has gone through
   int numberOfDroppedFiles=0;     // stores the total number of files in dropCanvas
-  
-  DropCanvas(int dropCanvasStroke, int dropCanvasFill, int dropCanvasXPos, int dropCanvasYPos, int dropCanvasWidth, int dropCanvasHeight){
+
+  DropCanvas(int dropCanvasStroke, int dropCanvasFill, int dropCanvasXPos, int dropCanvasYPos, int dropCanvasWidth, int dropCanvasHeight) {
     cs=dropCanvasStroke;
     cf=dropCanvasFill;
     xPos=dropCanvasXPos;
@@ -23,94 +23,96 @@ class DropCanvas{
     w=dropCanvasWidth;
     h=dropCanvasHeight;
   }
-  
-  void drawDropCanvas(){
+
+  void drawDropCanvas() {
     stroke(cs);
     fill(cf);
-    rect(xPos,yPos,w,h);
+    rect(xPos, yPos, w, h);
   }
-  
-  /*=============   removeDroppedItem   ===============*
-  // this function detects whether or not the item has
-  // been dropped into the area of the dropCanvas, and if
-  // it has, create a fileObject and put it into the fileObjectArray
-  ====================================================*/
-  void detectDroppedItem(){
-    if(mouseX>xPos && mouseX<xPos+w && mouseY>yPos && mouseY<yPos+width && clickedItemName!=null){
+
+  /*=============   detectDroppedItem   ===============*
+   // this function detects whether or not the item has
+   // been dropped into the area of the dropCanvas, and if
+   // it has, create a fileObject and put it into the fileObjectArray
+   ====================================================*/
+  void detectDroppedItem() {
+    if (mouseX>xPos && mouseX<xPos+w && mouseY>yPos && mouseY<yPos+h && clickedItemName!=null) {
       // change the color of the mediaList item
-      resetMediaListItemColor(color(230),color(230),color(240),color(180));
-      
+      resetMediaListItemColor(color(230), color(230), color(240), color(180));
+
       // create a new label name for each label
       // this should be changed later into drawFileObject() 
       labelName="label"+val;
       //label = controlP5.addTextlabel(labelName, clickedItemName, mouseX, mouseY);
 
-      fileObjectArray.add(new FileObject(clickedItemName, null, 120, 15, mouseX, mouseY, 1, null));
+      // TODO: remove hardcoded variables for obj height, width, scene number, transition.
+      fileObjectArray.add(new FileObject(clickedItemName, 0, 120, 15, mouseX, mouseY, 1, "none"));
       FileObject cake=(FileObject) fileObjectArray.get(numberOfDroppedFiles);
       cake.drawFileObject();
       numberOfDroppedFiles=fileObjectArray.size();
-      
+
       // store the name of the first item that was clicked!
-      if(itemClicked==1){
+      if (itemClicked==1) {
         firstClicked=clickedItemName;
         itemClicked=itemClicked+2;
       }
-      xmlAddToCanvas();
+      //xmlAddToCanvas();
+      xmlAddToCanvas(cake); //try to pass what I think is the new FileObject named cake.
     }
     mouseDragging=false;
     clickedItemName=null;
     val=0;
   }
-  
-/*========   removeDroppedItem   =========*
- removes a fileObject that has been put into
- dropCanvas and changes the color of the
- listBoxItem
-*=========================================*/
-  void removeDroppedItem(){
-   // loop through the fileObject array and check to see if the
-   // name of the currently clicked object matches any of those names
-   // if it does, then remove it and reset the listBoxItem color
-   for(int i=0; i<fileObjectArray.size(); i++){
-     FileObject file=(FileObject) fileObjectArray.get(i);
-     String droppedObjectName=file.objName();
-     if((clickedItemName==droppedObjectName) || (firstClicked==clickedItemName)){
-         resetClickedItemToDefault(clickedItemName);
-         controlP5.remove(droppedObjectName);
-         fileObjectArray.remove(i);
-         numberOfDroppedFiles=fileObjectArray.size();
-     }
-   }
+
+  /*========   removeDroppedItem   =========*
+   removes a fileObject that has been put into
+   dropCanvas and changes the color of the
+   listBoxItem
+   *=========================================*/
+  void removeDroppedItem() {
+    // loop through the fileObject array and check to see if the
+    // name of the currently clicked object matches any of those names
+    // if it does, then remove it and reset the listBoxItem color
+    for (int i=0; i<fileObjectArray.size(); i++) {
+      FileObject file=(FileObject) fileObjectArray.get(i);
+      String droppedObjectName=file.objName();
+      if ((clickedItemName==droppedObjectName) || (firstClicked==clickedItemName)) {
+        resetClickedItemToDefault(clickedItemName);
+        controlP5.remove(droppedObjectName);
+        fileObjectArray.remove(i);
+        numberOfDroppedFiles=fileObjectArray.size();
+      }
+    }
     // get the default color the first time the item is clicked
     // increment the itemClicked to signify that the first item has been clicked
-    if(itemClicked==0){
+    if (itemClicked==0) {
       defaultColor=mediaList.item(clickedItemName).getColor();
       itemClicked=itemClicked+1;
     }
   }
 
 
-/*========   getfileObjectById   =========*
- returns a fileObject when given an id.
-*=========================================*/
-  FileObject getFileObjectById(int id){
+  /*========   getfileObjectById   =========*
+   returns a fileObject when given an id.
+   *=========================================*/
+  FileObject getFileObjectById(int id) {
     FileObject file=(FileObject) fileObjectArray.get(id);
     return file;
   }
-  
-  
-/*=======   getfileObjectByName   =========*
- returns a fileObject when given a name.
- currently does not perform a check for 
- null.
-*=========================================*/
-  FileObject getFileObjectByName(String name){
+
+
+  /*=======   getfileObjectByName   =========*
+   returns a fileObject when given a name.
+   currently does not perform a check for 
+   null.
+   *=========================================*/
+  FileObject getFileObjectByName(String name) {
     FileObject sampleFile;
-    for(int i=0; i<fileObjectArray.size(); i++){
-     sampleFile=(FileObject) fileObjectArray.get(i);
-     if(name==sampleFile.objName()){
-       fileNumber=i;
-     }
+    for (int i=0; i<fileObjectArray.size(); i++) {
+      sampleFile=(FileObject) fileObjectArray.get(i);
+      if (name==sampleFile.objName()) {
+        fileNumber=i;
+      }
     }
     FileObject file=(FileObject) fileObjectArray.get(fileNumber);
     return file;

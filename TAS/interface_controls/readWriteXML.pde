@@ -4,10 +4,11 @@ saved to data/mediaoutput.xml
 
 <media>  
   <file name"sitin.jpg">
-    <position xPos="25" yPos="25" />
     <controls trigger="1" />
-    <scene number="1" /> 
     <size width="433" height="230" />
+    <position xPos="25" yPos="25" />
+    <size width="433" height="230" />
+    <scene number="1" />   
     <transition type="none" />
   <file>
 </media>
@@ -22,7 +23,7 @@ void loadXMLFile() {
   try{
     xmlIO.loadElement("mediaoutput.xml"); 
   }catch(Exception e){
-    //if the xml file could not be loaded it has to be created
+    //if the xml file could not be loaded, it has to be created
     xmlEvent(new proxml.XMLElement("media"));
   }
 }
@@ -59,32 +60,44 @@ void initCanvas() {
  on how the user has interacted with the media
  Call these xml functions in your UI functions.
 *=========================================*/ 
-void xmlAddToCanvas(){
-  // build the new XML node
+void xmlAddToCanvas(FileObject node){
+ // create the file node in XML
+ // TODO: Only create new IF This is a new node that has been dropped on the canvas
+ // otherwise, update all attribtues based on the filename (id?)
   proxml.XMLElement file = new proxml.XMLElement("file");
-  file.addAttribute("filename", clickedItemName);
-  proxml.XMLElement position = new proxml.XMLElement("position");
-  position.addAttribute("xPos", mouseX);
-  position.addAttribute("yPos", mouseY);
-  proxml.XMLElement scene = new proxml.XMLElement("scene"); 
-  scene.addAttribute("number", "SCENE NUM");//TODO: capture this var
+ 
+ // record filename
+  file.addAttribute("filename", node.name);
+  // record trigger
+  proxml.XMLElement controls = new proxml.XMLElement("controls");
+  controls.addAttribute("trigger", node.trigger);
+  // record size of media
   proxml.XMLElement size = new proxml.XMLElement("size"); 
-  size.addAttribute("width", "TODO");//TODO: capture this var
-  size.addAttribute("height", "TODO");//TODO: capture this var
+  size.addAttribute("width", node.w); 
+  size.addAttribute("height", node.h);  
+  // record position
+  proxml.XMLElement position = new proxml.XMLElement("position");
+  position.addAttribute("xPos", node.xPos);
+  position.addAttribute("yPos", node.yPos);
+  // record scene
+  proxml.XMLElement scene = new proxml.XMLElement("scene"); 
+  scene.addAttribute("number", node.scene);
+  // record transition
   proxml.XMLElement transition = new proxml.XMLElement("transition");
-  transition.addAttribute("type", "none");//TODO: capture this var. default to none.
-  proxml.XMLElement controls = new proxml.XMLElement("trigger");
-  controls.addAttribute("trigger", "-1"); //TODO: capture this var  
+  transition.addAttribute("type", node.transition);
   
-  // add the node to the file
+  // assemble the node
   media.addChild(file);
+  file.addChild(controls);
+  file.addChild(size);
   file.addChild(position);
   file.addChild(scene);
-  file.addChild(size);
   file.addChild(transition);
-  file.addChild(controls);
-  xmlIO.saveElement(media, "mediaoutput.xml");
   
+  // save the node to the file
+  xmlIO.saveElement(media, "mediaoutput.xml");
+ 
+ // test
   println("XML: Media added to canvas");  
 }
 

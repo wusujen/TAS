@@ -5,7 +5,7 @@
  *=========================================*/
 class FileObject {
   String name;
-  String trigger;
+  int trigger;
   int w;
   int h;
   int xPos;
@@ -13,7 +13,7 @@ class FileObject {
   int scene;
   String transition;
 
-  FileObject(String objFilename, String objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
+  FileObject(String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
     name=objFilename;
     trigger=objTrigger;
     w=objWidth;
@@ -50,7 +50,7 @@ class FileObject {
   }
   
   // basic functions for updating the object
-  void updateTrigger(String newTrigger){
+  void updateTrigger(int newTrigger){
     trigger=newTrigger;
   }
   void updateSize(int newWidth, int newHeight){
