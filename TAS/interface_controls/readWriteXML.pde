@@ -2,16 +2,7 @@
 XML structure
 saved to data/mediaoutput.xml
 
-<media>  
-  <file name"sitin.jpg">
-    <controls trigger="1" />
-    <size width="433" height="230" />
-    <position xPos="25" yPos="25" />
-    <size width="433" height="230" />
-    <scene number="1" />   
-    <transition type="none" />
-  <file>
-</media>
+
 */
 
 /*==============  loadXMLFile =============*
@@ -36,6 +27,10 @@ void loadXMLFile() {
 *=========================================*/ 
 void xmlEvent(proxml.XMLElement element) {
  media = element;
+ proxml.XMLElement lastElement = media.lastChild();
+ int lastHash = lastElement.getIntAttribute("hash");
+ hash = lastHash;
+ println("Last Hash: " + lastHash);
  initCanvas(); 
 }
 
@@ -47,6 +42,8 @@ void initCanvas() {
   media.printElementTree(" ");
   proxml.XMLElement media;
 
+
+  println("intial file object array size: " + fileObjectArray.size());
   //for(int i = 0; i < media.countChildren();i++){
     
    // thisFile = media.getChild(i);
@@ -66,8 +63,9 @@ void xmlAddToCanvas(FileObject node){
  // otherwise, update all attribtues based on the filename (id?)
   proxml.XMLElement file = new proxml.XMLElement("file");
  
- // record filename
+ // record filename and hash
   file.addAttribute("filename", node.name);
+  file.addAttribute("hash", node.hash);
   // record trigger
   proxml.XMLElement controls = new proxml.XMLElement("controls");
   controls.addAttribute("trigger", node.trigger);
@@ -98,7 +96,8 @@ void xmlAddToCanvas(FileObject node){
   xmlIO.saveElement(media, "mediaoutput.xml");
  
  // test
-  println("XML: Media added to canvas");  
+  println("XML: Media added to canvas" + ""); 
+  
 }
 
 void xmlMoveItem(){

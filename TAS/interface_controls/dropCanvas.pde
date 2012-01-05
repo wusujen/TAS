@@ -44,9 +44,10 @@ class DropCanvas {
       // this should be changed later into drawFileObject() 
       labelName="label"+val;
       //label = controlP5.addTextlabel(labelName, clickedItemName, mouseX, mouseY);
-
+      // increment the global has before it's applied to the new fileObject
+       hash++;
       // TODO: remove hardcoded variables for obj height, width, scene number, transition.
-      fileObjectArray.add(new FileObject(clickedItemName, 0, 120, 15, mouseX, mouseY, 1, "none"));
+      fileObjectArray.add(new FileObject(hash,clickedItemName, 0, 120, 15, mouseX, mouseY, 1, "none"));
       FileObject cake=(FileObject) fileObjectArray.get(numberOfDroppedFiles);
       cake.drawFileObject();
       numberOfDroppedFiles=fileObjectArray.size();
@@ -56,8 +57,10 @@ class DropCanvas {
         firstClicked=clickedItemName;
         itemClicked=itemClicked+2;
       }
-      //xmlAddToCanvas();
-      xmlAddToCanvas(cake); //try to pass what I think is the new FileObject named cake.
+      
+      //Pass the new FileObject named cake to update XML
+      xmlAddToCanvas(cake);
+        println("after drop: file object array size: " + fileObjectArray.size());
     }
     mouseDragging=false;
     clickedItemName=null;

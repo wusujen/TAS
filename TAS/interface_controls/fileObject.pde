@@ -4,6 +4,7 @@
  into an Arraylist of these objects.
  *=========================================*/
 class FileObject {
+  int hash;
   String name;
   int trigger;
   int w;
@@ -13,7 +14,8 @@ class FileObject {
   int scene;
   String transition;
 
-  FileObject(String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
+  FileObject(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
+    hash=objHash;
     name=objFilename;
     trigger=objTrigger;
     w=objWidth;
@@ -33,6 +35,7 @@ class FileObject {
   // the stats of each object
   void displayProperties(){
     println("success");
+    println("hash: "+hash);
     println("name: "+name);
     println("trigger: "+trigger);
     println("width: "+w);
@@ -61,6 +64,8 @@ class FileObject {
     xPos=newX;
     yPos=newY;
   }
+  // don't know if we'll need this updateScene(). To add media to a different scene, I think they'll
+  // remove from one and add it to another (ashton)
   void updateScene(int newSceneNumber){
     scene=newSceneNumber;
   }
