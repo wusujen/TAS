@@ -1,7 +1,15 @@
 /* 
 XML structure
 saved to data/mediaoutput.xml
-
+<media>
+ <file filename="swannhome-etch.jpeg" hash="3">
+  <controls trigger="0"/>
+  <size height="15" width="120"/>
+  <position yPos="307" xPos="298"/>
+  <scene number="1"/>
+  <transition type="none"/>
+ </file>
+</media>
 
 */
 
@@ -28,9 +36,11 @@ void loadXMLFile() {
 void xmlEvent(proxml.XMLElement element) {
  media = element;
  proxml.XMLElement lastElement = media.lastChild();
- int lastHash = lastElement.getIntAttribute("hash");
- hash = lastHash;
- println("Last Hash: " + lastHash);
+ if(media.hasChildren()) {
+   int lastHash = lastElement.getIntAttribute("hash");
+   // set the global hash variable
+   hash = lastHash;
+ }
  initCanvas(); 
 }
 
@@ -41,11 +51,9 @@ void xmlEvent(proxml.XMLElement element) {
 void initCanvas() {
   media.printElementTree(" ");
   proxml.XMLElement media;
-
-
-  println("intial file object array size: " + fileObjectArray.size());
+  //TODO: recreate canvas from XML data
+  //println("intial file object array size: " + fileObjectArray.size());
   //for(int i = 0; i < media.countChildren();i++){
-    
    // thisFile = media.getChild(i);
    // position = thisFile.getChild(0);
  // }
@@ -92,17 +100,14 @@ void xmlAddToCanvas(FileObject node){
   file.addChild(scene);
   file.addChild(transition);
   
-  // save the node to the file
+  // save the XML file
   xmlIO.saveElement(media, "mediaoutput.xml");
- 
- // test
-  println("XML: Media added to canvas" + ""); 
-  
 }
 
 void xmlMoveItem(){
   println("XML: Media moved on canvas");
 }
+
 void xmlResize(){
   println("XML: Media resized.");
 }
@@ -111,10 +116,16 @@ void xmlZIndex(){
   println("XML: Item's Z-Index changed on canvas");
 }
 
-void xmlRemoveItem(){ 
-  // capture the filename of the removed item
-  // find the corresponding file item with the filename
-  // and remove it.
- // String[] attributes = element.getAttribute();
-  println("XML: Media removed from canvas");
+void xmlRemoveItem(FileObject node){ 
+ // remove the node with fileObject hash = file.getAttribute("hash");
+ int hashToRemove = node.hash;
+ for (int i=0; i<media.countChildren(); i++) {
+     proxml.XMLElement file = media.getChild(i);
+     int hash = file.getIntAttribute("hash");
+     if (hash == hashToRemove) {
+        media.removeChild(i);
+      }
+      // save the XML file
+      xmlIO.saveElement(media, "mediaoutput.xml");
+    }
 }

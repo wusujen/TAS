@@ -60,7 +60,7 @@ class DropCanvas {
       
       //Pass the new FileObject named cake to update XML
       xmlAddToCanvas(cake);
-        println("after drop: file object array size: " + fileObjectArray.size());
+      //println("after drop: file object array size: " + fileObjectArray.size());
     }
     mouseDragging=false;
     clickedItemName=null;
@@ -84,6 +84,7 @@ class DropCanvas {
         controlP5.remove(droppedObjectName);
         fileObjectArray.remove(i);
         numberOfDroppedFiles=fileObjectArray.size();
+        xmlRemoveItem(file);
       }
     }
     // get the default color the first time the item is clicked

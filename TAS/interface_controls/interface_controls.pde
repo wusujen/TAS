@@ -13,7 +13,7 @@ ArrayList fileObjectArray;
 proxml.XMLElement media;        // xml element to store and load the media (must preface with library name)
 XMLInOut xmlIO;                
 
-int hash;                     // unique ID added to every file dropped into the canvas, and written to XML
+int hash;                       // unique ID added to every file dropped into the canvas, and written to XML
 
 String[] itemNames;             // stores names of items from media folder for later use
 int dropListID=0;               // stores how many items have been added to dropCanvas
@@ -56,10 +56,6 @@ void setup() {
   // create the empty drag to List
   createDragToList();
   // let dropListItems know what the max number of items can be
-  
-  // set hash to the next available number, based on last file written to XML
-  // TODO: encapsulate in own function
-  hash = 0;
   
   // load XML file
   loadXMLFile();
