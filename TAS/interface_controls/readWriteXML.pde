@@ -49,7 +49,7 @@ void xmlEvent(proxml.XMLElement element) {
  as they were placed.
 *=========================================*/ 
 void initCanvas() {
-  media.printElementTree(" ");
+  //media.printElementTree(" ");
   proxml.XMLElement media;
   //TODO: recreate canvas from XML data
   //println("intial file object array size: " + fileObjectArray.size());
@@ -60,119 +60,120 @@ void initCanvas() {
 }
 
 
-/*==============  Write to XML =============*
- perform specific actions to the XML file depending
- on how the user has interacted with the media
- Call these xml functions in your UI functions.
+/*==============  writeToXML =============*
+ Called whenever the program should alter XML.
+ Checks whether a hash already exists in XML,
+ and therefore whether to create the new node
+ before updating it.
 *=========================================*/ 
-void xmlAddToCanvas(FileObject node){
- // create the file node in XML
- // TODO: Only create new IF This is a new node that has been dropped on the canvas
- // otherwise, update all attribtues based on the filename (id?)
- 
- int activeHash = node.hash; // hash of the selected object in sketch
+
+void writeToXML(FileObject node){
+
+  int numFileNodes = media.countChildren();    // number of files saved to XML
+  int[] savedHashes = new int[numFileNodes];   // array of all XML hashes saved so far
+  int activeHash = node.hash;                  // hash of the selected object in sketch
+  Boolean nodeExists = false;                  // assume the node is new
+  int fileIndex = 0;                              // the index of the file to alter 
   
-  // loop through all XML nodes
-   for (int i=0; i<media.countChildren(); i++) {
-     
-     proxml.XMLElement loopFile = media.getChild(i);
-     int loopHash = loopFile.getIntAttribute("hash");
-     
-      // if the active hash is unique, create a new node
-      if(activeHash != loopHash) {
-        proxml.XMLElement file = new proxml.XMLElement("file");
-        proxml.XMLElement controls = new proxml.XMLElement("controls");
-        proxml.XMLElement size = new proxml.XMLElement("size");
-        proxml.XMLElement position = new proxml.XMLElement("position");
-        proxml.XMLElement scene = new proxml.XMLElement("scene"); 
-        proxml.XMLElement transition = new proxml.XMLElement("transition");
-                   // Do all this regardless, and do it once.
-     
-     // record filename and hash
-      file.addAttribute("filename", node.name);
-      file.addAttribute("hash", node.hash);
-      // record trigger
-      controls.addAttribute("trigger", node.trigger);
-      // record size of media
-      size.addAttribute("width", node.w); 
-      size.addAttribute("height", node.h);  
-      // record position
-      position.addAttribute("xPos", node.xPos);
-      position.addAttribute("yPos", node.yPos);
-      // record scene
-      scene.addAttribute("number", node.scene);
-      // record transition
-      transition.addAttribute("type", node.transition);
-      
-      // assemble the node
-      media.addChild(file);
-      file.addChild(controls);
-      file.addChild(size);
-      file.addChild(position);
-      file.addChild(scene);
-      file.addChild(transition);
+ // loop through all nodes in XML
+ // to find a possible matching hash
+  for (int i=0; i<numFileNodes; i++) {
+    proxml.XMLElement loopFile = media.getChild(i);   // the current file
+    int loopHash = loopFile.getIntAttribute("hash");  // value of the current file hash
+    savedHashes[i] = loopHash;                        // add the file hash to the array  
+    // if the array contains the active hash
+    // nodeExists is actually true! 
+    if(savedHashes[i] == activeHash) {
+      nodeExists = true;
+      fileIndex = i;
+      println("true! node exists!"); 
+    }  
+  }
+
+ // So logic tells us...
+ // if the node is new, first create it.
+  if(nodeExists == false) {
+     println("This node needs to be created");
+     xmlCreate(node);
+  } else {
+    // otherwise, just update it with new values
+    // from the FileObject we're passing in
+    xmlUpdate(node, fileIndex);
+  }
+}
+
+void xmlCreate(FileObject node) {
+  proxml.XMLElement file = new proxml.XMLElement("file");
+  proxml.XMLElement controls = new proxml.XMLElement("controls");
+  proxml.XMLElement size = new proxml.XMLElement("size");
+  proxml.XMLElement position = new proxml.XMLElement("position");
+  proxml.XMLElement scene = new proxml.XMLElement("scene"); 
+  proxml.XMLElement transition = new proxml.XMLElement("transition");
   
-        // save the XML file
-        xmlIO.saveElement(media, "mediaoutput.xml");
-        println("this is a new node. loopHash: " + loopHash);
-      } else if (activeHash == loopHash) {
-        // assign the changes to matching node
-        proxml.XMLElement file = loopFile;
-        proxml.XMLElement controls = file.getChild(0);
-        proxml.XMLElement size = file.getChild(1);
-        proxml.XMLElement position = file.getChild(2);
-        proxml.XMLElement scene = file.getChild(3);
-        proxml.XMLElement transition = file.getChild(4);
-        
-        println("THis is not a new node");
-        
-                   // Do all this regardless, and do it once.
-     
-     // record filename and hash
-      file.addAttribute("filename", node.name);
-      file.addAttribute("hash", node.hash);
-      // record trigger
-      controls.addAttribute("trigger", node.trigger);
-      // record size of media
-      size.addAttribute("width", node.w); 
-      size.addAttribute("height", node.h);  
-      // record position
-      position.addAttribute("xPos", node.xPos);
-      position.addAttribute("yPos", node.yPos);
-      // record scene
-      scene.addAttribute("number", node.scene);
-      // record transition
-      transition.addAttribute("type", node.transition);
-      
-      // assemble the node
-      media.addChild(file);
-      file.addChild(controls);
-      file.addChild(size);
-      file.addChild(position);
-      file.addChild(scene);
-      file.addChild(transition);
+  // record filename and hash
+  file.addAttribute("filename", node.name);
+  file.addAttribute("hash", node.hash);
+  // record trigger
+  controls.addAttribute("trigger", node.trigger);
+  // record size of media
+  size.addAttribute("width", node.w); 
+  size.addAttribute("height", node.h);  
+  // record position
+  position.addAttribute("xPos", node.xPos);
+  position.addAttribute("yPos", node.yPos);
+  // record scene
+  scene.addAttribute("number", node.scene);
+  // record transition
+  transition.addAttribute("type", node.transition);
   
-  // save the XML file
+  println(media); // this is the issue
+    
   xmlIO.saveElement(media, "mediaoutput.xml");
   
-      }
+  println("XML file created");
+}
+
+
+
+void xmlUpdate(FileObject node, int index) {
+  
+  // indicate which file you want to update
+  proxml.XMLElement file = media.getChild(index);
+  proxml.XMLElement controls = file.getChild(0);
+  proxml.XMLElement size = file.getChild(1);
+  proxml.XMLElement position = file.getChild(2);
+  proxml.XMLElement scene = file.getChild(3);
+  proxml.XMLElement transition = file.getChild(4);
+  
+  // record filename and hash
+  file.addAttribute("filename", node.name);
+  file.addAttribute("hash", node.hash);
+  // record trigger
+  controls.addAttribute("trigger", node.trigger);
+  // record size of media
+  size.addAttribute("width", node.w); 
+  size.addAttribute("height", node.h);  
+  // record position
+  position.addAttribute("xPos", node.xPos);
+  position.addAttribute("yPos", node.yPos);
+  // record scene
+  scene.addAttribute("number", node.scene);
+  // record transition
+  transition.addAttribute("type", node.transition);
       
-      
-  }
-    
+  // assemble the node
+ media.addChild(file);
+ file.addChild(controls);
+ file.addChild(size);
+ file.addChild(position);
+ file.addChild(scene);
+ file.addChild(transition);  
+ 
+ xmlIO.saveElement(media, "mediaoutput.xml");
+ 
+ println("XML file updated");
 }
-
-void xmlMoveItem(){
-  println("XML: Media moved on canvas");
-}
-
-void xmlResize(){
-  println("XML: Media resized.");
-}
-
-void xmlZIndex(){
-  println("XML: Item's Z-Index changed on canvas");
-}
+  
 
 void xmlRemoveItem(FileObject node){ 
  // remove the node with fileObject hash = file.getAttribute("hash");
@@ -186,4 +187,5 @@ void xmlRemoveItem(FileObject node){
       // save the XML file
       xmlIO.saveElement(media, "mediaoutput.xml");
     }
+   println("XML: object removed from canvas"); 
 }

@@ -76,9 +76,6 @@ void dragCursor(int x, int y, int w, int h){
 void resetClickedItemToDefault(String itemName){
   resetMediaListItemColor(color(0,54,82), color(0,105,140), color(8,162,207), color(255,255,255));
   controlP5.remove("label"+val);
- // pass the name of the file to the xml function
-  // that will remove it from the file's output
-  //xmlRemoveItem(itemName);
 }
 
 /*======  controlEvent(mediaList)  =======*

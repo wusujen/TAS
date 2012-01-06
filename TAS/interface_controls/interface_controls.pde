@@ -9,7 +9,6 @@ CColor defaultColor;
 DropCanvas canvas;
 ArrayList fileObjectArray;
 
-
 proxml.XMLElement media;        // xml element to store and load the media (must preface with library name)
 XMLInOut xmlIO;                
 
