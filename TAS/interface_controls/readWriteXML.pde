@@ -51,6 +51,7 @@ void xmlEvent(proxml.XMLElement element) {
 void initCanvas() {
   //media.printElementTree(" ");
   proxml.XMLElement media;
+  
   //TODO: recreate canvas from XML data
   //println("intial file object array size: " + fileObjectArray.size());
   //for(int i = 0; i < media.countChildren();i++){
@@ -73,7 +74,7 @@ void writeToXML(FileObject node){
   int[] savedHashes = new int[numFileNodes];   // array of all XML hashes saved so far
   int activeHash = node.hash;                  // hash of the selected object in sketch
   Boolean nodeExists = false;                  // assume the node is new
-  int fileIndex = 0;                              // the index of the file to alter 
+  int fileIndex = 1;                              // the index of the file to alter 
   
  // loop through all nodes in XML
  // to find a possible matching hash
@@ -102,6 +103,11 @@ void writeToXML(FileObject node){
   }
 }
 
+
+/*============== xmlCreate =============*
+ Creates a new XML file using the info
+ from the node FileObject passed to it.
+*=========================================*/ 
 void xmlCreate(FileObject node) {
   proxml.XMLElement file = new proxml.XMLElement("file");
   proxml.XMLElement controls = new proxml.XMLElement("controls");
@@ -126,15 +132,26 @@ void xmlCreate(FileObject node) {
   // record transition
   transition.addAttribute("type", node.transition);
   
-  println(media); // this is the issue
+   // assemble the node
+   media.addChild(file);
+   file.addChild(controls);
+   file.addChild(size);
+   file.addChild(position);
+   file.addChild(scene);
+   file.addChild(transition); 
     
-  xmlIO.saveElement(media, "mediaoutput.xml");
+   xmlIO.saveElement(media, "mediaoutput.xml");
   
-  println("XML file created");
+  //println("XML file created");
 }
 
 
-
+/*============== xmlUpdate =============*
+ Updates an XML file using the info
+ from the node FileObject passed to it and
+ and the index of that XML file from the loop
+ performed in writeToXML().
+*=========================================*/ 
 void xmlUpdate(FileObject node, int index) {
   
   // indicate which file you want to update
@@ -161,7 +178,7 @@ void xmlUpdate(FileObject node, int index) {
   // record transition
   transition.addAttribute("type", node.transition);
       
-  // assemble the node
+  // assemble the node (this may not be neccessary in the update function
  media.addChild(file);
  file.addChild(controls);
  file.addChild(size);
@@ -175,6 +192,9 @@ void xmlUpdate(FileObject node, int index) {
 }
   
 
+/*============== xmlRemoveItem =============*
+ Deletes an item from the XML file.
+*=========================================*/ 
 void xmlRemoveItem(FileObject node){ 
  // remove the node with fileObject hash = file.getAttribute("hash");
  int hashToRemove = node.hash;
@@ -187,5 +207,5 @@ void xmlRemoveItem(FileObject node){
       // save the XML file
       xmlIO.saveElement(media, "mediaoutput.xml");
     }
-   println("XML: object removed from canvas"); 
+   // println("XML: object removed from canvas"); 
 }

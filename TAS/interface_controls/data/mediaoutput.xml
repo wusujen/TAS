@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<media/>
+<media>
+  <file filename="sitin.jpg" hash="15">
+    <controls trigger="0"/>
+    <size height="15" width="120"/>
+    <position yPos="417" xPos="253"/>
+    <scene number="1"/>
+    <transition type="none"/>
+  </file>
+</media>
