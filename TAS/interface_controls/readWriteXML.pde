@@ -74,7 +74,7 @@ void writeToXML(FileObject node){
   int[] savedHashes = new int[numFileNodes];   // array of all XML hashes saved so far
   int activeHash = node.hash;                  // hash of the selected object in sketch
   Boolean nodeExists = false;                  // assume the node is new
-  int fileIndex = 1;                              // the index of the file to alter 
+  int fileIndex = 1;                           // the index of the file to alter 
   
  // loop through all nodes in XML
  // to find a possible matching hash
