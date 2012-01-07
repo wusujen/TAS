@@ -108,9 +108,17 @@ void initCanvas() {
 
 
 void drawFromXML(ArrayList fileObjectArray) {
+  
+  ArrayList placedItems = new ArrayList(); 
+  
   for(int i = 0; i < fileObjectArray.size(); i++) {
     FileObject pie=(FileObject) fileObjectArray.get(i);
     pie.drawFileObject();
+    // change color of media in MediaList if the item has been drawn to the canvas
+    mediaList.item(pie.name).setColorBackground(color(230));
+    mediaList.item(pie.name).setColorForeground(color(230));
+    mediaList.item(pie.name).setColorActive(color(240));
+    mediaList.item(pie.name).setColorLabel(color(180));
     println(pie);
   }
   println("Media drawn to canvas");
@@ -198,7 +206,7 @@ void xmlCreate(FileObject node) {
     
    xmlIO.saveElement(media, "mediaoutput.xml");
   
-  println("XML file created");
+  println(node.name + " XML node created");
 }
 
 
@@ -244,7 +252,7 @@ void xmlUpdate(FileObject node, int index) {
  
  xmlIO.saveElement(media, "mediaoutput.xml");
  
- println("XML file updated");
+ println(node.name + " XML file updated");
 }
   
 
@@ -254,6 +262,7 @@ void xmlUpdate(FileObject node, int index) {
 void xmlRemoveItem(FileObject node){ 
  // remove the node with fileObject hash = file.getAttribute("hash");
  int hashToRemove = node.hash;
+ println("hash to remove: " + hashToRemove);
  for (int i=0; i<media.countChildren(); i++) {
      proxml.XMLElement file = media.getChild(i);
      int hash = file.getIntAttribute("hash");
@@ -263,5 +272,5 @@ void xmlRemoveItem(FileObject node){
       // save the XML file
       xmlIO.saveElement(media, "mediaoutput.xml");
     }
-   println("XML: object removed from canvas"); 
+   println(node.hash + " " + node.name + " XML: object removed from canvas"); 
 }

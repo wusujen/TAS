@@ -13,7 +13,7 @@ class DropCanvas {
   String firstClicked;            // stores the name of the first item that was clicked
   String labelName;               // stores the name of the last created label
   int fileNumber;                 // keeps track of what files a loop has gone through
-  int numberOfDroppedFiles=0;     // stores the total number of files in dropCanvas
+  int numberOfDroppedFiles=0;     // stores the total number of files in dropCanvas 
 
   DropCanvas(int dropCanvasStroke, int dropCanvasFill, int dropCanvasXPos, int dropCanvasYPos, int dropCanvasWidth, int dropCanvasHeight) {
     cs=dropCanvasStroke;
@@ -73,12 +73,22 @@ class DropCanvas {
    listBoxItem
    *=========================================*/
   void removeDroppedItem() {
+    
+    // ISSUES WITH THIS FUNCTION.
+    // it's being called multiple times because controlEvent is registering false positives.
+    // I ignore them with the assumption that we'll
+    // write a different removal function for each
+    // piece of media
+    
     // loop through the fileObject array and check to see if the
     // name of the currently clicked object matches any of those names
     // if it does, then remove it and reset the listBoxItem color
     for (int i=0; i<fileObjectArray.size(); i++) {
       FileObject file=(FileObject) fileObjectArray.get(i);
       String droppedObjectName=file.objName();
+      
+      println("dropped Object Name: " + droppedObjectName);
+      
       if ((clickedItemName==droppedObjectName) || (firstClicked==clickedItemName)) {
         resetClickedItemToDefault(clickedItemName);
         controlP5.remove(droppedObjectName);
