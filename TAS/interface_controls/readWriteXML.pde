@@ -49,15 +49,71 @@ void xmlEvent(proxml.XMLElement element) {
  as they were placed.
 *=========================================*/ 
 void initCanvas() {
-  //media.printElementTree(" ");
-  proxml.XMLElement media;
   
-  //TODO: recreate canvas from XML data
-  //println("intial file object array size: " + fileObjectArray.size());
-  //for(int i = 0; i < media.countChildren();i++){
-   // thisFile = media.getChild(i);
-   // position = thisFile.getChild(0);
- // }
+  println("initCanvas() called");
+  //media.printElementTree(" ");
+  proxml.XMLElement file;
+  proxml.XMLElement controls;
+  proxml.XMLElement size;
+  proxml.XMLElement position;
+  proxml.XMLElement scene;
+  proxml.XMLElement transition;
+  
+  String filename;
+  int hash;
+  int trigger;
+  int w;
+  int h;
+  int xPos;
+  int yPos;
+  int sceneNum;
+  String type;
+  
+  println("intial file object array size: " + fileObjectArray.size());
+  
+  for(int i = 0; i < media.countChildren();i++){
+    file = media.getChild(i);
+    controls = file.getChild(0);
+    size = file.getChild(1);
+    position = file.getChild(2);
+    scene = file.getChild(3);
+    transition = file.getChild(4);
+    
+    // get filename and hash
+    filename = file.getAttribute("filename");
+    hash = file.getIntAttribute("hash");
+    // get trigger
+    trigger = controls.getIntAttribute("trigger");
+    // get size of media
+    w = size.getIntAttribute("width"); 
+    h = size.getIntAttribute("height");  
+    // get position
+    xPos = position.getIntAttribute("xPos");
+    yPos = position.getIntAttribute("yPos");
+    // get scene
+    sceneNum = scene.getIntAttribute("number");
+    // get transition
+    type = transition.getAttribute("type");
+    
+    // add a new FileObject to the array.
+    //FileObject(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition)
+    fileObjectArray.add(new FileObject(hash,filename, trigger, w, h, xPos, yPos, sceneNum, type));
+    // should this be the same FileObjectArray or a different one?
+  }
+  
+  println("new file object array size: " + fileObjectArray.size());
+  
+  drawFromXML(fileObjectArray);
+}
+
+
+void drawFromXML(ArrayList fileObjectArray) {
+  for(int i = 0; i < fileObjectArray.size(); i++) {
+    FileObject pie=(FileObject) fileObjectArray.get(i);
+    pie.drawFileObject();
+    println(pie);
+  }
+  println("Media drawn to canvas");
 }
 
 
@@ -74,7 +130,7 @@ void writeToXML(FileObject node){
   int[] savedHashes = new int[numFileNodes];   // array of all XML hashes saved so far
   int activeHash = node.hash;                  // hash of the selected object in sketch
   Boolean nodeExists = false;                  // assume the node is new
-  int fileIndex = 1;                           // the index of the file to alter 
+  int fileIndex = 0;                           // the index of the file to alter 
   
  // loop through all nodes in XML
  // to find a possible matching hash
@@ -87,7 +143,7 @@ void writeToXML(FileObject node){
     if(savedHashes[i] == activeHash) {
       nodeExists = true;
       fileIndex = i;
-      println("true! node exists!"); 
+      println(node.name + "Node exists and must be updated"); 
     }  
   }
 
@@ -142,7 +198,7 @@ void xmlCreate(FileObject node) {
     
    xmlIO.saveElement(media, "mediaoutput.xml");
   
-  //println("XML file created");
+  println("XML file created");
 }
 
 
@@ -179,12 +235,12 @@ void xmlUpdate(FileObject node, int index) {
   transition.addAttribute("type", node.transition);
       
   // assemble the node (this may not be neccessary in the update function
- media.addChild(file);
- file.addChild(controls);
- file.addChild(size);
- file.addChild(position);
- file.addChild(scene);
- file.addChild(transition);  
+ //media.addChild(file);
+ //file.addChild(controls);
+ //file.addChild(size);
+ //file.addChild(position);
+ //file.addChild(scene);
+ //file.addChild(transition);  
  
  xmlIO.saveElement(media, "mediaoutput.xml");
  
@@ -207,5 +263,5 @@ void xmlRemoveItem(FileObject node){
       // save the XML file
       xmlIO.saveElement(media, "mediaoutput.xml");
     }
-   // println("XML: object removed from canvas"); 
+   println("XML: object removed from canvas"); 
 }

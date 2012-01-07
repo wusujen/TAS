@@ -84,6 +84,7 @@ class DropCanvas {
         controlP5.remove(droppedObjectName);
         fileObjectArray.remove(i);
         numberOfDroppedFiles=fileObjectArray.size();
+        println("This file must be removed");
         xmlRemoveItem(file);
       }
     }
