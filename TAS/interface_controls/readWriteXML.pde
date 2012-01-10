@@ -184,7 +184,7 @@ void xmlUpdate(FileObject node, int index) {
  file.addChild(size);
  file.addChild(position);
  file.addChild(scene);
- file.addChild(transition);  
+ file.addChild(transition);
  
  xmlIO.saveElement(media, "mediaoutput.xml");
  
