@@ -30,6 +30,7 @@ boolean clickOnController;      // check to see if the mouse is over the control
 
 
 String listTitle="Media Files"; // stores the title of the media List
+ArrayList placedItems;          // stores all clickedItems/ items placed on the canvas. (not yet implemented)
 String clickedItemName;         // stores the name of the item clicked from mediaList
 int val;                        // stores the id of the item clicked from mediaList
 
