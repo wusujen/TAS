@@ -69,7 +69,7 @@ void initCanvas() {
   int sceneNum;
   String type;
   
-  println("intial file object array size: " + fileObjectArray.size());
+  println("intial file object array size: " + sceneElementArray.size());
   
   for(int i = 0; i < media.countChildren();i++){
     file = media.getChild(i);
@@ -95,25 +95,25 @@ void initCanvas() {
     // get transition
     type = transition.getAttribute("type");
     
-    // add a new FileObject to the array.
-    //FileObject(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition)
-    fileObjectArray.add(new FileObject(hash,filename, trigger, w, h, xPos, yPos, sceneNum, type));
-    // should this be the same FileObjectArray or a different one?
+    // add a new SceneElement to the array.
+    //SceneElement(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition)
+    sceneElementArray.add(new SceneElement(hash,filename, trigger, w, h, xPos, yPos, sceneNum, type));
+    // should this be the same SceneElementArray or a different one?
   }
   
-  println("new file object array size: " + fileObjectArray.size());
+  println("new file object array size: " + sceneElementArray.size());
   
-  drawFromXML(fileObjectArray);
+  drawFromXML(sceneElementArray);
 }
 
 
-void drawFromXML(ArrayList fileObjectArray) {
+void drawFromXML(ArrayList sceneElementArray) {
   
   ArrayList placedItems = new ArrayList(); 
   
-  for(int i = 0; i < fileObjectArray.size(); i++) {
-    FileObject pie=(FileObject) fileObjectArray.get(i);
-    pie.drawFileObject();
+  for(int i = 0; i < sceneElementArray.size(); i++) {
+    SceneElement pie=(SceneElement) sceneElementArray.get(i);
+    pie.drawSceneElement();
     // change color of media in MediaList if the item has been drawn to the canvas
     mediaList.item(pie.name).setColorBackground(color(230));
     mediaList.item(pie.name).setColorForeground(color(230));
@@ -132,7 +132,7 @@ void drawFromXML(ArrayList fileObjectArray) {
  before updating it.
 *=========================================*/ 
 
-void writeToXML(FileObject node){
+void writeToXML(SceneElement node){
 
   int numFileNodes = media.countChildren();    // number of files saved to XML
   int[] savedHashes = new int[numFileNodes];   // array of all XML hashes saved so far
@@ -162,7 +162,7 @@ void writeToXML(FileObject node){
      xmlCreate(node);
   } else {
     // otherwise, just update it with new values
-    // from the FileObject we're passing in
+    // from the SceneElement we're passing in
     xmlUpdate(node, fileIndex);
   }
 }
@@ -170,9 +170,9 @@ void writeToXML(FileObject node){
 
 /*============== xmlCreate =============*
  Creates a new XML file using the info
- from the node FileObject passed to it.
+ from the node SceneElement passed to it.
 *=========================================*/ 
-void xmlCreate(FileObject node) {
+void xmlCreate(SceneElement node) {
   proxml.XMLElement file = new proxml.XMLElement("file");
   proxml.XMLElement controls = new proxml.XMLElement("controls");
   proxml.XMLElement size = new proxml.XMLElement("size");
@@ -212,11 +212,11 @@ void xmlCreate(FileObject node) {
 
 /*============== xmlUpdate =============*
  Updates an XML file using the info
- from the node FileObject passed to it and
+ from the node SceneElement passed to it and
  and the index of that XML file from the loop
  performed in writeToXML().
 *=========================================*/ 
-void xmlUpdate(FileObject node, int index) {
+void xmlUpdate(SceneElement node, int index) {
   
   // indicate which file you want to update
   proxml.XMLElement file = media.getChild(index);
@@ -260,8 +260,8 @@ void xmlUpdate(FileObject node, int index) {
 /*============== xmlRemoveItem =============*
  Deletes an item from the XML file.
 *=========================================*/ 
-void xmlRemoveItem(FileObject node){ 
- // remove the node with fileObject hash = file.getAttribute("hash");
+void xmlRemoveItem(SceneElement node){ 
+ // remove the node with sceneElement hash = file.getAttribute("hash");
  int hashToRemove = node.hash;
  println("hash to remove: " + hashToRemove);
  for (int i=0; i<media.countChildren(); i++) {

@@ -1,9 +1,9 @@
-/*==============  fileObject =============*
+/*==============  sceneElement =============*
  when dropped onto the canvas, the Drop
  Canvas creates this object and puts it
  into an Arraylist of these objects.
  *=========================================*/
-class FileObject {
+class SceneElement {
   int hash;
   String name;
   int trigger;
@@ -14,7 +14,7 @@ class FileObject {
   int scene;
   String transition;
 
-  FileObject(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
+  SceneElement(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
     hash=objHash;
     name=objFilename;
     trigger=objTrigger;
@@ -26,7 +26,7 @@ class FileObject {
     transition=objTransition;
   }
   
-  void drawFileObject(){
+  void drawSceneElement(){
     Button b;
     controlP5.addButton(name,val,xPos,yPos,w,h);
   }

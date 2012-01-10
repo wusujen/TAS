@@ -7,7 +7,7 @@ ListBox dragToList;
 Textlabel label;
 CColor defaultColor;
 DropCanvas canvas;
-ArrayList fileObjectArray;
+ArrayList sceneElementArray;
 
 // array of file types from /media folder
 ArrayList imageFiles;
@@ -64,8 +64,8 @@ void setup() {
 
   //initialize dropCanvas
   canvas=new DropCanvas(255, 180, canvasX, canvasY, canvasWidth, canvasHeight);
-  //initialize fileObjectArray
-  fileObjectArray=new ArrayList();
+  //initialize sceneElementArray
+  sceneElementArray=new ArrayList();
   // initialize file types arrays
   imageFiles = new ArrayList();
   audioFiles = new ArrayList();

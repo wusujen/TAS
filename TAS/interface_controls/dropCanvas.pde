@@ -33,7 +33,7 @@ class DropCanvas {
   /*=============   detectDroppedItem   ===============*
    // this function detects whether or not the item has
    // been dropped into the area of the dropCanvas, and if
-   // it has, create a fileObject and put it into the fileObjectArray
+   // it has, create a sceneElement and put it into the sceneElementArray
    ====================================================*/
   void detectDroppedItem() {
     if (mouseX>xPos && mouseX<xPos+w && mouseY>yPos && mouseY<yPos+h && clickedItemName!=null) {
@@ -41,16 +41,16 @@ class DropCanvas {
       resetMediaListItemColor(color(230), color(230), color(240), color(180));
 
       // create a new label name for each label
-      // this should be changed later into drawFileObject() 
+      // this should be changed later into drawSceneElement() 
       labelName="label"+val;
       //label = controlP5.addTextlabel(labelName, clickedItemName, mouseX, mouseY);
-      // increment the global hash before it's applied to the new fileObject
+      // increment the global hash before it's applied to the new sceneElement
        hash++;
       // TODO: remove hardcoded variables for obj height, width, scene number, transition.
-      fileObjectArray.add(new FileObject(hash,clickedItemName, 0, 120, 15, mouseX, mouseY, 1, "none"));
-      FileObject cake=(FileObject) fileObjectArray.get(numberOfDroppedFiles);
-      cake.drawFileObject();
-      numberOfDroppedFiles=fileObjectArray.size();
+      sceneElementArray.add(new SceneElement(hash,clickedItemName, 0, 120, 15, mouseX, mouseY, 1, "none"));
+      SceneElement cake=(SceneElement) sceneElementArray.get(numberOfDroppedFiles);
+      cake.drawSceneElement();
+      numberOfDroppedFiles=sceneElementArray.size();
 
       // store the name of the first item that was clicked!
       if (itemClicked==1) {
@@ -58,9 +58,9 @@ class DropCanvas {
         itemClicked=itemClicked+2;
       }
       
-      //Pass the new FileObject named cake to update XML
+      //Pass the new SceneElement named cake to update XML
       writeToXML(cake);
-      //println("after drop: file object array size: " + fileObjectArray.size());
+      //println("after drop: file object array size: " + sceneElementArray.size());
     }
     mouseDragging=false;
     clickedItemName=null;
@@ -68,7 +68,7 @@ class DropCanvas {
   }
 
   /*========   removeDroppedItem   =========*
-   removes a fileObject that has been put into
+   removes a sceneElement that has been put into
    dropCanvas and changes the color of the
    listBoxItem
    *=========================================*/
@@ -80,11 +80,11 @@ class DropCanvas {
     // write a different removal function for each
     // piece of media
     
-    // loop through the fileObject array and check to see if the
+    // loop through the sceneElement array and check to see if the
     // name of the currently clicked object matches any of those names
     // if it does, then remove it and reset the listBoxItem color
-    for (int i=0; i<fileObjectArray.size(); i++) {
-      FileObject file=(FileObject) fileObjectArray.get(i);
+    for (int i=0; i<sceneElementArray.size(); i++) {
+      SceneElement file=(SceneElement) sceneElementArray.get(i);
       String droppedObjectName=file.objName();
       
       println("dropped Object Name: " + droppedObjectName);
@@ -92,8 +92,8 @@ class DropCanvas {
       if ((clickedItemName==droppedObjectName) || (firstClicked==clickedItemName)) {
         resetClickedItemToDefault(clickedItemName);
         controlP5.remove(droppedObjectName);
-        fileObjectArray.remove(i);
-        numberOfDroppedFiles=fileObjectArray.size();
+        sceneElementArray.remove(i);
+        numberOfDroppedFiles=sceneElementArray.size();
         println("This file must be removed");
         xmlRemoveItem(file);
       }
@@ -107,29 +107,29 @@ class DropCanvas {
   }
 
 
-  /*========   getfileObjectById   =========*
-   returns a fileObject when given an id.
+  /*========   getsceneElementById   =========*
+   returns a sceneElement when given an id.
    *=========================================*/
-  FileObject getFileObjectById(int id) {
-    FileObject file=(FileObject) fileObjectArray.get(id);
+  SceneElement getSceneElementById(int id) {
+    SceneElement file=(SceneElement) sceneElementArray.get(id);
     return file;
   }
 
 
-  /*=======   getfileObjectByName   =========*
-   returns a fileObject when given a name.
+  /*=======   getsceneElementByName   =========*
+   returns a sceneElement when given a name.
    currently does not perform a check for 
    null.
    *=========================================*/
-  FileObject getFileObjectByName(String name) {
-    FileObject sampleFile;
-    for (int i=0; i<fileObjectArray.size(); i++) {
-      sampleFile=(FileObject) fileObjectArray.get(i);
+  SceneElement getSceneElementByName(String name) {
+    SceneElement sampleFile;
+    for (int i=0; i<sceneElementArray.size(); i++) {
+      sampleFile=(SceneElement) sceneElementArray.get(i);
       if (name==sampleFile.objName()) {
         fileNumber=i;
       }
     }
-    FileObject file=(FileObject) fileObjectArray.get(fileNumber);
+    SceneElement file=(SceneElement) sceneElementArray.get(fileNumber);
     return file;
   }
 }
