@@ -19,7 +19,7 @@ void createMediaList(String[] itemNameArray){
     mediaList.addItem(itemNameArray[i],i);
   }
 }
-*/
+
 
 void drawLibrary(ArrayList media, String title,  int id, int libY){
   controlP5 = new ControlP5(this);
@@ -38,7 +38,7 @@ void drawLibrary(ArrayList media, String title,  int id, int libY){
     mediaList.addItem(raisin,i);
   }
 }
-
+*/
 
 /*========  createMediaList  =============*
   resets the color of the clicked item

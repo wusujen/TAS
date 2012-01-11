@@ -1,25 +1,35 @@
 import controlP5.*;
 import proxml.*;
 
-ControlP5 controlP5;
-ListBox mediaList;
-ListBox dragToList;
+int appWidth = 1200;            // processing applet measurements
+int appHeight = 800;            
 
-int libX = 50;              // Media Library dimensions
-int libY = 50;              // lib Y will change dynamically
-int libW = 120;
+int canvasX = 280;              // drop canvas measurements
+int canvasY = 100;
+int canvasWidth = 600;
+int canvasHeight = 600;
+
+int libX = 50;                  // Media Library dimensions
+int libY = 50;              
+int libW = 200;
 int libH = 300;
 
-Textlabel label;
-CColor defaultColor;
-DropCanvas canvas;
-ArrayList fileObjectArray;
+ControlP5 controlP5;
+ListBox mediaList;   // TODO necessary?
+ListBox dragToList;   // testing
 
 ArrayList allFiles;            // global array of files loaded from media folder...
 ArrayList imageFiles;          // ...broken down by filetype
 ArrayList audioFiles;
 ArrayList movieFiles;
 ArrayList otherFiles;
+
+
+
+CColor defaultColor;
+DropCanvas canvas;
+ArrayList fileObjectArray;
+
 
 proxml.XMLElement media;        // xml element to store and load the media (must preface with library name)
 XMLInOut xmlIO;                
@@ -38,20 +48,21 @@ boolean clickOnController;      // check to see if the mouse is over the control
 String clickedItemName;         // stores the name of the item clicked from mediaList
 int val;                        // stores the id of the item clicked from mediaList
 
-int appWidth = 1200;            // processing applet measurements
-int appHeight = 800;            
 
-int canvasX = 200;              // drop canvas measurements
-int canvasY = 100;
-int canvasWidth = 600;
-int canvasHeight = 600;
 
-boolean onCanvas;               // check that t 
+
 
 void setup() {
+    // path to media folder
+  String path = sketchPath + "/data";
+  // draw the applet
+  size(appWidth, appHeight);
   
+  // declare a global instance of ControlP5;
+  controlP5 = new ControlP5(this);
   // initialize arrays to hold filenames from media folder
-  // these will populate the MediaLists and be checked against the 
+  // these will populate the MediaLists created with the 
+  // MediaLibrary class, and the values of allFiles will be checked against the 
   // xml file loaded in to see if any node should be removed.
   allFiles = new ArrayList();
   imageFiles = new ArrayList();
@@ -59,11 +70,6 @@ void setup() {
   movieFiles = new ArrayList();
   otherFiles = new ArrayList();
   
-  // path to media folder
-  String path = sketchPath + "/data";
-  // draw the applet
-  size(appWidth, appHeight);
-
   //check all files types in media folder
   // and save them to separate global arrays
   checkFileTypes();
@@ -87,12 +93,13 @@ void setup() {
   
   // create the initial media list from media folder
   //createMediaList(itemNames);
-  
-  drawLibrary(imageFiles, "Image Files", 1, libY);
+  MediaLibrary imageLib = new MediaLibrary(imageFiles, "Images", 1);
+  MediaLibrary audioLib = new MediaLibrary(audioFiles, "Audio", 2);
+  MediaLibrary movieLib = new MediaLibrary(movieFiles, "Movies", 3);
   
   
   // create the empty drag to List
-  createDragToList();
+  // createDragToList();
   // let dropListItems know what the max number of items can be
   // load XML file
   loadXMLFile();
@@ -108,9 +115,9 @@ void draw() {
   // checks to see if the mouse is over the controller
   // if the mouse is not dragging an item, the cursor
   // does not appear
-  clickOnController=controlP5.window(this).isMouseOver();
+  /*clickOnController=controlP5.window(this).isMouseOver();
   boolean isOpen=mediaList.isOpen();
   if (clickOnController && mouseDragging && isOpen) {
     dragCursor(int(mouseX), int(mouseY), 120, 15);
-  }
+  }*/
 }
