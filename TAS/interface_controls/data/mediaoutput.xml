@@ -1,2 +1,24 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<media/>
+<media>
+  <file filename="swannhome-etch.jpeg" hash="1">
+    <controls trigger="0"/>
+    <size height="15" width="120"/>
+    <position yPos="186" xPos="332"/>
+    <scene number="1"/>
+    <transition type="none"/>
+  </file>
+  <file filename="sitin.jpg" hash="2">
+    <controls trigger="0"/>
+    <size height="15" width="120"/>
+    <position yPos="313" xPos="303"/>
+    <scene number="1"/>
+    <transition type="none"/>
+  </file>
+  <file filename="selmamarch.jpg" hash="3">
+    <controls trigger="0"/>
+    <size height="15" width="120"/>
+    <position yPos="316" xPos="553"/>
+    <scene number="1"/>
+    <transition type="none"/>
+  </file>
+</media>

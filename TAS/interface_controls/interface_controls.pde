@@ -24,7 +24,6 @@ String[] itemNames;             // stores names of items from media folder for l
 File[] itemInfo;                // sotres File information of items from media folder
 int dropListID=0;               // stores how many items have been added to dropCanvas
 int dragListID=0;               // stores how many items have been added to drag list
-int itemClicked=0;              // stores the first time that a listBoxItem is clicked
 boolean mouseDragging=false;    // check to see if mouse is dragging
 boolean clickOnController;      // check to see if the mouse is over the controller
 
@@ -43,6 +42,9 @@ int canvasWidth = 600;
 int canvasHeight = 600;
 
 boolean onCanvas;               // check that t 
+
+String activeSceneElement;      //stores the name of activeSceneElement
+SceneElement activeElement;     //stores the actual activeSceneElement
 
 void setup() {
   String path = sketchPath + "/data"; // path to media folder
@@ -87,6 +89,19 @@ void draw() {
 
   // draws the canvas
   canvas.drawDropCanvas();
+  drawSceneElements();
+  
+  // check if SceneElement has been selected, as long
+  // as the mouse is within the boundaries of the canvas
+  if(canvas.mouseIsWithinDropCanvas() && mousePressed){
+    activeElement=selectSceneElement();
+  }
+  
+  // if an element has been selected, then change
+  // the visual properties of that element
+  if(activeElement!=null){
+    activeElement.hasBeenSelected();
+  }
 
   // checks to see if the mouse is over the controller
   // if the mouse is not dragging an item, the cursor

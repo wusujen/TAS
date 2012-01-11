@@ -93,10 +93,6 @@ void controlEvent(ControlEvent theEvent) {
     // retrieve the respective item name from the itemName array
     val=int(theEvent.group().value());
     clickedItemName=itemNames[val];
-   
-    // if the event is just a simple click
-    // remove the dropped item
-    canvas.removeDroppedItem();
     
     // up the dragList by 1, to keep track of what 
     // has been dragged & add an Item to the dragToList
@@ -104,7 +100,12 @@ void controlEvent(ControlEvent theEvent) {
     dragToList.addItem(clickedItemName,dragListID);
   }
   else{
-    println(theEvent.controller().name());
+    // This is currently in place b/c of the buttons created
+    // But actually, we should just be able to use the 2nd and
+    // 3rd lines to selecte the scene element
+    //activeSceneElement=theEvent.controller().name();
+    //activeElement=canvas.getSceneElementByName(activeSceneElement);
+    //activeElement.selectSceneElement();
   }
 }
 
@@ -119,4 +120,3 @@ void mouseDragged(){
 void mouseReleased(){
   canvas.detectDroppedItem();
 }
-

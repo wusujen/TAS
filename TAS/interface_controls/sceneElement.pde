@@ -26,9 +26,28 @@ class SceneElement {
     transition=objTransition;
   }
   
+  // this draws an actual rectangle instead of a button
+  // later we can pass in PImages, and other parameters
   void drawSceneElement(){
-    Button b;
-    controlP5.addButton(name,val,xPos,yPos,w,h);
+    // the button code, just in case we need it again
+    // Button b;
+    // controlP5.addButton(name,val,xPos,yPos,w,h);
+    
+    fill(0);
+    rect(xPos,yPos,w,h);
+    
+    fill(255);
+    text(name,xPos,yPos);
+  }
+  
+  
+  // this changes the visual appearance of the object
+  void hasBeenSelected(){
+    stroke(255,0,0);
+    fill(0);
+    rect(xPos,yPos,w,h);
+    fill(255,0,0);
+    text(name,xPos,yPos);
   }
   
   // this function is namely for testing purposes to see
@@ -64,13 +83,17 @@ class SceneElement {
     xPos=newX;
     yPos=newY;
   }
-  // don't know if we'll need this updateScene(). To add media to a different scene, I think they'll
-  // remove from one and add it to another (ashton)
-  void updateScene(int newSceneNumber){
-    scene=newSceneNumber;
-  }
   void updateTransition(String newTransition){
     transition=newTransition;
+  }
+  
+  
+  // this boolean returns true of mouse is over the sceneElement
+  boolean isMouseOver(int mX, int mY){
+    if((mX>xPos) && (mX<xPos+w) && (mY>yPos) && (mY<yPos+h)){
+    return true;
+    }
+    return false;
   }
 }
 
