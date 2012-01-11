@@ -1,10 +1,11 @@
  // this draws all of the scene elements that
  // currently exist in the sceneElementArray
  void drawSceneElements(){
+    SceneElement drawIt;
     for(int i=0;i<sceneElementArray.size();i++){
-      SceneElement drawIt=(SceneElement) sceneElementArray.get(i);
+      drawIt=(SceneElement) sceneElementArray.get(i);
       drawIt.drawSceneElement();
-    }
+    }    
   }
   
 
