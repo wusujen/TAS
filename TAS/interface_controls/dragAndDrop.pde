@@ -3,6 +3,7 @@
  media folder contents and stores the names
  into an array for further use
 *=========================================*/
+/*
 void createMediaList(String[] itemNameArray){
   controlP5 = new ControlP5(this);
   mediaList = controlP5.addListBox("mediaList",50,50,120,300);
@@ -18,6 +19,26 @@ void createMediaList(String[] itemNameArray){
     mediaList.addItem(itemNameArray[i],i);
   }
 }
+*/
+
+void drawLibrary(ArrayList media, String title,  int id, int libY){
+  controlP5 = new ControlP5(this);
+  mediaList = controlP5.addListBox("mediaList", libX , libY , libW, libH);
+  mediaList.setId(id);
+  mediaList.setItemHeight(15);
+  mediaList.setBarHeight(15);
+  mediaList.captionLabel().toUpperCase(true);
+  mediaList.captionLabel().set(title);
+  
+  mediaList.captionLabel().style().marginTop = 3;
+  mediaList.valueLabel().style().marginTop = 3; // the +/- sign
+  
+  for(int i=0;i<media.size();i++) {
+    String raisin =(String) media.get(i);
+    mediaList.addItem(raisin,i);
+  }
+}
+
 
 /*========  createMediaList  =============*
   resets the color of the clicked item

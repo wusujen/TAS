@@ -4,13 +4,19 @@ import proxml.*;
 ControlP5 controlP5;
 ListBox mediaList;
 ListBox dragToList;
+
+int libX = 50;              // Media Library dimensions
+int libY = 50;              // lib Y will change dynamically
+int libW = 120;
+int libH = 300;
+
 Textlabel label;
 CColor defaultColor;
 DropCanvas canvas;
 ArrayList fileObjectArray;
 
-// array of file types from /media folder
-ArrayList imageFiles;
+ArrayList allFiles;            // global array of files loaded from media folder...
+ArrayList imageFiles;          // ...broken down by filetype
 ArrayList audioFiles;
 ArrayList movieFiles;
 ArrayList otherFiles;
@@ -29,7 +35,6 @@ boolean mouseDragging=false;    // check to see if mouse is dragging
 boolean clickOnController;      // check to see if the mouse is over the controller
 
 
-String listTitle="Media Files"; // stores the title of the media List
 String clickedItemName;         // stores the name of the item clicked from mediaList
 int val;                        // stores the id of the item clicked from mediaList
 
@@ -44,41 +49,54 @@ int canvasHeight = 600;
 boolean onCanvas;               // check that t 
 
 void setup() {
-  String path = sketchPath + "/data"; // path to media folder
+  
+  // initialize arrays to hold filenames from media folder
+  // these will populate the MediaLists and be checked against the 
+  // xml file loaded in to see if any node should be removed.
+  allFiles = new ArrayList();
+  imageFiles = new ArrayList();
+  audioFiles = new ArrayList();
+  movieFiles = new ArrayList();
+  otherFiles = new ArrayList();
+  
+  // path to media folder
+  String path = sketchPath + "/data";
+  // draw the applet
   size(appWidth, appHeight);
-  println(path);
-  
-  
-  //check all files types in /data folder (save them to separate arrays?)
+
+  //check all files types in media folder
+  // and save them to separate global arrays
   checkFileTypes();
+  
   // then take the image files and preload them
   // do something else with audio and image files
   
+
   
-  // test to see if sketch is picking up the files
-  println("Listing all filenames in a directory: ");
+  // test to see if sketch is picking up the files  TODO: check if this is necessary
+  //println("Listing all filenames in a directory: ");
   String[] filenames = listFileNames(path);
   itemNames=filenames;
-  println(filenames);
+  //println(filenames);
 
   //initialize dropCanvas
   canvas=new DropCanvas(255, 180, canvasX, canvasY, canvasWidth, canvasHeight);
   //initialize fileObjectArray
   fileObjectArray=new ArrayList();
-  // initialize file types arrays
-  imageFiles = new ArrayList();
-  audioFiles = new ArrayList();
-  movieFiles = new ArrayList();
-  otherFiles = new ArrayList();
+
+  
   // create the initial media list from media folder
-  createMediaList(itemNames);
+  //createMediaList(itemNames);
+  
+  drawLibrary(imageFiles, "Image Files", 1, libY);
+  
+  
   // create the empty drag to List
   createDragToList();
   // let dropListItems know what the max number of items can be
   // load XML file
   loadXMLFile();
 
-  
 }
 
 void draw() {
@@ -96,46 +114,3 @@ void draw() {
     dragCursor(int(mouseX), int(mouseY), 120, 15);
   }
 }
-
-
-// use this function to categorize everything in the /data folder before dong anything else with it
-void checkFileTypes() {
-  String path = sketchPath + "/data"; // path to media folder
-  File[] fileInfo = listFiles(path);
-  itemInfo = fileInfo;
-  
-  // loop through all files and list only the name
-  for(int i =0; i<itemInfo.length; i++) {
-    String mediaFileName = itemInfo[i].getName();
-    
-    // check for acceptable image formats
-    if( (mediaFileName.endsWith("png")) || (mediaFileName.endsWith("jpg")) || (mediaFileName.endsWith("jpeg")) || mediaFileName.endsWith("gif") ){  
-      //println("image file: " + mediaFileName);
-      File imageFiles =(File) itemInfo[i];
-      println("Image Files: " + imageFiles);
-    }
-    
-    // check for accetable audio formats
-    if( (mediaFileName.endsWith("aif")) || (mediaFileName.endsWith("mp3")) ){  
-      //println("audio file: " + mediaFileName);
-      File audioFiles =(File) itemInfo[i];
-      println("Audio Files: " + audioFiles);
-    }
-    
-    // check for acceptable movie formats
-    if( (mediaFileName.endsWith("mov")) || (mediaFileName.endsWith("mp4")) ){  
-      //println("movie file: " + mediaFileName);
-      File movieFiles =(File) itemInfo[i];
-      println("Movie Files: " + movieFiles);
-    }
-    
-    // finally check for all other formats
-    else if (mediaFileName.endsWith("xml")){  
-      //println("other media: " + mediaFileName);
-      File otherFiles =(File) itemInfo[i];
-      println("Other Files: " + otherFiles);
-    }
-  }
-  
-}
-
