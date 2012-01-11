@@ -49,9 +49,6 @@ class DropCanvas {
    ====================================================*/
   void detectDroppedItem() {
     if (mouseX>xPos && mouseX<xPos+w && mouseY>yPos && mouseY<yPos+h && clickedItemName!=null) {
-      // change the color of the mediaList item
-      resetMediaListItemColor(color(230), color(230), color(240), color(180));
-
       // create a new label name for each label
       // this should be changed later into drawSceneElement() 
       labelName="label"+val;

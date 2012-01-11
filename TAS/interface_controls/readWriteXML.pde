@@ -114,11 +114,6 @@ void drawFromXML(ArrayList sceneElementArray) {
   for(int i = 0; i < sceneElementArray.size(); i++) {
     SceneElement pie=(SceneElement) sceneElementArray.get(i);
     pie.drawSceneElement();
-    // change color of media in MediaList if the item has been drawn to the canvas
-    mediaList.item(pie.name).setColorBackground(color(230));
-    mediaList.item(pie.name).setColorForeground(color(230));
-    mediaList.item(pie.name).setColorActive(color(240));
-    mediaList.item(pie.name).setColorLabel(color(180));
     println(pie);
   }
   println("Media drawn to canvas");

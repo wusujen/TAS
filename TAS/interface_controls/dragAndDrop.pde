@@ -19,17 +19,6 @@ void createMediaList(String[] itemNameArray){
   }
 }
 
-/*========  createMediaList  =============*
-  resets the color of the clicked item
-  in the Media List listBox.
-*=========================================*/
-void resetMediaListItemColor(color bg, color fg, color active, color labelText){
-      mediaList.item(clickedItemName).setColorBackground(bg);
-      mediaList.item(clickedItemName).setColorForeground(fg);
-      mediaList.item(clickedItemName).setColorActive(active);
-      mediaList.item(clickedItemName).setColorLabel(labelText);
-}
-
 /*========  createDragToList  =============*
  creates the list which represents the canvas
  the media files will eventually rest on.
@@ -65,18 +54,6 @@ void dragCursor(int x, int y, int w, int h){
   rect(x,y,w,h);
 }
 
-/*====== resetClickedItemToDefault =======*
- this is used to reset the mediaItems to
- their default color, as well as remove
- the items from the dropCanvas when the
- items are clicked again.
-*=========================================*/
-// TODO: rename this function to removeMedia
-// and also call it when the item is dragged off the canvas
-void resetClickedItemToDefault(String itemName){
-  resetMediaListItemColor(color(0,54,82), color(0,105,140), color(8,162,207), color(255,255,255));
-  controlP5.remove("label"+val);
-}
 
 /*======  controlEvent(mediaList)  =======*
  this controlEvent applies to mediaList only.
@@ -98,14 +75,6 @@ void controlEvent(ControlEvent theEvent) {
     // has been dragged & add an Item to the dragToList
     dragListID=dragListID+1;
     dragToList.addItem(clickedItemName,dragListID);
-  }
-  else{
-    // This is currently in place b/c of the buttons created
-    // But actually, we should just be able to use the 2nd and
-    // 3rd lines to selecte the scene element
-    //activeSceneElement=theEvent.controller().name();
-    //activeElement=canvas.getSceneElementByName(activeSceneElement);
-    //activeElement.selectSceneElement();
   }
 }
 
