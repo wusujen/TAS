@@ -15,8 +15,17 @@ int libW = 200;
 int libH = 300;
 
 ControlP5 controlP5;
+
 ListBox mediaList;   // TODO necessary?
 ListBox dragToList;   // testing
+
+ListBox mediaList;
+ListBox dragToList;
+Textlabel label;
+CColor defaultColor;
+DropCanvas canvas;
+ArrayList sceneElementArray;
+
 
 ArrayList allFiles;            // global array of files loaded from media folder...
 ArrayList imageFiles;          // ...broken down by filetype
@@ -40,10 +49,13 @@ String[] itemNames;             // stores names of items from media folder for l
 File[] itemInfo;                // sotres File information of items from media folder
 int dropListID=0;               // stores how many items have been added to dropCanvas
 int dragListID=0;               // stores how many items have been added to drag list
-int itemClicked=0;              // stores the first time that a listBoxItem is clicked
 boolean mouseDragging=false;    // check to see if mouse is dragging
 boolean clickOnController;      // check to see if the mouse is over the controller
 
+
+
+String listTitle="Media Files"; // stores the title of the media List
+ArrayList placedItems;          // stores all clickedItems/ items placed on the canvas. (not yet implemented)
 
 String clickedItemName;         // stores the name of the item clicked from mediaList
 int val;                        // stores the id of the item clicked from mediaList
@@ -51,6 +63,9 @@ int val;                        // stores the id of the item clicked from mediaL
 
 
 
+
+String activeSceneElement;      //stores the name of activeSceneElement
+SceneElement activeElement;     //stores the actual activeSceneElement
 
 void setup() {
     // path to media folder
@@ -87,10 +102,20 @@ void setup() {
 
   //initialize dropCanvas
   canvas=new DropCanvas(255, 180, canvasX, canvasY, canvasWidth, canvasHeight);
+  
   //initialize fileObjectArray
+  // hummmmm check this
   fileObjectArray=new ArrayList();
 
   
+  //initialize sceneElementArray
+  sceneElementArray=new ArrayList();
+  // initialize file types arrays
+  imageFiles = new ArrayList();
+  audioFiles = new ArrayList();
+  movieFiles = new ArrayList();
+  otherFiles = new ArrayList();
+
   // create the initial media list from media folder
   //createMediaList(itemNames);
   MediaLibrary imageLib = new MediaLibrary(imageFiles, "Images", 1);
@@ -111,6 +136,19 @@ void draw() {
 
   // draws the canvas
   canvas.drawDropCanvas();
+  drawSceneElements();
+  
+  // check if SceneElement has been selected, as long
+  // as the mouse is within the boundaries of the canvas
+  if(canvas.mouseIsWithinDropCanvas() && mousePressed){
+    activeElement=selectSceneElement();
+  }
+  
+  // if an element has been selected, then change
+  // the visual properties of that element
+  if(activeElement!=null){
+    activeElement.hasBeenSelected();
+  }
 
   // checks to see if the mouse is over the controller
   // if the mouse is not dragging an item, the cursor

@@ -13,7 +13,7 @@ class DropCanvas {
   String firstClicked;            // stores the name of the first item that was clicked
   String labelName;               // stores the name of the last created label
   int fileNumber;                 // keeps track of what files a loop has gone through
-  int numberOfDroppedFiles=0;     // stores the total number of files in dropCanvas
+  int numberOfDroppedFiles=0;     // stores the total number of files in dropCanvas 
 
   DropCanvas(int dropCanvasStroke, int dropCanvasFill, int dropCanvasXPos, int dropCanvasYPos, int dropCanvasWidth, int dropCanvasHeight) {
     cs=dropCanvasStroke;
@@ -29,96 +29,71 @@ class DropCanvas {
     fill(cf);
     rect(xPos, yPos, w, h);
   }
+  
+  /*====== mouseIsWithinDropCanvas  ======*
+  // this returns true if mouse is within
+  // the bounds of dropCanvas
+  ========================================*/
+  boolean mouseIsWithinDropCanvas(){
+    if (mouseX>xPos && mouseX<xPos+w && mouseY>yPos && mouseY<yPos+h){
+      return true;
+    }
+    return false;
+  }
 
   /*=============   detectDroppedItem   ===============*
    // this function detects whether or not the item has
    // been dropped into the area of the dropCanvas, and if
-   // it has, create a fileObject and put it into the fileObjectArray
+   // it has, create a sceneElement and put it into the 
+   // sceneElementArray
    ====================================================*/
   void detectDroppedItem() {
     if (mouseX>xPos && mouseX<xPos+w && mouseY>yPos && mouseY<yPos+h && clickedItemName!=null) {
-      // change the color of the mediaList item
-      resetMediaListItemColor(color(230), color(230), color(240), color(180));
-
       // create a new label name for each label
-      // this should be changed later into drawFileObject() 
+      // this should be changed later into drawSceneElement() 
       labelName="label"+val;
-      //label = controlP5.addTextlabel(labelName, clickedItemName, mouseX, mouseY);
-      // increment the global hash before it's applied to the new fileObject
+      // label = controlP5.addTextlabel(labelName, clickedItemName, mouseX, mouseY);
+      // increment the global hash before it's applied to the new sceneElement
        hash++;
       // TODO: remove hardcoded variables for obj height, width, scene number, transition.
-      fileObjectArray.add(new FileObject(hash,clickedItemName, 0, 120, 15, mouseX, mouseY, 1, "none"));
-      FileObject cake=(FileObject) fileObjectArray.get(numberOfDroppedFiles);
-      cake.drawFileObject();
-      numberOfDroppedFiles=fileObjectArray.size();
-
-      // store the name of the first item that was clicked!
-      if (itemClicked==1) {
-        firstClicked=clickedItemName;
-        itemClicked=itemClicked+2;
-      }
+      sceneElementArray.add(new SceneElement(hash,clickedItemName, 0, 120, 15, mouseX, mouseY, 1, "none"));
+      SceneElement newSceneElement=(SceneElement) sceneElementArray.get(numberOfDroppedFiles);
+      newSceneElement.drawSceneElement();
+      numberOfDroppedFiles=sceneElementArray.size();
       
-      //Pass the new FileObject named cake to update XML
-      writeToXML(cake);
-      //println("after drop: file object array size: " + fileObjectArray.size());
+      //Pass the new SceneElement named cake to update XML
+      writeToXML(newSceneElement);
+      //println("after drop: file object array size: " + sceneElementArray.size());
     }
     mouseDragging=false;
     clickedItemName=null;
     val=0;
   }
 
-  /*========   removeDroppedItem   =========*
-   removes a fileObject that has been put into
-   dropCanvas and changes the color of the
-   listBoxItem
-   *=========================================*/
-  void removeDroppedItem() {
-    // loop through the fileObject array and check to see if the
-    // name of the currently clicked object matches any of those names
-    // if it does, then remove it and reset the listBoxItem color
-    for (int i=0; i<fileObjectArray.size(); i++) {
-      FileObject file=(FileObject) fileObjectArray.get(i);
-      String droppedObjectName=file.objName();
-      if ((clickedItemName==droppedObjectName) || (firstClicked==clickedItemName)) {
-        resetClickedItemToDefault(clickedItemName);
-        controlP5.remove(droppedObjectName);
-        fileObjectArray.remove(i);
-        numberOfDroppedFiles=fileObjectArray.size();
-        xmlRemoveItem(file);
-      }
-    }
-    // get the default color the first time the item is clicked
-    // increment the itemClicked to signify that the first item has been clicked
-    if (itemClicked==0) {
-      defaultColor=mediaList.item(clickedItemName).getColor();
-      itemClicked=itemClicked+1;
-    }
-  }
 
-
-  /*========   getfileObjectById   =========*
-   returns a fileObject when given an id.
+  /*========   getsceneElementById   =========*
+   returns a sceneElement when given an id.
    *=========================================*/
-  FileObject getFileObjectById(int id) {
-    FileObject file=(FileObject) fileObjectArray.get(id);
+  SceneElement getSceneElementById(int id) {
+    SceneElement file=(SceneElement) sceneElementArray.get(id);
     return file;
   }
 
 
-  /*=======   getfileObjectByName   =========*
-   returns a fileObject when given a name.
+  /*=======   getsceneElementByName   =========*
+   returns a sceneElement when given a name.
    currently does not perform a check for 
    null.
    *=========================================*/
-  FileObject getFileObjectByName(String name) {
-    FileObject sampleFile;
-    for (int i=0; i<fileObjectArray.size(); i++) {
-      sampleFile=(FileObject) fileObjectArray.get(i);
+  SceneElement getSceneElementByName(String name) {
+    SceneElement sampleFile;
+    for (int i=0; i<sceneElementArray.size(); i++) {
+      sampleFile=(SceneElement) sceneElementArray.get(i);
       if (name==sampleFile.objName()) {
         fileNumber=i;
       }
     }
-    FileObject file=(FileObject) fileObjectArray.get(fileNumber);
+    SceneElement file=(SceneElement) sceneElementArray.get(fileNumber);
     return file;
   }
 }

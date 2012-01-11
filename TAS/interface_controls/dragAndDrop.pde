@@ -50,6 +50,8 @@ void resetMediaListItemColor(color bg, color fg, color active, color labelText){
       mediaList.item(clickedItemName).setColorActive(active);
       mediaList.item(clickedItemName).setColorLabel(labelText);
 }
+=======
+
 
 /*========  createDragToList  =============*
  creates the list which represents the canvas
@@ -86,18 +88,6 @@ void dragCursor(int x, int y, int w, int h){
   rect(x,y,w,h);
 }
 
-/*====== resetClickedItemToDefault =======*
- this is used to reset the mediaItems to
- their default color, as well as remove
- the items from the dropCanvas when the
- items are clicked again.
-*=========================================*/
-// TODO: rename this function to removeMedia
-// and also call it when the item is dragged off the canvas
-void resetClickedItemToDefault(String itemName){
-  resetMediaListItemColor(color(0,54,82), color(0,105,140), color(8,162,207), color(255,255,255));
-  controlP5.remove("label"+val);
-}
 
 /*======  controlEvent(mediaList)  =======*
  this controlEvent applies to mediaList only.
@@ -114,18 +104,11 @@ void controlEvent(ControlEvent theEvent) {
     // retrieve the respective item name from the itemName array
     val=int(theEvent.group().value());
     clickedItemName=itemNames[val];
-   
-    // if the event is just a simple click
-    // remove the dropped item
-    canvas.removeDroppedItem();
     
     // up the dragList by 1, to keep track of what 
     // has been dragged & add an Item to the dragToList
     dragListID=dragListID+1;
     dragToList.addItem(clickedItemName,dragListID);
-  }
-  else{
-    println(theEvent.controller().name());
   }
 }
 
@@ -140,4 +123,3 @@ void mouseDragged(){
 void mouseReleased(){
   canvas.detectDroppedItem();
 }
-
