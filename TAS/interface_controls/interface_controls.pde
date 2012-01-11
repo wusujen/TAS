@@ -19,11 +19,8 @@ ControlP5 controlP5;
 ListBox mediaList;   // TODO necessary?
 ListBox dragToList;   // testing
 
-ListBox mediaList;
-ListBox dragToList;
 Textlabel label;
-CColor defaultColor;
-DropCanvas canvas;
+
 ArrayList sceneElementArray;
 
 
@@ -51,11 +48,6 @@ int dropListID=0;               // stores how many items have been added to drop
 int dragListID=0;               // stores how many items have been added to drag list
 boolean mouseDragging=false;    // check to see if mouse is dragging
 boolean clickOnController;      // check to see if the mouse is over the controller
-
-
-
-String listTitle="Media Files"; // stores the title of the media List
-ArrayList placedItems;          // stores all clickedItems/ items placed on the canvas. (not yet implemented)
 
 String clickedItemName;         // stores the name of the item clicked from mediaList
 int val;                        // stores the id of the item clicked from mediaList

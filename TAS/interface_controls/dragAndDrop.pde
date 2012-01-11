@@ -50,7 +50,6 @@ void resetMediaListItemColor(color bg, color fg, color active, color labelText){
       mediaList.item(clickedItemName).setColorActive(active);
       mediaList.item(clickedItemName).setColorLabel(labelText);
 }
-=======
 
 
 /*========  createDragToList  =============*

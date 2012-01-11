@@ -1,8 +1,3 @@
-/*==============  fileObject =============*
- when dropped onto the canvas, the Drop
- Canvas creates this object and puts it
- into an Arraylist of these objects.
- *=========================================*/ 
 class MediaLibrary {
   ArrayList mediaArray;
   String title;
