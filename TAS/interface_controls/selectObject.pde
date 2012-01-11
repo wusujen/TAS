@@ -9,7 +9,7 @@
   }
   
 
-/*=============   detectDroppedItem   ===============*
+/*=============   selectScenElement   ===============*
    Check to see if mouse is over a sceneElement. If
    it is, then change the color properties of the
    element.
@@ -23,9 +23,7 @@
         println(element.objName());
         return element;
       }
-      else{
-        println("mouse was not over anything");
-      }
     }
     return null;
   }
+

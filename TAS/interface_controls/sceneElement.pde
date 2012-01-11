@@ -13,6 +13,7 @@ class SceneElement {
   int yPos;
   int scene;
   String transition;
+  CloseButton c;
 
   SceneElement(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
     hash=objHash;
@@ -24,6 +25,7 @@ class SceneElement {
     yPos=objY;
     scene=objScene;
     transition=objTransition;
+    c=new CloseButton(w+xPos,yPos,1,1,12);
   }
   
   // this draws an actual rectangle instead of a button
@@ -32,12 +34,15 @@ class SceneElement {
     // the button code, just in case we need it again
     // Button b;
     // controlP5.addButton(name,val,xPos,yPos,w,h);
-    
+    stroke(0);
     fill(0);
     rect(xPos,yPos,w,h);
     
-    fill(255);
+    fill(0);
+    textSize(10);
+    textAlign(LEFT,BOTTOM);
     text(name,xPos,yPos);
+    c.drawCloseButton();
   }
   
   
@@ -47,7 +52,10 @@ class SceneElement {
     fill(0);
     rect(xPos,yPos,w,h);
     fill(255,0,0);
+    textSize(10);
+    textAlign(LEFT,BOTTOM);
     text(name,xPos,yPos);
+    c.drawCloseButton();
   }
   
   // this function is namely for testing purposes to see
@@ -91,6 +99,72 @@ class SceneElement {
   // this boolean returns true of mouse is over the sceneElement
   boolean isMouseOver(int mX, int mY){
     if((mX>xPos) && (mX<xPos+w) && (mY>yPos) && (mY<yPos+h)){
+    return true;
+    }
+    return false;
+  }
+  
+  boolean isHoveringOverCloseButton(int mX, int mY){
+    if(c.isMouseOver(mX,mY)){
+      return true;
+    }
+    return false;
+  }
+  
+}
+
+class CloseButton{
+  int xPos;
+  int yPos; 
+  int wh; //width & height of the square closebutton
+  int marginTop;
+  int marginRight;
+  
+  
+  CloseButton(int xPosition, int yPosition, int mT, int mR,int widthAndHeight){
+    xPos=xPosition;
+    yPos=yPosition;
+    marginTop=mT;
+    marginRight=mR;
+    wh=widthAndHeight;
+  }
+  
+  void drawCloseButton(){
+    stroke(0);
+    fill(0);
+    rect(xPos-(wh+marginTop),yPos+marginRight,wh,wh);
+    
+    fill(255);
+    textAlign(CENTER,CENTER);
+    textSize(wh-(wh/5));
+    text("X",xPos-(wh/2),yPos+(wh/2));
+  }
+  
+  void drawHoverState(){
+    stroke(0);
+    fill(255,0,0);
+    rect(xPos-(wh+marginTop),yPos+marginRight,wh,wh);
+    
+    fill(255);
+    textAlign(CENTER,CENTER);
+    textSize(wh-(wh/5));
+    text("X",xPos-(wh/2),yPos+(wh/2));
+  }
+  
+  void drawPressedState(){
+    stroke(0);
+    fill(50);
+    rect(xPos-(wh+marginTop),yPos+marginRight,wh,wh);
+    
+    fill(255);
+    textAlign(CENTER,CENTER);
+    textSize(wh-(wh/5));
+    text("X",xPos-(wh/2),yPos+(wh/2));
+  }
+  
+  // this boolean returns true of mouse is over the sceneElement
+  boolean isMouseOver(int mX, int mY){
+    if((mX>xPos) && (mX<xPos) && (mY>yPos) && (mY<yPos)){
     return true;
     }
     return false;
