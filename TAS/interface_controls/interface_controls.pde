@@ -138,6 +138,7 @@ void draw() {
     activeElement.hasBeenSelected();
   }
 
+  drawPropertyPanel();
   // checks to see if the mouse is over the controller
   // if the mouse is not dragging an item, the cursor
   // does not appear

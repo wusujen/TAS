@@ -6,7 +6,7 @@
 class SceneElement {
   int hash;
   String name;
-  int trigger;
+  int trigger; //this int is no longer in use. Please refer to triggerList below
   int w;
   int h;
   int xPos;
@@ -15,6 +15,9 @@ class SceneElement {
   String transition;
   CloseButton c;
 
+  ArrayList triggerList; //this arraylist holds a set of integers, each corresponding to a trigger that has been turned "on".
+                         //the max number is 9.
+  
   SceneElement(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
     hash=objHash;
     name=objFilename;
@@ -26,6 +29,7 @@ class SceneElement {
     scene=objScene;
     transition=objTransition;
     c=new CloseButton(w+xPos,yPos,1,1,12);
+    triggerList= new ArrayList();
   }
   
   // this draws an actual rectangle instead of a button

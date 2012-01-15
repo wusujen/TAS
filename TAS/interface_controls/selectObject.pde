@@ -4,7 +4,9 @@
     SceneElement drawIt;
     for(int i=0;i<sceneElementArray.size();i++){
       drawIt=(SceneElement) sceneElementArray.get(i);
+      drawIt.displayProperties();
       drawIt.drawSceneElement();
+      println("error");
     }    
   }
   
