@@ -26,6 +26,7 @@ class MediaLibrary {
     
     mediaList.captionLabel().style().marginTop = 3;
     mediaList.valueLabel().style().marginTop = 3; // the +/- sign
+    println("media array size: "+ mediaArray.size());
     
     for(int i=0;i<mediaArray.size();i++) {
       String raisin =(String) mediaArray.get(i);

@@ -3,6 +3,17 @@ the placement and scale of media files saved in a designated folder.
 The output is saved as an XML file that will be read by a
 program created with openFrameworks.
 
+/***************************
+  TODO
+****************************/
+- Add a button to the interface that will save the scene and write to XML.
+- remove hash as the identifier for the SceneElement. Assign the identifier to the key position in the array.
+
+
+- add sceneList array to store values for 4 scene tabs
+- create global var for activeScene. This will pass its value to SceneElement when saved.
+- create global var for activeSceneElement. This is the SceneElement whose properties are written to from controls in the Properties panel. This SceneElement should also be indicated as "selected" somehow through the UI.
+
 
 /***************************
   Libraries & Documentation
@@ -10,8 +21,6 @@ program created with openFrameworks.
 Shapetween		http://www.leebyron.com/else/shapetween/
 ProXML				http://creativecomputing.cc/p5libs/proxml/
 controlP5			http://www.sojamo.de/libraries/controlP5/reference/index.html
-sDrop 				http://www.sojamo.de/libraries/drop/index.html
-
 
 
 /***************************
@@ -19,12 +28,9 @@ sDrop 				http://www.sojamo.de/libraries/drop/index.html
 ****************************/
 http://forum.processing.org/topic/use-controlp5-listbox-to-select-string
 
-
 load and Display images
 http://processing.org/learning/basics/loaddisplayimage.html
 
 Listing Files
 http://wiki.processing.org/w/Listing_files
 
-Java hidden files
-http://docs.oracle.com/javase/1.4.2/docs/api/java/io/File.html#isHidden()

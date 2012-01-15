@@ -81,6 +81,17 @@ void setup() {
   // and save them to separate global arrays
   checkFileTypes();
   
+  //initialize sceneElementArray
+  sceneElementArray=new ArrayList();
+
+
+  // create the initial media list from media folder
+  //createMediaList(itemNames);
+  MediaLibrary imageLib = new MediaLibrary(imageFiles, "Images", 1);
+  MediaLibrary audioLib = new MediaLibrary(audioFiles, "Audio", 2);
+  MediaLibrary movieLib = new MediaLibrary(movieFiles, "Movies", 3);
+  
+  
   // then take the image files and preload them
   // do something else with audio and image files
   
@@ -96,24 +107,9 @@ void setup() {
   canvas=new DropCanvas(255, 180, canvasX, canvasY, canvasWidth, canvasHeight);
   
   //initialize fileObjectArray
-  // hummmmm check this
-  fileObjectArray=new ArrayList();
+  //fileObjectArray=new ArrayList();
 
-  
-  //initialize sceneElementArray
-  sceneElementArray=new ArrayList();
-  // initialize file types arrays
-  imageFiles = new ArrayList();
-  audioFiles = new ArrayList();
-  movieFiles = new ArrayList();
-  otherFiles = new ArrayList();
 
-  // create the initial media list from media folder
-  //createMediaList(itemNames);
-  MediaLibrary imageLib = new MediaLibrary(imageFiles, "Images", 1);
-  MediaLibrary audioLib = new MediaLibrary(audioFiles, "Audio", 2);
-  MediaLibrary movieLib = new MediaLibrary(movieFiles, "Movies", 3);
-  
   
   // create the empty drag to List
   // createDragToList();

@@ -7,13 +7,12 @@ void checkFileTypes() {
   String path = sketchPath + "/data"; // path to media folder
   // store the files to loop in a local array
   String[] filesToLoop = listFileNames(path);
-   
+ 
   // loop through all files and list only the name
   for(int i =0; i<filesToLoop.length; i++) {
-    
+      
     // store the filename in a local var
     String mediaFileName = filesToLoop[i];
-    
     // add all media to global var
     allFiles.add(mediaFileName);
 
