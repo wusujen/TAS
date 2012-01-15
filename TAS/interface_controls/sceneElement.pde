@@ -87,12 +87,16 @@ class SceneElement {
   void updateTrigger(int newTrigger){
     trigger=newTrigger;
   }
-  void updateSize(int newWidth, int newHeight){
+  void updateWidth(int newWidth){
     w=newWidth;
+  }
+  void updateHeight(int newHeight){
     h=newHeight;
   }
-  void updatePosition(int newX, int newY){
+  void updateX(int newX){
     xPos=newX;
+  }
+  void updateY(int newY) {
     yPos=newY;
   }
   void updateTransition(String newTransition){
@@ -115,6 +119,24 @@ class SceneElement {
     return false;
   }
   
+  String getMyName(){
+    return name;
+  }
+  int getMyX(){
+    return xPos;
+  }
+  int getMyY(){
+    return yPos;
+  }
+  int getMyWidth(){
+    return w;
+  }
+  int getMyHeight(){
+    return h;
+  }
+  ArrayList getMyTriggerList(){
+    return triggerList;
+  }
 }
 
 class CloseButton{

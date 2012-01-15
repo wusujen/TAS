@@ -9,6 +9,9 @@ int canvasY = 100;
 int canvasWidth = 600;
 int canvasHeight = 600;
 
+int propertyPanelX=canvasX+canvasWidth+25;
+int propertyPanelY=canvasY;
+
 int libX = 50;                  // Media Library dimensions
 int libY = 50;              
 int libW = 200;
@@ -52,12 +55,10 @@ boolean clickOnController;      // check to see if the mouse is over the control
 String clickedItemName;         // stores the name of the item clicked from mediaList
 int val;                        // stores the id of the item clicked from mediaList
 
-
-
-
-
 String activeSceneElement;      //stores the name of activeSceneElement
 SceneElement activeElement;     //stores the actual activeSceneElement
+
+boolean doneLoading=false;      //is set to true when XML is done loading
 
 void setup() {
     // path to media folder
@@ -97,10 +98,18 @@ void setup() {
   
 
   
-  // test to see if sketch is picking up the files  TODO: check if this is necessary
+  // test to see if sketch is picking up the files 
   //println("Listing all filenames in a directory: ");
-  String[] filenames = listFileNames(path);
-  itemNames=filenames;
+  itemNames=new String[allFiles.size()];
+  for(int i=0;i<imageFiles.size();i++){
+    itemNames[i]=(String) imageFiles.get(i);
+  }
+  for(int i=0;i<audioFiles.size();i++){
+    itemNames[imageFiles.size()+i]=(String) audioFiles.get(i);
+  }
+  for(int i=0;i<movieFiles.size();i++){
+    itemNames[imageFiles.size()+audioFiles.size()+i]=(String) movieFiles.get(i);
+  }
   //println(filenames);
 
   //initialize dropCanvas
@@ -116,7 +125,12 @@ void setup() {
   // let dropListItems know what the max number of items can be
   // load XML file
   loadXMLFile();
-
+  
+  
+  //loads controlp5 parts of propertyPanel
+  setupPropertyPanel();
+  
+  doneLoading=true;
 }
 
 void draw() {
@@ -124,21 +138,23 @@ void draw() {
 
   // draws the canvas
   canvas.drawDropCanvas();
-  drawSceneElements();
+  if(doneLoading){
+    drawSceneElements();
+  }
   
   // check if SceneElement has been selected, as long
   // as the mouse is within the boundaries of the canvas
   if(canvas.mouseIsWithinDropCanvas() && mousePressed){
-    activeElement=selectSceneElement();
+    selectSceneElement();
   }
   
   // if an element has been selected, then change
   // the visual properties of that element
   if(activeElement!=null){
     activeElement.hasBeenSelected();
+    drawPropertyPanel();
   }
 
-  drawPropertyPanel();
   // checks to see if the mouse is over the controller
   // if the mouse is not dragging an item, the cursor
   // does not appear

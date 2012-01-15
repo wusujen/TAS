@@ -4,14 +4,12 @@
     SceneElement drawIt;
     for(int i=0;i<sceneElementArray.size();i++){
       drawIt=(SceneElement) sceneElementArray.get(i);
-      drawIt.displayProperties();
       drawIt.drawSceneElement();
-      println("error");
     }    
   }
   
 
-/*=============   selectScenElement   ===============*
+/*=============   selectSceneElement   ==============*
    Check to see if mouse is over a sceneElement. If
    it is, then change the color properties of the
    element.
@@ -21,10 +19,19 @@
     for(int i=0;i<sceneElementArray.size();i++){
       SceneElement element=(SceneElement) sceneElementArray.get(i);
       mouseIsOver=element.isMouseOver(mouseX,mouseY);
-      if(mouseIsOver && mousePressed){
-        println(element.objName());
+      if(mouseIsOver){
+        if (activeElement != element) {
+          println(element.objName());
+          activeElement=element;
+          populatePropertyPanel();
+        }
         return element;
       }
+    }
+    if(activeElement!=null){
+      println("deleselected"+activeElement.objName());
+      activeElement=null;
+      resetPropertyPanel();
     }
     return null;
   }

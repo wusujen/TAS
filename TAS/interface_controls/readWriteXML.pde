@@ -103,12 +103,15 @@ void initCanvas() {
   
   println("new file object array size: " + sceneElementArray.size());
   
-  drawFromXML(sceneElementArray);
+  // this function is not necessary as I am drawing the sceneElements
+  // already within draw.
+  // drawFromXML(sceneElementArray);
 }
 
+// this function is not necessary as I am drawing the sceneElements
+// already within draw.
+/*void drawFromXML(ArrayList sceneElementArray) {
 
-void drawFromXML(ArrayList sceneElementArray) {
-  
   ArrayList placedItems = new ArrayList(); 
   
   for(int i = 0; i < sceneElementArray.size(); i++) {
@@ -117,7 +120,7 @@ void drawFromXML(ArrayList sceneElementArray) {
     println(pie);
   }
   println("Media drawn to canvas");
-}
+}*/
 
 
 /*==============  writeToXML =============*

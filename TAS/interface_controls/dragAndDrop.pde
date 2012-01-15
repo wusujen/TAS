@@ -1,26 +1,3 @@
-/*========  createMediaList  =============*
- creates the initial media list from the
- media folder contents and stores the names
- into an array for further use
-*=========================================*/
-/*
-void createMediaList(String[] itemNameArray){
-  controlP5 = new ControlP5(this);
-  mediaList = controlP5.addListBox("mediaList",50,50,120,300);
-  mediaList.setId(1);
-  mediaList.setItemHeight(15);
-  mediaList.setBarHeight(15);
-  mediaList.captionLabel().toUpperCase(true);
-  mediaList.captionLabel().set(listTitle);
-  
-  mediaList.captionLabel().style().marginTop = 3;
-  mediaList.valueLabel().style().marginTop = 3; // the +/- sign
-  for(int i=0;i<itemNameArray.length;i++) {
-    mediaList.addItem(itemNameArray[i],i);
-  }
-}
-
-
 void drawLibrary(ArrayList media, String title,  int id, int libY){
   controlP5 = new ControlP5(this);
   mediaList = controlP5.addListBox("mediaList", libX , libY , libW, libH);
@@ -38,19 +15,6 @@ void drawLibrary(ArrayList media, String title,  int id, int libY){
     mediaList.addItem(raisin,i);
   }
 }
-*/
-
-/*========  createMediaList  =============*
-  resets the color of the clicked item
-  in the Media List listBox.
-*=========================================*/
-void resetMediaListItemColor(color bg, color fg, color active, color labelText){
-      mediaList.item(clickedItemName).setColorBackground(bg);
-      mediaList.item(clickedItemName).setColorForeground(fg);
-      mediaList.item(clickedItemName).setColorActive(active);
-      mediaList.item(clickedItemName).setColorLabel(labelText);
-}
-
 
 /*========  createDragToList  =============*
  creates the list which represents the canvas
@@ -108,6 +72,26 @@ void controlEvent(ControlEvent theEvent) {
     // has been dragged & add an Item to the dragToList
     dragListID=dragListID+1;
     dragToList.addItem(clickedItemName,dragListID);
+    return;
+  }
+  //println(theEvent.controller().name());
+  Controller controller=theEvent.controller();
+  for(int i=0; i<9; i++){
+    if(theEvent.controller().name().equals("bang"+i)){
+      println("clicked bang"+i);
+      ArrayList tList=activeElement.getMyTriggerList();
+      if(tList.contains(i)){
+        println("removed bang"+i);
+        tList.remove(tList.indexOf(i));
+        controller.setColorForeground(color(0));
+      }
+      else{
+        println("added bang"+i);
+        tList.add(i);
+        controller.setColorForeground(color(255,0,0));
+      }
+      return;
+    }
   }
 }
 
