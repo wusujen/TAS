@@ -58,8 +58,8 @@ void loadXMLNodes() {
     
   String filename;
   int number;
-  int w;
-  int h;
+  float w;
+  float h;
   int x;
   int y;
   int TriggerNum;
@@ -79,8 +79,8 @@ void loadXMLNodes() {
       x = pos.getIntAttribute("x");
       y = pos.getIntAttribute("y");
       dimensions = element.getChild(2);
-      w = dimensions.getIntAttribute("w"); 
-      h = dimensions.getIntAttribute("h");
+      w = dimensions.getFloatAttribute("w"); 
+      h = dimensions.getFloatAttribute("h");
       triggers = element.getChild(3);
       
       ArrayList myTriggers = new ArrayList();

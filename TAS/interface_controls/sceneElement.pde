@@ -5,19 +5,13 @@
  *=========================================*/
 class SceneElement {
   String name;
-  int w;
-  int h;
-  int xPos;
-  int yPos;
-  int scene;
   //String transition;
-  int trigger; //this int is no longer in use. Please refer to triggerList below
+  //int trigger; this int is no longer in use. Please refer to triggerList below
   float w;
   float h;
   int xPos;
   int yPos;
   int scene;
-  String transition;
 
   boolean bActivate;
   int mStartX, mStartY;  //store the position of the mouse when mouse has been pressed

@@ -1,3 +1,23 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<media/>
-
+<media>
+  <scene number="1">
+    <element>
+      <file filename="sitin.jpg"/>
+      <pos x="532" y="367"/>
+      <dimensions w="300.0" h="248.19276"/>
+      <triggers>
+        <trigger number="4"/>
+        <trigger number="5"/>
+      </triggers>
+    </element>
+    <element>
+      <file filename="swannhome-etch.jpeg"/>
+      <pos x="295" y="114"/>
+      <dimensions w="237.67705" h="209.75"/>
+      <triggers>
+        <trigger number="0"/>
+        <trigger number="4"/>
+      </triggers>
+    </element>
+  </scene>
+</media>
