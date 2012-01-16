@@ -71,9 +71,10 @@ void loadXMLNodes() {
     
     for(int j = 0; j < scene.countChildren(); j++) { // the number of elements in each scene
       
-      element = scene.getChild(i);
+      element = scene.getChild(j);
       file = element.getChild(0); 
       filename = file.getAttribute("filename");
+      println("filenames loaded " + filename);
       pos = element.getChild(1);
       x = pos.getIntAttribute("x");
       y = pos.getIntAttribute("y");
@@ -100,13 +101,14 @@ void loadXMLNodes() {
  Creates the XML file using the info
  from the SceneElement that's passed to it.
 *=========================================*/ 
-void saveXML(ArrayList elements) {
+void saveXML() {
   println("saveXML called");
+  ArrayList elements = sceneElementArray;
+
   boolean xmlDeleted = false;
   if(media.countChildren() > 0) {
     println("there are childre nodes in the XML and they must be removed");
     for(int i = media.countChildren()-1; i > -1; i--) { // remove each scene
-      println(i);
       media.removeChild(i);
       if (i == 0) {
         println("Old XML deleted. All clear to repopulate!");
@@ -117,7 +119,7 @@ void saveXML(ArrayList elements) {
      println("There never were any children!");
      xmlDeleted = true;
    }
-   
+ 
   if(xmlDeleted) {
   
    println("xml is deleted, work magic now."); 
@@ -130,9 +132,60 @@ void saveXML(ArrayList elements) {
     proxml.XMLElement scene = new proxml.XMLElement("scene"); 
     media.addChild(scene);
     scene.addAttribute("number", 1);
-   
-   
-    xmlIO.saveElement(media, "mediaoutput.xml");
-  }
+
+   for(int i = 0; i<elements.size(); i++) {
+      // get the SceneElement info for each item in the Array
+     SceneElement thisElement=(SceneElement) elements.get(i);
+     
+     //reconstruct the node
+     proxml.XMLElement element = new proxml.XMLElement("element");
+     proxml.XMLElement file = new proxml.XMLElement("file");
+     file.addAttribute("filename", thisElement.name);
+     proxml.XMLElement pos = new proxml.XMLElement("pos");
+     pos.addAttribute("x", thisElement.xPos);
+     pos.addAttribute("y", thisElement.yPos);
+     proxml.XMLElement dimensions = new proxml.XMLElement("dimensions");
+     dimensions.addAttribute("w", thisElement.w); 
+     dimensions.addAttribute("h", thisElement.h);  
+     proxml.XMLElement triggers = new proxml.XMLElement("triggers");
+     //proxml.XMLElement trigger = new proxml.XMLElement("trigger");
+
+     element.addChild(file);
+     element.addChild(pos);
+     element.addChild(dimensions);
+     element.addChild(triggers);
+        
+     // check for the number of items in the triggerList (ArrayList) and add elements accordingly.
+     /*ArrayList thisTriggerList = thisElement.triggerList;
+     int numTriggers = thisTriggerList.size();
+
+     for(int k = 0; k<numTriggers; k++) {
+       int triggerNum =(Integer) thisTriggerList.get(k);
+       new proxml.XMLElement("trigger");
+       triggers.addChild(trigger);
+       //trigger.addAttribute("number", triggerNum);
+     }
+     */
+     
+      
+      // find the assigned scene from SceneElement.scene attribute;
+      int assignedScene = thisElement.scene;
+      for (int j=0; j < media.countChildren(); j++) {  // go through all scene elements
+        // store the looped scene in a temporary variable loopedScene
+        proxml.XMLElement loopedScene = media.getChild(j);
+         //println("media child: " + loopedScene);
+         // save the number attribute of the scene
+         int sceneNum = loopedScene.getIntAttribute("number"); 
+          // if the looped Scene has the same attribute as the assignedScene from the SceneElement array... 
+          if (sceneNum == assignedScene) {
+            //.. then add this XML element within that scene
+             loopedScene.addChild(element);
+          }
+      }    
+      println(thisElement.name + " XML element created");
+   } 
+
+  } 
+  xmlIO.saveElement(media, "mediaoutput.xml");
 }
 

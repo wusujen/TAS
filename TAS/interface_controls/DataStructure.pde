@@ -58,7 +58,7 @@ String[] listFileNames(String dir) {
  calls the function to save the information 
  in SceneElementArray to the XML file.
 *=========================================*/
-public void save(int theValue) {
-  println("time to save the sketch");
-  saveXML(sceneElementArray);  
+public void save(int theValue) { // what is going on with this button.
+  println("button pushed to save the sketch");
+  saveXML();
 }
