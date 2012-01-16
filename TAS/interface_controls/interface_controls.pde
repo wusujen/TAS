@@ -121,7 +121,7 @@ void setup() {
 
 void draw() {
   background(200);
-
+  
   // draws the canvas
   canvas.drawDropCanvas();
   if (doneLoading) {

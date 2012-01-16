@@ -53,10 +53,30 @@ class DropCanvas {
       labelName="label"+val;
 
       // TODO: remove hardcoded variables for obj height, width, scene number, transition.
+
       //sceneElementArray.add(new SceneElement(clickedItemName, 0, 120, 15, mouseX, mouseY, 1, "none"));
-      sceneElementArray.add(new SceneElement(clickedItemName, 120, 15, mouseX, mouseY, 1, new ArrayList()));
+      //sceneElementArray.add(new SceneElement(clickedItemName, 120, 15, mouseX, mouseY, 1, new ArrayList()));
+
+      PImage myPImage=loadImage(clickedItemName);
+      println(myPImage.width +" , "+ myPImage.height);
+      float futureWidth;
+      float futureHeight;
+      float cWidth=float(myPImage.width);
+      float cHeight=float(myPImage.height);
+      if (cWidth>cHeight){
+        futureWidth=300;
+        futureHeight=300*(cHeight/cWidth);
+        println(futureHeight);
+      }
+      else{
+        futureHeight=300;
+        futureWidth=300*(cWidth/cHeight);
+        println(futureWidth);
+      }
+      sceneElementArray.add(new SceneElement(clickedItemName, 0, int(futureWidth), int(futureHeight), mouseX, mouseY, 1));
+
       SceneElement newSceneElement=(SceneElement) sceneElementArray.get(numberOfDroppedFiles);
-      newSceneElement.drawSceneElement();
+      //newSceneElement.drawSceneElement();
       numberOfDroppedFiles=sceneElementArray.size();
       
     }
