@@ -148,25 +148,26 @@ void saveXML() {
      dimensions.addAttribute("w", thisElement.w); 
      dimensions.addAttribute("h", thisElement.h);  
      proxml.XMLElement triggers = new proxml.XMLElement("triggers");
-     //proxml.XMLElement trigger = new proxml.XMLElement("trigger");
-
+    
+    // print the node
      element.addChild(file);
      element.addChild(pos);
      element.addChild(dimensions);
      element.addChild(triggers);
-        
-     // check for the number of items in the triggerList (ArrayList) and add elements accordingly.
-     /*ArrayList thisTriggerList = thisElement.triggerList;
-     int numTriggers = thisTriggerList.size();
-
-     for(int k = 0; k<numTriggers; k++) {
-       int triggerNum =(Integer) thisTriggerList.get(k);
-       new proxml.XMLElement("trigger");
-       triggers.addChild(trigger);
-       //trigger.addAttribute("number", triggerNum);
-     }
-     */
      
+     // Triggers are special, since the number of them vary.   
+     // check for the number of items in the triggerList (ArrayList) and add elements accordingly.
+     ArrayList thisTriggerList = thisElement.triggerList;
+     int numTriggers = thisTriggerList.size();
+     println("Number of Triggers: " + numTriggers);
+     for(int k = 0; k<numTriggers; k++) {
+       println(numTriggers + " triggers added for item in loop: " + k + " filename: " + thisElement.name);
+       int triggerNum =(Integer) thisTriggerList.get(k);
+       proxml.XMLElement trigger = new proxml.XMLElement("trigger");
+       trigger.addAttribute("number", triggerNum);
+       triggers.addChild(trigger);
+     }
+
       
       // find the assigned scene from SceneElement.scene attribute;
       int assignedScene = thisElement.scene;
@@ -182,7 +183,7 @@ void saveXML() {
              loopedScene.addChild(element);
           }
       }    
-      println(thisElement.name + " XML element created");
+      //println(thisElement.name + " XML element created");
    } 
 
   } 
