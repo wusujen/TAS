@@ -5,7 +5,6 @@
  *=========================================*/
 class SceneElement {
   String name;
-  //int trigger; 
   int w;
   int h;
   int xPos;
@@ -16,9 +15,8 @@ class SceneElement {
   ArrayList triggerList; //this arraylist holds a set of integers, each corresponding to a trigger that has been turned "on".
                          //the max number is 9.
   
-  SceneElement(String objFilename, int objWidth, int objHeight, int objX, int objY, int objScene, ArrayList objTriggers) { //TODO: add trigger to constructor
+  SceneElement(String objFilename, int objWidth, int objHeight, int objX, int objY, int objScene, ArrayList objTriggers) {
     name=objFilename;
-    //trigger=objTrigger;
     w=objWidth;
     h=objHeight;
     xPos=objX;
@@ -66,12 +64,11 @@ class SceneElement {
   void displayProperties(){
     println("success");
     println("name: "+name);
-    //println("trigger: "+trigger);
     println("width: "+w);
     println("height: "+h);
     println("x-position: "+xPos);
     println("y-position: "+yPos);
-
+    println("triggers: " + triggerList);
   }
   
   // this function returns the name of the given object

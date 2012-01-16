@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <media>
-	<scene number="1">
-		<element>
-			<file filename="test.jpg" />
-			<pos x="420" y="310" />
-			<dimensions w="230" h="15" />
-			<triggers>
-		      <trigger number="6" />
-		      <trigger number="7" />
-		    </triggers>
-		</element>
-	</scene>
+  <scene number="1">
+    <element>
+      <file filename="selmamarch.jpg"/>
+      <pos x="340" y="416"/>
+      <dimensions w="120" h="15"/>
+      <triggers/>
+    </element>
+  </scene>
 </media>

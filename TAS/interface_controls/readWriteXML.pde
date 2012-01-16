@@ -40,7 +40,7 @@ void xmlEvent(proxml.XMLElement element) {
  loadXMLNodes(); 
 }
 
-/*==============  loadXML =============*
+/*==============  loadXMLNodes =============*
  Traverse the XML file and redraw media files 
  as they were placed. Save each element in the XML
  file as a SceneElement in SceneElementArray();
@@ -48,10 +48,8 @@ void xmlEvent(proxml.XMLElement element) {
 void loadXMLNodes() {
   
   //media.printElementTree(" ");
- 
   proxml.XMLElement scene;
   proxml.XMLElement element;
-  
   proxml.XMLElement file;
   proxml.XMLElement pos;
   proxml.XMLElement dimensions;
@@ -59,7 +57,6 @@ void loadXMLNodes() {
   proxml.XMLElement trigger;
     
   String filename;
-  //String type;
   int number;
   int w;
   int h;
@@ -91,99 +88,51 @@ void loadXMLNodes() {
         myTriggers.add(trigger.getIntAttribute("number"));
       }
       
-      // add a new SceneElement to the array.
+      // add new SceneElement to the array.
       sceneElementArray.add(new SceneElement(filename, w, h, x, y, number, myTriggers));
- 
     }
-    
   }
-
   doneLoading=true;
-  
-  // this function is not necessary as I am drawing the sceneElements
-  // already within draw.
-  // drawFromXML(sceneElementArray);
 }
 
-// this function is not necessary as I am drawing the sceneElements
-// already within draw.
-/*void drawFromXML(ArrayList sceneElementArray) {
-
-  ArrayList placedItems = new ArrayList(); 
-  
-  for(int i = 0; i < sceneElementArray.size(); i++) {
-    SceneElement pie=(SceneElement) sceneElementArray.get(i);
-    pie.drawSceneElement();
-    println(pie);
-  }
-  println("Media drawn to canvas");
-}*/
 
 /*============== saveXML =============*
  Creates the XML file using the info
  from the SceneElement that's passed to it.
 *=========================================*/ 
 void saveXML(ArrayList elements) {
-  
+  println("saveXML called");
   boolean xmlDeleted = false;
-  //erase the existing file before rewriting.
-  for (int i = 0; i < media.countChildren(); i++) {
-    media.removeChild(i);
-    if (media.hasChildren() == false) {
-      xmlDeleted = true;
-    } 
-  }
-  
-  // if the file is clean, commense with repopulating it
-  if(xmlDeleted) {
-    
-    // iterate through sceneElementArray
-    
-    println("All clear! XML deleted.");
-  
-  }
-  
-  
-  /*
-  int sceneNum = node.scene;
-
-  proxml.XMLElement scene = new proxml.XMLElement("scene"); 
-    
-  media.getChild[sceneNum+1]; // TODO: find the scene that this node should be added to
-  
-  proxml.XMLElement file = new proxml.XMLElement("file");
-  proxml.XMLElement size = new proxml.XMLElement("dimensions");
-  proxml.XMLElement position = new proxml.XMLElement("pos");
-// check for the number of items in the triggerList (ArrayList)
-  proxml.XMLElement controls = new proxml.XMLElement("trigger");
-
-  
-    // record scene
-  scene.addAttribute("number", node.scene);
-  
-  // record filename and hash
-  file.addAttribute("filename", node.name);
-
-  // record size of media
-  size.addAttribute("w", node.w); 
-  size.addAttribute("h", node.h);  
-  // record position
-  position.addAttribute("x", node.xPos);
-  position.addAttribute("y", node.yPos);
-
-  // record trigger
-  controls.addAttribute("trigger", node.trigger);
-  
-   // assemble the node
-   media.addChild(scene);
-   scene.addChild(file);
-   file.addChild(trigger);
-   file.addChild(dimensions);
-   file.addChild(pos);
-    
+  if(media.countChildren() > 0) {
+    println("there are childre nodes in the XML and they must be removed");
+    for(int i = media.countChildren()-1; i > -1; i--) { // remove each scene
+      println(i);
+      media.removeChild(i);
+      if (i == 0) {
+        println("Old XML deleted. All clear to repopulate!");
+        xmlDeleted = true;
+      }
+     }
+   } else {
+     println("There never were any children!");
+     xmlDeleted = true;
+   }
    
-  println(node.name + " XML node created");
-  */
-  xmlIO.saveElement(media, "mediaoutput.xml");
+  if(xmlDeleted) {
+  
+   println("xml is deleted, work magic now."); 
+   
+    // Once scenes are dynamic, iterate through sceneArray.size()
+    // and construct a new scene element for each item, with a String 
+    // attribute for the name. NOT AN INTEGER! (this changes a lot of things).
+    // For now, we assume 1 scene and construct it manually
+    // outside of any loops.
+    proxml.XMLElement scene = new proxml.XMLElement("scene"); 
+    media.addChild(scene);
+    scene.addAttribute("number", 1);
+   
+   
+    xmlIO.saveElement(media, "mediaoutput.xml");
+  }
 }
 

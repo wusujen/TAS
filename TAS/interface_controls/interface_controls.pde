@@ -21,7 +21,12 @@ ControlP5 controlP5;
 ListBox mediaList;
 Button saveBtn;
 
+ArrayList sceneArray;          // holds an array of scenes--looped through when saving to XML
+String activeScene;            // stores the name of the activeScene;
+
 ArrayList sceneElementArray;
+String activeSceneElement;     //stores the name of activeSceneElement
+SceneElement activeElement;    //stores the actual activeSceneElement
 
 ArrayList allFiles;            // global array of files loaded from media folder...
 ArrayList imageFiles;          // ...broken down by filetype
@@ -44,9 +49,6 @@ boolean clickOnController;      // check to see if the mouse is over the control
 
 String clickedItemName;         // stores the name of the item clicked from mediaList
 int val;                        // stores the id of the item clicked from mediaList
-
-String activeSceneElement;      //stores the name of activeSceneElement
-SceneElement activeElement;     //stores the actual activeSceneElement
 
 boolean doneLoading=false;      //is set to true when XML is done loading
 
@@ -79,6 +81,9 @@ void setup() {
   MediaLibrary audioLib = new MediaLibrary(audioFiles, "Audio", 2);
   MediaLibrary movieLib = new MediaLibrary(movieFiles, "Movies", 3);
 
+  // initialize array to hold scene names
+  sceneArray = new ArrayList();
+
   // TODO: preload image files from imageLib;
 
   itemNames=new String[allFiles.size()];
@@ -102,7 +107,16 @@ void setup() {
 
   //loads controlp5 parts of propertyPanel
   setupPropertyPanel();
-  //doneLoading=true;  Moved to the end of the loadXMLNodes()
+  
+  //testing
+  println("---------------");
+  println("number of Scene Elements on load: " + sceneElementArray.size());
+  for(int i=0;i<sceneElementArray.size();i++){
+      SceneElement element=(SceneElement) sceneElementArray.get(i);
+      println(element.objName());
+  }
+  println("---------------");
+  // end testing
 }
 
 void draw() {
