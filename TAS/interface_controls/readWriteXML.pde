@@ -11,6 +11,21 @@ saved to data/mediaoutput.xml
  </file>
 </media>
 
+<media>
+ <scene number="1">
+   <element>
+			<file name="" type="" />
+			<trigger>
+                          <triggerNumber="" />
+                          <triggerNumber="" />
+                        </trigger>
+			<pos x="" y="" />
+			<dimensions w="" h= "" />
+    </element>
+  </scene>
+</media>
+
+
 */
 
 /*==============  loadXMLFile =============*
@@ -35,73 +50,71 @@ void loadXMLFile() {
 *=========================================*/ 
 void xmlEvent(proxml.XMLElement element) {
  media = element;
- proxml.XMLElement lastElement = media.lastChild();
- if(media.hasChildren()) {
-   int lastHash = lastElement.getIntAttribute("hash");
-   // set the global hash variable
-   hash = lastHash;
- }
- initCanvas(); 
+ //proxml.XMLElement lastElement = media.lastChild();
+ loadXMLNodes(); 
 }
 
-/*==============  initCanvas =============*
+/*==============  loadXML =============*
  Traverse the XML file and redraw media files 
- as they were placed.
+ as they were placed. Save each element in the XML
+ file as a SceneElement in SceneElementArray();
 *=========================================*/ 
-void initCanvas() {
+void loadXMLNodes() {
   
-  println("initCanvas() called");
-  //media.printElementTree(" ");
-  proxml.XMLElement file;
-  proxml.XMLElement controls;
-  proxml.XMLElement size;
-  proxml.XMLElement position;
+  println("loadXMLNodes() called");
+  
+  media.printElementTree(" ");
+ 
   proxml.XMLElement scene;
-  proxml.XMLElement transition;
+  proxml.XMLElement element;
   
+  proxml.XMLElement file;
+  proxml.XMLElement pos;
+  proxml.XMLElement dimensions;
+  proxml.XMLElement trigger;
+    
   String filename;
-  int hash;
-  int trigger;
+  //String type;
+  int triggerNumber;
   int w;
   int h;
-  int xPos;
-  int yPos;
-  int sceneNum;
-  String type;
+  int x;
+  int y;
+  int number;
+ 
   
-  println("intial file object array size: " + sceneElementArray.size());
-  
-  for(int i = 0; i < media.countChildren();i++){
-    file = media.getChild(i);
-    controls = file.getChild(0);
-    size = file.getChild(1);
-    position = file.getChild(2);
-    scene = file.getChild(3);
-    transition = file.getChild(4);
+  for(int i = 0; i < media.countChildren();i++){ // the number of scenes
     
-    // get filename and hash
-    filename = file.getAttribute("filename");
-    hash = file.getIntAttribute("hash");
-    // get trigger
-    trigger = controls.getIntAttribute("trigger");
-    // get size of media
-    w = size.getIntAttribute("width"); 
-    h = size.getIntAttribute("height");  
-    // get position
-    xPos = position.getIntAttribute("xPos");
-    yPos = position.getIntAttribute("yPos");
-    // get scene
-    sceneNum = scene.getIntAttribute("number");
-    // get transition
-    type = transition.getAttribute("type");
+    scene = media.getChild(i);
+    number = scene.getIntAttribute("number");
     
-    // add a new SceneElement to the array.
-    //SceneElement(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition)
-    sceneElementArray.add(new SceneElement(hash,filename, trigger, w, h, xPos, yPos, sceneNum, type));
-    // should this be the same SceneElementArray or a different one?
+    for(int j = 0; j < scene.countChildren(); j++) { // the number of elements in each scene
+      
+      element = scene.getChild(i);
+      file = element.getChild(0); 
+      filename = file.getAttribute("filename");
+      pos = file.getChild(1);
+      x = pos.getIntAttribute("x");
+      y = pos.getIntAttribute("y");
+      dimensions = file.getChild(2);
+      w = dimensions.getIntAttribute("w"); 
+      h = dimensions.getIntAttribute("h");
+      trigger = element.getChild(3);
+      /* TODO: add triggers to the array and load them into sceneElement Array
+      for (trigger.countChildren()) {  
+        ArrayList myTriggers = new ArrayList();
+        myTriggers.add(trigger.getIntAttribute("triggerNumber");
+      }
+      
+      */
+      // add a new SceneElement to the array.
+      sceneElementArray.add(new SceneElement(filename, w, h, x, y, number)); //TODO: add trigger to constructor  
+    }
+    
   }
   
   println("new file object array size: " + sceneElementArray.size());
+  doneLoading=true;
   
   // this function is not necessary as I am drawing the sceneElements
   // already within draw.
@@ -123,153 +136,71 @@ void initCanvas() {
 }*/
 
 
-/*==============  writeToXML =============*
- Called whenever the program should alter XML.
- Checks whether a hash already exists in XML,
- and therefore whether to create the new node
- before updating it.
+
+/*============== saveXML =============*
+ Creates the XML file using the info
+ from the SceneElement passed to it.
 *=========================================*/ 
-
-void writeToXML(SceneElement node){
-
-  int numFileNodes = media.countChildren();    // number of files saved to XML
-  int[] savedHashes = new int[numFileNodes];   // array of all XML hashes saved so far
-  int activeHash = node.hash;                  // hash of the selected object in sketch
-  Boolean nodeExists = false;                  // assume the node is new
-  int fileIndex = 0;                           // the index of the file to alter 
+void saveXML(ArrayList elements) {
   
- // loop through all nodes in XML
- // to find a possible matching hash
-  for (int i=0; i<numFileNodes; i++) {
-    proxml.XMLElement loopFile = media.getChild(i);   // the current file
-    int loopHash = loopFile.getIntAttribute("hash");  // value of the current file hash
-    savedHashes[i] = loopHash;                        // add the file hash to the array  
-    // if the array contains the active hash
-    // nodeExists is actually true! 
-    if(savedHashes[i] == activeHash) {
-      nodeExists = true;
-      fileIndex = i;
-      println(node.name + "Node exists and must be updated"); 
-    }  
+  boolean xmlDeleted = false;
+  //erase the existing file before rewriting.
+  for (int i = 0; i < media.countChildren(); i++) {
+    media.removeChild(i);
+    if (media.hasChildren() == false) {
+      xmlDeleted = true;
+    } 
   }
-
- // So logic tells us...
- // if the node is new, first create it.
-  if(nodeExists == false) {
-     println("This node needs to be created");
-     xmlCreate(node);
-  } else {
-    // otherwise, just update it with new values
-    // from the SceneElement we're passing in
-    xmlUpdate(node, fileIndex);
+  
+  // if the file is clean, commense with repopulating it
+  if(xmlDeleted) {
+    
+    // iterate through sceneElementArray
+  println("all clear!");
+  
   }
-}
+  
+  
+  /*
+  int sceneNum = node.scene;
 
-
-/*============== xmlCreate =============*
- Creates a new XML file using the info
- from the node SceneElement passed to it.
-*=========================================*/ 
-void xmlCreate(SceneElement node) {
-  proxml.XMLElement file = new proxml.XMLElement("file");
-  proxml.XMLElement controls = new proxml.XMLElement("controls");
-  proxml.XMLElement size = new proxml.XMLElement("size");
-  proxml.XMLElement position = new proxml.XMLElement("position");
   proxml.XMLElement scene = new proxml.XMLElement("scene"); 
-  proxml.XMLElement transition = new proxml.XMLElement("transition");
+    
+  media.getChild[sceneNum+1]; // TODO: find the scene that this node should be added to
+  
+  proxml.XMLElement file = new proxml.XMLElement("file");
+  proxml.XMLElement size = new proxml.XMLElement("dimensions");
+  proxml.XMLElement position = new proxml.XMLElement("pos");
+// check for the number of items in the triggerList (ArrayList)
+  proxml.XMLElement controls = new proxml.XMLElement("trigger");
+
+  
+    // record scene
+  scene.addAttribute("number", node.scene);
   
   // record filename and hash
   file.addAttribute("filename", node.name);
-  file.addAttribute("hash", node.hash);
+
+  // record size of media
+  size.addAttribute("w", node.w); 
+  size.addAttribute("h", node.h);  
+  // record position
+  position.addAttribute("x", node.xPos);
+  position.addAttribute("y", node.yPos);
+
   // record trigger
   controls.addAttribute("trigger", node.trigger);
-  // record size of media
-  size.addAttribute("width", node.w); 
-  size.addAttribute("height", node.h);  
-  // record position
-  position.addAttribute("xPos", node.xPos);
-  position.addAttribute("yPos", node.yPos);
-  // record scene
-  scene.addAttribute("number", node.scene);
-  // record transition
-  transition.addAttribute("type", node.transition);
   
    // assemble the node
-   media.addChild(file);
-   file.addChild(controls);
-   file.addChild(size);
-   file.addChild(position);
-   file.addChild(scene);
-   file.addChild(transition); 
+   media.addChild(scene);
+   scene.addChild(file);
+   file.addChild(trigger);
+   file.addChild(dimensions);
+   file.addChild(pos);
     
-   xmlIO.saveElement(media, "mediaoutput.xml");
-  
+   
   println(node.name + " XML node created");
+  */
+  xmlIO.saveElement(media, "mediaoutput.xml");
 }
 
-
-/*============== xmlUpdate =============*
- Updates an XML file using the info
- from the node SceneElement passed to it and
- and the index of that XML file from the loop
- performed in writeToXML().
-*=========================================*/ 
-void xmlUpdate(SceneElement node, int index) {
-  
-  // indicate which file you want to update
-  proxml.XMLElement file = media.getChild(index);
-  proxml.XMLElement controls = file.getChild(0);
-  proxml.XMLElement size = file.getChild(1);
-  proxml.XMLElement position = file.getChild(2);
-  proxml.XMLElement scene = file.getChild(3);
-  proxml.XMLElement transition = file.getChild(4);
-  
-  // record filename and hash
-  file.addAttribute("filename", node.name);
-  file.addAttribute("hash", node.hash);
-  // record trigger
-  controls.addAttribute("trigger", node.trigger);
-  // record size of media
-  size.addAttribute("width", node.w); 
-  size.addAttribute("height", node.h);  
-  // record position
-  position.addAttribute("xPos", node.xPos);
-  position.addAttribute("yPos", node.yPos);
-  // record scene
-  scene.addAttribute("number", node.scene);
-  // record transition
-  transition.addAttribute("type", node.transition);
-      
-  // assemble the node (this may not be neccessary in the update function
- //media.addChild(file);
- //file.addChild(controls);
- //file.addChild(size);
- //file.addChild(position);
- //file.addChild(scene);
- //file.addChild(transition);  
-
- 
- xmlIO.saveElement(media, "mediaoutput.xml");
- 
- println(node.name + " XML file updated");
-}
-  
-
-/*============== xmlRemoveItem =============*
- Deletes an item from the XML file.
-*=========================================*/ 
-void xmlRemoveItem(SceneElement node){ 
- // remove the node with sceneElement hash = file.getAttribute("hash");
- int hashToRemove = node.hash;
- println("hash to remove: " + hashToRemove);
- for (int i=0; i<media.countChildren(); i++) {
-     proxml.XMLElement file = media.getChild(i);
-     int hash = file.getIntAttribute("hash");
-     if (hash == hashToRemove) {
-        media.removeChild(i);
-      }
-      // save the XML file
-      xmlIO.saveElement(media, "mediaoutput.xml");
-    }
-   println(node.hash + " " + node.name + " XML: object removed from canvas"); 
-}

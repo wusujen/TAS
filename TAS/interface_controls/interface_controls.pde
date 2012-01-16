@@ -20,12 +20,11 @@ int libH = 300;
 ControlP5 controlP5;
 
 ListBox mediaList;   // TODO necessary?
-ListBox dragToList;   // testing
+Button saveBtn;
 
 Textlabel label;
 
 ArrayList sceneElementArray;
-
 
 ArrayList allFiles;            // global array of files loaded from media folder...
 ArrayList imageFiles;          // ...broken down by filetype
@@ -33,12 +32,8 @@ ArrayList audioFiles;
 ArrayList movieFiles;
 ArrayList otherFiles;
 
-
-
 CColor defaultColor;
 DropCanvas canvas;
-ArrayList fileObjectArray;
-
 
 proxml.XMLElement media;        // xml element to store and load the media (must preface with library name)
 XMLInOut xmlIO;                
@@ -61,11 +56,11 @@ SceneElement activeElement;     //stores the actual activeSceneElement
 boolean doneLoading=false;      //is set to true when XML is done loading
 
 void setup() {
-    // path to media folder
+  // path to media folder
   String path = sketchPath + "/data";
   // draw the applet
   size(appWidth, appHeight);
-  
+
   // declare a global instance of ControlP5;
   controlP5 = new ControlP5(this);
   // initialize arrays to hold filenames from media folder
@@ -77,60 +72,48 @@ void setup() {
   audioFiles = new ArrayList();
   movieFiles = new ArrayList();
   otherFiles = new ArrayList();
-  
+
   //check all files types in media folder
   // and save them to separate global arrays
   checkFileTypes();
-  
+
   //initialize sceneElementArray
   sceneElementArray=new ArrayList();
-
 
   // create the initial media list from media folder
   //createMediaList(itemNames);
   MediaLibrary imageLib = new MediaLibrary(imageFiles, "Images", 1);
   MediaLibrary audioLib = new MediaLibrary(audioFiles, "Audio", 2);
   MediaLibrary movieLib = new MediaLibrary(movieFiles, "Movies", 3);
-  
-  
+
   // then take the image files and preload them
   // do something else with audio and image files
-  
 
-  
-  // test to see if sketch is picking up the files 
-  //println("Listing all filenames in a directory: ");
   itemNames=new String[allFiles.size()];
-  for(int i=0;i<imageFiles.size();i++){
+  for (int i=0;i<imageFiles.size();i++) {
     itemNames[i]=(String) imageFiles.get(i);
   }
-  for(int i=0;i<audioFiles.size();i++){
+  for (int i=0;i<audioFiles.size();i++) {
     itemNames[imageFiles.size()+i]=(String) audioFiles.get(i);
   }
-  for(int i=0;i<movieFiles.size();i++){
+  for (int i=0;i<movieFiles.size();i++) {
     itemNames[imageFiles.size()+audioFiles.size()+i]=(String) movieFiles.get(i);
   }
-  //println(filenames);
 
   //initialize dropCanvas
   canvas=new DropCanvas(255, 180, canvasX, canvasY, canvasWidth, canvasHeight);
-  
-  //initialize fileObjectArray
-  //fileObjectArray=new ArrayList();
+  // load save Button
+  saveBtn = controlP5.addButton("save", 1 , appWidth - 100, appHeight - 50, 50, 20);
 
-
-  
-  // create the empty drag to List
-  // createDragToList();
-  // let dropListItems know what the max number of items can be
   // load XML file
   loadXMLFile();
-  
-  
+
+  println(sceneElementArray.size());
+
   //loads controlp5 parts of propertyPanel
   setupPropertyPanel();
-  
-  doneLoading=true;
+
+  //doneLoading=true;  Moved to the end of the loadXMLNodes()
 }
 
 void draw() {
@@ -138,29 +121,22 @@ void draw() {
 
   // draws the canvas
   canvas.drawDropCanvas();
-  if(doneLoading){
+  if (doneLoading) {
     drawSceneElements();
   }
-  
+
   // check if SceneElement has been selected, as long
   // as the mouse is within the boundaries of the canvas
-  if(canvas.mouseIsWithinDropCanvas() && mousePressed){
+  if (canvas.mouseIsWithinDropCanvas() && mousePressed) {
     selectSceneElement();
   }
-  
+
   // if an element has been selected, then change
   // the visual properties of that element
-  if(activeElement!=null){
+  if (activeElement!=null) {
     activeElement.hasBeenSelected();
     drawPropertyPanel();
   }
 
-  // checks to see if the mouse is over the controller
-  // if the mouse is not dragging an item, the cursor
-  // does not appear
-  /*clickOnController=controlP5.window(this).isMouseOver();
-  boolean isOpen=mediaList.isOpen();
-  if (clickOnController && mouseDragging && isOpen) {
-    dragCursor(int(mouseX), int(mouseY), 120, 15);
-  }*/
 }
+

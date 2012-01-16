@@ -16,24 +16,6 @@ void drawLibrary(ArrayList media, String title,  int id, int libY){
   }
 }
 
-/*========  createDragToList  =============*
- creates the list which represents the canvas
- the media files will eventually rest on.
-*=========================================*/
-void createDragToList(){
-  //controlP5 = new ControlP5(this);
-  dragToList = controlP5.addListBox("dragToList",200,50,120,300);
-  dragToList.setId(2);
-  dragToList.setItemHeight(15);
-  dragToList.setBarHeight(15);
-
-  dragToList.captionLabel().toUpperCase(true);
-  dragToList.captionLabel().set("Drag To List");
-  dragToList.captionLabel().style().marginTop = 3;
-  dragToList.valueLabel().style().marginTop = 3; // the +/- sig
-  dragToList.setColorBackground(color(164,170,183));
-  dragToList.setColorActive(color(140,140,140));
-}
 
 /*==============  dragCursor =============*
  this is the cursor that follows the mouse
@@ -61,7 +43,7 @@ void controlEvent(ControlEvent theEvent) {
   // checks to see if the group id matches the list we intend for it to.
   if (theEvent.isGroup() && theEvent.group().id()==1) {
     // check the value of the group
-    // println(theEvent.group().value()+" from "+theEvent.group());
+    println(theEvent.group().value()+" from "+theEvent.group());
     
     // set the val for future use as an item id &
     // retrieve the respective item name from the itemName array
@@ -71,7 +53,7 @@ void controlEvent(ControlEvent theEvent) {
     // up the dragList by 1, to keep track of what 
     // has been dragged & add an Item to the dragToList
     dragListID=dragListID+1;
-    dragToList.addItem(clickedItemName,dragListID);
+    //dragToList.addItem(clickedItemName,dragListID);
     return;
   }
   //println(theEvent.controller().name());

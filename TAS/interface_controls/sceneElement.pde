@@ -4,30 +4,27 @@
  into an Arraylist of these objects.
  *=========================================*/
 class SceneElement {
-  int hash;
   String name;
-  int trigger; //this int is no longer in use. Please refer to triggerList below
+  //int trigger; 
   int w;
   int h;
   int xPos;
   int yPos;
   int scene;
-  String transition;
+  //String transition;
   CloseButton c;
-
   ArrayList triggerList; //this arraylist holds a set of integers, each corresponding to a trigger that has been turned "on".
                          //the max number is 9.
   
-  SceneElement(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
-    hash=objHash;
+  SceneElement(String objFilename, int objWidth, int objHeight, int objX, int objY, int objScene) { //TODO: add trigger to constructor
     name=objFilename;
-    trigger=objTrigger;
+    //trigger=objTrigger;
     w=objWidth;
     h=objHeight;
     xPos=objX;
     yPos=objY;
     scene=objScene;
-    transition=objTransition;
+    //transition=objTransition;
     c=new CloseButton(w+xPos,yPos,1,1,12);
     triggerList= new ArrayList();
   }
@@ -66,15 +63,13 @@ class SceneElement {
   // the stats of each object
   void displayProperties(){
     println("success");
-    println("hash: "+hash);
     println("name: "+name);
-    println("trigger: "+trigger);
+    //println("trigger: "+trigger);
     println("width: "+w);
     println("height: "+h);
     println("x-position: "+xPos);
     println("y-position: "+yPos);
-    println("scene: "+scene);
-    println("transition: "+transition);
+
   }
   
   // this function returns the name of the given object
@@ -84,9 +79,10 @@ class SceneElement {
   }
   
   // basic functions for updating the object
-  void updateTrigger(int newTrigger){
+  /*void updateTrigger(int newTrigger){
     trigger=newTrigger;
   }
+  */
   void updateWidth(int newWidth){
     w=newWidth;
   }
@@ -99,15 +95,15 @@ class SceneElement {
   void updateY(int newY) {
     yPos=newY;
   }
-  void updateTransition(String newTransition){
+ /* void updateTransition(String newTransition){
     transition=newTransition;
   }
+*/  
   
-  
-  // this boolean returns true of mouse is over the sceneElement
+  // this boolean returns true if mouse is over the sceneElement
   boolean isMouseOver(int mX, int mY){
     if((mX>xPos) && (mX<xPos+w) && (mY>yPos) && (mY<yPos+h)){
-    return true;
+      return true;
     }
     return false;
   }

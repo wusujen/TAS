@@ -52,3 +52,13 @@ String[] listFileNames(String dir) {
     return null;
   }
 }
+
+
+/*============== saveProgram =============*
+ calls the function to save the information 
+ in SceneElementArray to the XML file.
+*=========================================*/
+public void save(int theValue) {
+  println("time to save the sketch");
+  saveXML(sceneElementArray);  
+}
