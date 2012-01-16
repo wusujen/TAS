@@ -73,8 +73,8 @@ class DropCanvas {
         futureWidth=300*(cWidth/cHeight);
         println(futureWidth);
       }
-      
-      sceneElementArray.add(new SceneElement(clickedItemName, futureWidth, futureHeight, mouseX, mouseY, 1, new ArrayList()));
+      //sceneElement now automatically sets to the currentScene
+      sceneElementArray.add(new SceneElement(clickedItemName, futureWidth, futureHeight, mouseX, mouseY, activeScene, new ArrayList()));
 
       SceneElement newSceneElement=(SceneElement) sceneElementArray.get(numberOfDroppedFiles);
       //newSceneElement.drawSceneElement();

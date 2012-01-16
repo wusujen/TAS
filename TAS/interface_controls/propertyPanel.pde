@@ -12,20 +12,28 @@ int innerMarginX=propertyPanelX+15;
 void setupPropertyPanel(){
   titleLabel=controlP5.addTextlabel("textLabel","PROPERTIES PANEL", innerMarginX, propertyPanelY+15);
   titleLabel.setWidth(100);
+  titleLabel.moveTo("global");
   nameLabel=controlP5.addTextlabel("nameLabel","empty",innerMarginX,propertyPanelY+45);
+  nameLabel.moveTo("global");
   widthBox=controlP5.addNumberbox("widthBox",0,innerMarginX,propertyPanelY+70,130,18);
   widthBox.setMin(1);
+  widthBox.moveTo("global");
   heightBox=controlP5.addNumberbox("heightBox",0,innerMarginX,propertyPanelY+110,130,18);
   heightBox.setMin(1);
+  heightBox.moveTo("global");
   xBox=controlP5.addNumberbox("xBox",0,innerMarginX,propertyPanelY+150,130,18);
   xBox.setMin(canvasX);
+  xBox.moveTo("global");
   yBox=controlP5.addNumberbox("yBox",0,innerMarginX,propertyPanelY+190,130,18);
   yBox.setMin(canvasY);
+  yBox.moveTo("global");
   triggerLabel=controlP5.addTextlabel("triggerLabel","TRIGGERS", innerMarginX, propertyPanelY+250);
   triggerLabel.setWidth(100);
+  triggerLabel.moveTo("global");
   for(int i=0; i<9; i++){
     Bang b=controlP5.addBang("bang"+i, innerMarginX+(60*(i%3)), propertyPanelY+275+(60*floor(i/3)), 50, 50);
     bangList.add(b);
+    b.moveTo("global");
     b.setLabelVisible(false);
   }
   resetPropertyPanel();
@@ -99,11 +107,6 @@ void resetPropertyPanel(){
 void widthBox(){
   println("widthboth: " + widthBox.value());
   activeElement.updateWidth(widthBox.value());
-  //if((activeElement.getMyXBox()+activeElement.getMyWidth())<(canvasX+canvasWidth)&&(activeElement.getMyHeight()+activeElement.getMyYBox()<canvasY+canvasHeight)){
-  //  activeElement.updateWidth(widthBox.value());
-  //} else {
-  //  widthBox.setValue(can);
-  //}
 }
 void heightBox(){
 

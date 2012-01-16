@@ -90,7 +90,8 @@ void loadXMLNodes() {
       }
       
       // add new SceneElement to the array.
-      sceneElementArray.add(new SceneElement(filename, w, h, x, y, number, myTriggers));
+      // TODO: activeScene is INCORRECT. This must be loaded from the XML/sceneElemen
+      sceneElementArray.add(new SceneElement(filename, w, h, x, y, activeScene, myTriggers));
     }
   }
   doneLoading=true;
@@ -170,7 +171,8 @@ void saveXML() {
 
       
       // find the assigned scene from SceneElement.scene attribute;
-      int assignedScene = thisElement.scene;
+      // TODO: I set this to 1 because thisElement.scene is now a STRING instead of an INT
+      int assignedScene = 1;//thisElement.scene;
       for (int j=0; j < media.countChildren(); j++) {  // go through all scene elements
         // store the looped scene in a temporary variable loopedScene
         proxml.XMLElement loopedScene = media.getChild(j);

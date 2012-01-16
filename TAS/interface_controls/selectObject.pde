@@ -4,7 +4,12 @@
     SceneElement drawIt;
     for(int i=0;i<sceneElementArray.size();i++){
       drawIt=(SceneElement) sceneElementArray.get(i);
-      drawIt.drawSceneElement();
+      
+      // if the current sceneElement's scene property matches the
+      // active scene, then draw the sceneElement.
+      if(drawIt.scene==activeScene){
+        drawIt.drawSceneElement();
+      }
     }    
   }
   
@@ -18,6 +23,11 @@
     boolean mouseIsOver;
     for(int i=0;i<sceneElementArray.size();i++){
       SceneElement element=(SceneElement) sceneElementArray.get(i);
+      if(element.scene!=activeScene){
+        println("skipped Element:" + element.scene);
+        continue;
+      }
+      println("check if on Element:" + element.scene);
       mouseIsOver=element.isMouseOver(mouseX,mouseY);
       if(mouseIsOver){
         if (activeElement != element) {

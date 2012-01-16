@@ -11,7 +11,7 @@ class SceneElement {
   float h;
   int xPos;
   int yPos;
-  int scene;
+  String scene;
 
   boolean bActivate;
   int mStartX, mStartY;  //store the position of the mouse when mouse has been pressed
@@ -27,7 +27,7 @@ class SceneElement {
 
   //SceneElement(String objFilename, int objWidth, int objHeight, int objX, int objY, int objScene, ArrayList objTriggers) {
   //SceneElement(int objHash, String objFilename, int objTrigger, float objWidth, float objHeight, int objX, int objY, int objScene, String objTransition) {
-    SceneElement(String objFilename, float objWidth, float objHeight, int objX, int objY, int objScene,  ArrayList objTriggers) {
+    SceneElement(String objFilename, float objWidth, float objHeight, int objX, int objY, String objScene,  ArrayList objTriggers) {
     //hash=objHash;
     name=objFilename;
     w=objWidth;

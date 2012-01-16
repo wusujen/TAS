@@ -40,6 +40,19 @@ void dragCursor(int x, int y, int w, int h){
  item will be removed from mediaList.
 *=========================================*/
 void controlEvent(ControlEvent theEvent) {
+  if(theEvent.isTab()){
+    String tabName=theEvent.tab().name();
+    if(tabName=="default"){
+      tabName=(String) sceneArray.get(0);
+    }
+    if(activeScene!=tabName){
+      activeScene=tabName;
+      println("changed to:" + activeScene);
+      activeElement=null;
+      resetPropertyPanel();
+    }
+    return;
+  }
   // checks to see if the group id matches the list we intend for it to.
   if (theEvent.isGroup() && ((theEvent.group().id()==1)||(theEvent.group().id()==2)||(theEvent.group().id()==3))) {
     // check the value of the group
@@ -55,24 +68,26 @@ void controlEvent(ControlEvent theEvent) {
     dragListID=dragListID+1;
     //dragToList.addItem(clickedItemName,dragListID);
     return;
-  }
+  }  
   //println(theEvent.controller().name());
-  Controller controller=theEvent.controller();
-  for(int i=0; i<9; i++){
-    if(theEvent.controller().name().equals("bang"+i)){
-      println("clicked bang"+i);
-      ArrayList tList=activeElement.getMyTriggerList();
-      if(tList.contains(i)){
-        println("removed bang"+i);
-        tList.remove(tList.indexOf(i));
-        controller.setColorForeground(color(0));
+  if(theEvent.isController()){
+    Controller controller=theEvent.controller();
+    for(int i=0; i<9; i++){
+      if(theEvent.controller().name().equals("bang"+i)){
+        println("clicked bang"+i);
+        ArrayList tList=activeElement.getMyTriggerList();
+        if(tList.contains(i)){
+          println("removed bang"+i);
+          tList.remove(tList.indexOf(i));
+          controller.setColorForeground(color(0));
+        }
+        else{
+          println("added bang"+i);
+          tList.add(i);
+          controller.setColorForeground(color(255,0,0));
+        }
+        return;
       }
-      else{
-        println("added bang"+i);
-        tList.add(i);
-        controller.setColorForeground(color(255,0,0));
-      }
-      return;
     }
   }
 }

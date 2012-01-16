@@ -52,6 +52,7 @@ int val;                        // stores the id of the item clicked from mediaL
 
 boolean doneLoading=false;      //is set to true when XML is done loading
 
+
 void setup() {
   // path to media folder
   String path = sketchPath + "/data";
@@ -83,6 +84,18 @@ void setup() {
 
   // initialize array to hold scene names
   sceneArray = new ArrayList();
+  sceneArray.add("scene1");
+  sceneArray.add("scene2");
+  sceneArray.add("scene3");
+  sceneArray.add("scene4");
+  
+  activeScene=(String) sceneArray.get(0);
+  controlP5.tab("default").setLabel(activeScene);
+  controlP5.tab("default").activateEvent(true);
+  for(int i=1; i<sceneArray.size(); i++){
+    Tab myTab=controlP5.tab((String) sceneArray.get(i));
+    myTab.activateEvent(true);
+  }  
 
   // TODO: preload image files from imageLib;
 
@@ -117,6 +130,7 @@ void setup() {
   }
   println("---------------");
   // end testing
+  
 }
 
 void draw() {
@@ -126,12 +140,6 @@ void draw() {
   canvas.drawDropCanvas();
   if (doneLoading) {
     drawSceneElements();
-  }
-
-  // check if SceneElement has been selected, as long
-  // as the mouse is within the boundaries of the canvas
-  if (canvas.mouseIsWithinDropCanvas() && mousePressed) {
-    selectSceneElement();
   }
 
   // if an element has been selected, then change
