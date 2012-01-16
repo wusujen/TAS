@@ -34,11 +34,8 @@ ArrayList movieFiles;
 ArrayList otherFiles;
 
 
-
 CColor defaultColor;
 DropCanvas canvas;
-ArrayList fileObjectArray;
-
 
 proxml.XMLElement media;        // xml element to store and load the media (must preface with library name)
 XMLInOut xmlIO;                
@@ -135,17 +132,11 @@ void setup() {
 
 void draw() {
   background(200);
-
+  
   // draws the canvas
   canvas.drawDropCanvas();
   if(doneLoading){
     drawSceneElements();
-  }
-  
-  // check if SceneElement has been selected, as long
-  // as the mouse is within the boundaries of the canvas
-  if(canvas.mouseIsWithinDropCanvas() && mousePressed){
-    selectSceneElement();
   }
   
   // if an element has been selected, then change
@@ -154,13 +145,4 @@ void draw() {
     activeElement.hasBeenSelected();
     drawPropertyPanel();
   }
-
-  // checks to see if the mouse is over the controller
-  // if the mouse is not dragging an item, the cursor
-  // does not appear
-  /*clickOnController=controlP5.window(this).isMouseOver();
-  boolean isOpen=mediaList.isOpen();
-  if (clickOnController && mouseDragging && isOpen) {
-    dragCursor(int(mouseX), int(mouseY), 120, 15);
-  }*/
 }

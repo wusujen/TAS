@@ -14,9 +14,13 @@ void setupPropertyPanel(){
   titleLabel.setWidth(100);
   nameLabel=controlP5.addTextlabel("nameLabel","empty",innerMarginX,propertyPanelY+45);
   widthBox=controlP5.addNumberbox("widthBox",0,innerMarginX,propertyPanelY+70,130,18);
+  widthBox.setMin(1);
   heightBox=controlP5.addNumberbox("heightBox",0,innerMarginX,propertyPanelY+110,130,18);
+  heightBox.setMin(1);
   xBox=controlP5.addNumberbox("xBox",0,innerMarginX,propertyPanelY+150,130,18);
+  xBox.setMin(canvasX);
   yBox=controlP5.addNumberbox("yBox",0,innerMarginX,propertyPanelY+190,130,18);
+  yBox.setMin(canvasY);
   triggerLabel=controlP5.addTextlabel("triggerLabel","TRIGGERS", innerMarginX, propertyPanelY+250);
   triggerLabel.setWidth(100);
   for(int i=0; i<9; i++){
@@ -33,6 +37,24 @@ void drawPropertyPanel(){
    rect(propertyPanelX,propertyPanelY,200,600);
 }
 
+void calibrateMaxValues(){
+  float xDiff = canvasX+canvasWidth-activeElement.getMyX();
+  float xRatio = xDiff/activeElement.getMyWidth();
+  
+  float yDiff = canvasY+canvasHeight-activeElement.getMyY();
+  float yRatio = yDiff/activeElement.getMyHeight();
+  if (xRatio < yRatio) {
+    widthBox.setMax(xDiff);
+    heightBox.setMax(activeElement.getMyHeight()*xRatio);
+  } else {
+    heightBox.setMax(yDiff);
+    widthBox.setMax(activeElement.getMyWidth()*yRatio);
+  }
+  
+  xBox.setMax(canvasX+canvasWidth-activeElement.getMyWidth());
+  yBox.setMax(canvasY+canvasHeight-activeElement.getMyHeight());
+}
+
 void populatePropertyPanel(){
   titleLabel.show();
   triggerLabel.show();
@@ -42,6 +64,7 @@ void populatePropertyPanel(){
   widthBox.setValue(activeElement.getMyWidth());
   heightBox.show();
   heightBox.setValue(activeElement.getMyHeight());
+  calibrateMaxValues();
   xBox.show();
   xBox.setValue(activeElement.getMyX());
   yBox.show();
@@ -74,10 +97,19 @@ void resetPropertyPanel(){
 }
 
 void widthBox(){
-  activeElement.updateWidth(int(widthBox.value()));
+  println("widthboth: " + widthBox.value());
+  activeElement.updateWidth(widthBox.value());
+  //if((activeElement.getMyXBox()+activeElement.getMyWidth())<(canvasX+canvasWidth)&&(activeElement.getMyHeight()+activeElement.getMyYBox()<canvasY+canvasHeight)){
+  //  activeElement.updateWidth(widthBox.value());
+  //} else {
+  //  widthBox.setValue(can);
+  //}
 }
 void heightBox(){
-  activeElement.updateHeight(int(heightBox.value()));
+
+  //if (abs(activeElement.getMyHeight() - heightBox.value()) > 1) {
+    activeElement.updateHeight(heightBox.value());
+  //}
 }
 void xBox(){
   activeElement.updateX(int(xBox.value()));

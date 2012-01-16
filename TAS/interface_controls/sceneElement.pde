@@ -7,18 +7,25 @@ class SceneElement {
   int hash;
   String name;
   int trigger; //this int is no longer in use. Please refer to triggerList below
-  int w;
-  int h;
+  float w;
+  float h;
   int xPos;
   int yPos;
   int scene;
   String transition;
+  
+  boolean bActivate;
+  int mStartX, mStartY;  //store the position of the mouse when mouse has been pressed
+  int mEndX, mEndY;      //store the position of the mouse when mouse has been released
+  
   CloseButton c;
 
   ArrayList triggerList; //this arraylist holds a set of integers, each corresponding to a trigger that has been turned "on".
                          //the max number is 9.
+                         
+  public PImage myPImage;  //this will hold the image associated with the sceneElement
   
-  SceneElement(int objHash, String objFilename, int objTrigger, int objWidth, int objHeight, int objX, int objY, int objScene, String objTransition) {
+  SceneElement(int objHash, String objFilename, int objTrigger, float objWidth, float objHeight, int objX, int objY, int objScene, String objTransition) {
     hash=objHash;
     name=objFilename;
     trigger=objTrigger;
@@ -28,8 +35,18 @@ class SceneElement {
     yPos=objY;
     scene=objScene;
     transition=objTransition;
-    c=new CloseButton(w+xPos,yPos,1,1,12);
+    mEndX = 0;
+    mEndY = 0;
+    bActivate = false;
+    mStartX = 0;
+    mStartY = 0;
+    c=new CloseButton(int(w)+xPos,yPos,1,1,12);
     triggerList= new ArrayList();
+    myPImage=loadImage(objFilename);
+  }
+  
+  float scaleFactor(){
+     return(h/float(myPImage.height));
   }
   
   // this draws an actual rectangle instead of a button
@@ -38,23 +55,31 @@ class SceneElement {
     // the button code, just in case we need it again
     // Button b;
     // controlP5.addButton(name,val,xPos,yPos,w,h);
-    stroke(0);
+   /* stroke(0);
     fill(0);
     rect(xPos,yPos,w,h);
+  
+    c.drawCloseButton();*/
     
     fill(0);
     textSize(10);
     textAlign(LEFT,BOTTOM);
     text(name,xPos,yPos);
-    c.drawCloseButton();
+    
+    pushMatrix();
+    translate(xPos,yPos);
+    scale(scaleFactor());
+    image(myPImage,0,0);
+    popMatrix();
   }
   
   
   // this changes the visual appearance of the object
   void hasBeenSelected(){
-    stroke(255,0,0);
+    /*stroke(255,0,0);
     fill(0);
-    rect(xPos,yPos,w,h);
+    rect(xPos,yPos,w,h);*/
+    
     fill(255,0,0);
     textSize(10);
     textAlign(LEFT,BOTTOM);
@@ -87,11 +112,13 @@ class SceneElement {
   void updateTrigger(int newTrigger){
     trigger=newTrigger;
   }
-  void updateWidth(int newWidth){
+  void updateWidth(float newWidth){
     w=newWidth;
+    h=float(myPImage.height)*newWidth/float(myPImage.width);
   }
-  void updateHeight(int newHeight){
+  void updateHeight(float newHeight){
     h=newHeight;
+    w=float(myPImage.width)*newHeight/float(myPImage.height);
   }
   void updateX(int newX){
     xPos=newX;
@@ -128,10 +155,10 @@ class SceneElement {
   int getMyY(){
     return yPos;
   }
-  int getMyWidth(){
+  float getMyWidth(){
     return w;
   }
-  int getMyHeight(){
+  float getMyHeight(){
     return h;
   }
   ArrayList getMyTriggerList(){

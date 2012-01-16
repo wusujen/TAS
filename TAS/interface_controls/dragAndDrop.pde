@@ -59,7 +59,7 @@ void dragCursor(int x, int y, int w, int h){
 *=========================================*/
 void controlEvent(ControlEvent theEvent) {
   // checks to see if the group id matches the list we intend for it to.
-  if (theEvent.isGroup() && theEvent.group().id()==1) {
+  if (theEvent.isGroup() && ((theEvent.group().id()==1)||(theEvent.group().id()==2)||(theEvent.group().id()==3))) {
     // check the value of the group
     // println(theEvent.group().value()+" from "+theEvent.group());
     
@@ -98,6 +98,29 @@ void controlEvent(ControlEvent theEvent) {
 // Set to true if mouse is dragging
 void mouseDragged(){
   mouseDragging=true;
+  if(activeElement!=null && activeElement.bActivate){
+    activeElement.xPos = mouseX - activeElement.mStartX;
+    activeElement.yPos = mouseY - activeElement.mStartY;   
+    
+    //keep drag inside the bound
+    if (activeElement.xPos < canvas.xPos){
+      activeElement.xPos = canvas.xPos;
+    }
+    else if(activeElement.xPos+int(activeElement.w) > canvas.xPos+canvas.w){
+      activeElement.xPos = canvas.xPos + canvas.w - int(activeElement.w);
+    }
+    if (activeElement.yPos < canvas.yPos){
+      activeElement.yPos = canvas.yPos;
+    }
+    else if(activeElement.yPos+int(activeElement.h) > canvas.yPos+canvas.h){
+      activeElement.yPos = canvas.yPos + canvas.h - int(activeElement.h);
+    }
+    
+    //include the closeButton with its sceneElement
+    activeElement.c.xPos = activeElement.xPos + int(activeElement.w);
+    activeElement.c.yPos = activeElement.yPos;
+  }
+  //print("mPos = (" + activeElement.xPos + "," + activeElement.yPos + ")\n");
 }
 
 // If mouse is released within the bounds of the dropCanvas
@@ -105,4 +128,32 @@ void mouseDragged(){
 // mouse
 void mouseReleased(){
   canvas.detectDroppedItem();
+  //select the activeElement to move 
+   if(activeElement!=null){
+   activeElement.bActivate = false;
+   activeElement.mEndX = mouseX;
+   activeElement.mEndY = mouseY;
+    //print("mEnd = (" + activeElement.mEndX + "," + activeElement.mEndY + ")\n");
+   populatePropertyPanel();
+  }
 }
+
+void mousePressed(){
+  if (activeElement!=null){
+    if(activeElement.isMouseOver(mouseX, mouseY)){
+      activeElement.bActivate = true;
+      activeElement.mStartX = mouseX - activeElement.xPos;
+      activeElement.mStartY = mouseY - activeElement.yPos;
+      //print("mStart = (" + activeElement.mStartX + "," + activeElement.mStartY + ")\n");
+    }
+  }
+}
+
+void mouseClicked(){
+  // check if SceneElement has been selected, as long
+  // as the mouse is within the boundaries of the canvas
+  if(canvas.mouseIsWithinDropCanvas()){
+    selectSceneElement();
+  }
+}
+
