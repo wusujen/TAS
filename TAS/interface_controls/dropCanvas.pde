@@ -50,21 +50,15 @@ class DropCanvas {
   void detectDroppedItem() {
     if (mouseX>xPos && mouseX<xPos+w && mouseY>yPos && mouseY<yPos+h && clickedItemName!=null) {
       // create a new label name for each label
-      // this should be changed later into drawSceneElement() 
       labelName="label"+val;
-      // label = controlP5.addTextlabel(labelName, clickedItemName, mouseX, mouseY);
-      // increment the global hash before it's applied to the new sceneElement
-       //hash++;
+
       // TODO: remove hardcoded variables for obj height, width, scene number, transition.
       //sceneElementArray.add(new SceneElement(clickedItemName, 0, 120, 15, mouseX, mouseY, 1, "none"));
-      sceneElementArray.add(new SceneElement(clickedItemName, 120, 15, mouseX, mouseY, 1));
+      sceneElementArray.add(new SceneElement(clickedItemName, 120, 15, mouseX, mouseY, 1, new ArrayList()));
       SceneElement newSceneElement=(SceneElement) sceneElementArray.get(numberOfDroppedFiles);
       newSceneElement.drawSceneElement();
       numberOfDroppedFiles=sceneElementArray.size();
       
-      //Pass the new SceneElement named cake to update XML
-      //writeToXML(newSceneElement); 
-      //println("after drop: file object array size: " + sceneElementArray.size());
     }
     mouseDragging=false;
     clickedItemName=null;

@@ -18,11 +18,8 @@ int libW = 200;
 int libH = 300;
 
 ControlP5 controlP5;
-
-ListBox mediaList;   // TODO necessary?
+ListBox mediaList;
 Button saveBtn;
-
-Textlabel label;
 
 ArrayList sceneElementArray;
 
@@ -35,13 +32,11 @@ ArrayList otherFiles;
 CColor defaultColor;
 DropCanvas canvas;
 
-proxml.XMLElement media;        // xml element to store and load the media (must preface with library name)
+proxml.XMLElement media;        // xml element to store and load the media
 XMLInOut xmlIO;                
 
-int hash;                       // unique ID added to every file dropped into the canvas, and written to XML
-
 String[] itemNames;             // stores names of items from media folder for later use
-File[] itemInfo;                // sotres File information of items from media folder
+File[] itemInfo;                // stores File information of items from media folder
 int dropListID=0;               // stores how many items have been added to dropCanvas
 int dragListID=0;               // stores how many items have been added to drag list
 boolean mouseDragging=false;    // check to see if mouse is dragging
@@ -63,6 +58,10 @@ void setup() {
 
   // declare a global instance of ControlP5;
   controlP5 = new ControlP5(this);
+  
+   //initialize sceneElementArray
+  sceneElementArray=new ArrayList();
+  
   // initialize arrays to hold filenames from media folder
   // these will populate the MediaLists created with the 
   // MediaLibrary class, and the values of allFiles will be checked against the 
@@ -72,22 +71,15 @@ void setup() {
   audioFiles = new ArrayList();
   movieFiles = new ArrayList();
   otherFiles = new ArrayList();
-
   //check all files types in media folder
   // and save them to separate global arrays
   checkFileTypes();
-
-  //initialize sceneElementArray
-  sceneElementArray=new ArrayList();
-
   // create the initial media list from media folder
-  //createMediaList(itemNames);
   MediaLibrary imageLib = new MediaLibrary(imageFiles, "Images", 1);
   MediaLibrary audioLib = new MediaLibrary(audioFiles, "Audio", 2);
   MediaLibrary movieLib = new MediaLibrary(movieFiles, "Movies", 3);
 
-  // then take the image files and preload them
-  // do something else with audio and image files
+  // TODO: preload image files from imageLib;
 
   itemNames=new String[allFiles.size()];
   for (int i=0;i<imageFiles.size();i++) {
@@ -102,17 +94,14 @@ void setup() {
 
   //initialize dropCanvas
   canvas=new DropCanvas(255, 180, canvasX, canvasY, canvasWidth, canvasHeight);
-  // load save Button
+  // load save Button, which will trigger writing to XML
   saveBtn = controlP5.addButton("save", 1 , appWidth - 100, appHeight - 50, 50, 20);
 
   // load XML file
   loadXMLFile();
 
-  println(sceneElementArray.size());
-
   //loads controlp5 parts of propertyPanel
   setupPropertyPanel();
-
   //doneLoading=true;  Moved to the end of the loadXMLNodes()
 }
 

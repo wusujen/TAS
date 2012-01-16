@@ -2,30 +2,18 @@
 XML structure
 saved to data/mediaoutput.xml
 <media>
- <file filename="swannhome-etch.jpeg" hash="3">
-  <controls trigger="0"/>
-  <size height="15" width="120"/>
-  <position yPos="307" xPos="298"/>
-  <scene number="1"/>
-  <transition type="none"/>
- </file>
-</media>
-
-<media>
- <scene number="1">
-   <element>
-			<file name="" type="" />
-			<trigger>
-                          <triggerNumber="" />
-                          <triggerNumber="" />
-                        </trigger>
-			<pos x="" y="" />
-			<dimensions w="" h= "" />
+  <scene number="1">
+    <element>
+      <file filename="test.jpg" />
+      <pos x="420" y="310" />
+      <dimensions w="230" h="15" />
+      <triggers>
+        <trigger number="6" />
+        <trigger number="7" />
+      </triggers>
     </element>
   </scene>
 </media>
-
-
 */
 
 /*==============  loadXMLFile =============*
@@ -42,7 +30,6 @@ void loadXMLFile() {
   }
 }
 
-
 /*==============  xmlEvent =============*
  register the xmlEvent if there is no XMLfile
  and pass the main element to initCanvas().
@@ -50,7 +37,6 @@ void loadXMLFile() {
 *=========================================*/ 
 void xmlEvent(proxml.XMLElement element) {
  media = element;
- //proxml.XMLElement lastElement = media.lastChild();
  loadXMLNodes(); 
 }
 
@@ -61,9 +47,7 @@ void xmlEvent(proxml.XMLElement element) {
 *=========================================*/ 
 void loadXMLNodes() {
   
-  println("loadXMLNodes() called");
-  
-  media.printElementTree(" ");
+  //media.printElementTree(" ");
  
   proxml.XMLElement scene;
   proxml.XMLElement element;
@@ -71,18 +55,18 @@ void loadXMLNodes() {
   proxml.XMLElement file;
   proxml.XMLElement pos;
   proxml.XMLElement dimensions;
+  proxml.XMLElement triggers;
   proxml.XMLElement trigger;
     
   String filename;
   //String type;
-  int triggerNumber;
+  int number;
   int w;
   int h;
   int x;
   int y;
-  int number;
- 
-  
+  int TriggerNum;
+
   for(int i = 0; i < media.countChildren();i++){ // the number of scenes
     
     scene = media.getChild(i);
@@ -93,27 +77,27 @@ void loadXMLNodes() {
       element = scene.getChild(i);
       file = element.getChild(0); 
       filename = file.getAttribute("filename");
-      pos = file.getChild(1);
+      pos = element.getChild(1);
       x = pos.getIntAttribute("x");
       y = pos.getIntAttribute("y");
-      dimensions = file.getChild(2);
+      dimensions = element.getChild(2);
       w = dimensions.getIntAttribute("w"); 
       h = dimensions.getIntAttribute("h");
-      trigger = element.getChild(3);
-      /* TODO: add triggers to the array and load them into sceneElement Array
-      for (trigger.countChildren()) {  
-        ArrayList myTriggers = new ArrayList();
-        myTriggers.add(trigger.getIntAttribute("triggerNumber");
+      triggers = element.getChild(3);
+      
+      ArrayList myTriggers = new ArrayList();
+      for (int p=0; p < triggers.countChildren(); p++) {  
+        trigger = triggers.getChild(p);
+        myTriggers.add(trigger.getIntAttribute("number"));
       }
       
-      */
       // add a new SceneElement to the array.
-      sceneElementArray.add(new SceneElement(filename, w, h, x, y, number)); //TODO: add trigger to constructor  
+      sceneElementArray.add(new SceneElement(filename, w, h, x, y, number, myTriggers));
+ 
     }
     
   }
-  
-  println("new file object array size: " + sceneElementArray.size());
+
   doneLoading=true;
   
   // this function is not necessary as I am drawing the sceneElements
@@ -135,11 +119,9 @@ void loadXMLNodes() {
   println("Media drawn to canvas");
 }*/
 
-
-
 /*============== saveXML =============*
  Creates the XML file using the info
- from the SceneElement passed to it.
+ from the SceneElement that's passed to it.
 *=========================================*/ 
 void saveXML(ArrayList elements) {
   
@@ -156,7 +138,8 @@ void saveXML(ArrayList elements) {
   if(xmlDeleted) {
     
     // iterate through sceneElementArray
-  println("all clear!");
+    
+    println("All clear! XML deleted.");
   
   }
   

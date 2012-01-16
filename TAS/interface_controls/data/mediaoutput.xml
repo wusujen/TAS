@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<media/>
+<media>
+	<scene number="1">
+		<element>
+			<file filename="test.jpg" />
+			<pos x="420" y="310" />
+			<dimensions w="230" h="15" />
+			<triggers>
+		      <trigger number="6" />
+		      <trigger number="7" />
+		    </triggers>
+		</element>
+	</scene>
+</media>

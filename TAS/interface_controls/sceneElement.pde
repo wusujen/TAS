@@ -16,7 +16,7 @@ class SceneElement {
   ArrayList triggerList; //this arraylist holds a set of integers, each corresponding to a trigger that has been turned "on".
                          //the max number is 9.
   
-  SceneElement(String objFilename, int objWidth, int objHeight, int objX, int objY, int objScene) { //TODO: add trigger to constructor
+  SceneElement(String objFilename, int objWidth, int objHeight, int objX, int objY, int objScene, ArrayList objTriggers) { //TODO: add trigger to constructor
     name=objFilename;
     //trigger=objTrigger;
     w=objWidth;
@@ -26,7 +26,9 @@ class SceneElement {
     scene=objScene;
     //transition=objTransition;
     c=new CloseButton(w+xPos,yPos,1,1,12);
-    triggerList= new ArrayList();
+    //triggerList=new ArrayList();
+    triggerList = objTriggers;
+
   }
   
   // this draws an actual rectangle instead of a button
