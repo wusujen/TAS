@@ -120,16 +120,28 @@ class SceneElement {
   void updateWidth(float newWidth){
     w=newWidth;
     h=float(myPImage.height)*newWidth/float(myPImage.width);
+    //include the closeButton with its sceneElement
+    activeElement.c.xPos = activeElement.xPos + int(activeElement.w);
+    activeElement.c.yPos = activeElement.yPos;
   }
   void updateHeight(float newHeight){
     h=newHeight;
     w=float(myPImage.width)*newHeight/float(myPImage.height);
+    //include the closeButton with its sceneElement
+    activeElement.c.xPos = activeElement.xPos + int(activeElement.w);
+    activeElement.c.yPos = activeElement.yPos;
   }
   void updateX(int newX){
     xPos=newX;
+    //include the closeButton with its sceneElement
+    activeElement.c.xPos = activeElement.xPos + int(activeElement.w);
+    activeElement.c.yPos = activeElement.yPos;
   }
   void updateY(int newY) {
     yPos=newY;
+    //include the closeButton with its sceneElement
+    activeElement.c.xPos = activeElement.xPos + int(activeElement.w);
+    activeElement.c.yPos = activeElement.yPos;
   }
  /* void updateTransition(String newTransition){
     transition=newTransition;
