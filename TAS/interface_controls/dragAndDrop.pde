@@ -128,6 +128,12 @@ void mouseReleased(){
   //select the activeElement to move 
    if(activeElement!=null){
    activeElement.bActivate = false;
+   activeElement.c.pressedState = false;
+   if (activeElement.isHoveringOverCloseButton(mouseX,mouseY)){
+     //print ("remove the obj\n");
+     canvas.removeDroppedItem();
+   }
+   
    activeElement.mEndX = mouseX;
    activeElement.mEndY = mouseY;
     //print("mEnd = (" + activeElement.mEndX + "," + activeElement.mEndY + ")\n");
@@ -138,11 +144,27 @@ void mouseReleased(){
 void mousePressed(){
   if (activeElement!=null){
     if(activeElement.isMouseOver(mouseX, mouseY)){
-      activeElement.bActivate = true;
+      activeElement.bActivate = true;   
+      //if click on the close button
+      if (activeElement.isHoveringOverCloseButton(mouseX,mouseY)){
+        activeElement.c.overState = false;
+        activeElement.c.pressedState = true;
+        clickToDelete = activeElement.objName();
+        println("activeElement.objName() ==> " + activeElement.objName()); 
+      }
       activeElement.mStartX = mouseX - activeElement.xPos;
       activeElement.mStartY = mouseY - activeElement.yPos;
       //print("mStart = (" + activeElement.mStartX + "," + activeElement.mStartY + ")\n");
     }
+  }
+}
+
+void mouseMoved(){
+  if (activeElement!=null){
+    if (activeElement.isHoveringOverCloseButton(mouseX,mouseY)){
+      activeElement.c.overState = true;
+    }else
+      activeElement.c.overState = false;
   }
 }
 
