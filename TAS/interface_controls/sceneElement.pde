@@ -65,7 +65,7 @@ class SceneElement {
     rect(xPos,yPos,w,h);
   
     c.drawCloseButton();*/
-    
+    //println(name + "drawn to " + scene);    
     fill(0);
     textSize(10);
     textAlign(LEFT,BOTTOM);
@@ -76,6 +76,7 @@ class SceneElement {
     scale(scaleFactor());
     image(myPImage,0,0);
     popMatrix();
+
   }
   
   
