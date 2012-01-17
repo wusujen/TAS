@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <media>
-  <scene number="scene1">
-    <element>
-      <file filename="selmamarch.jpg"/>
-      <pos x="427" y="358"/>
-      <dimensions w="300.0" h="234.50002"/>
-      <triggers/>
-    </element>
-  </scene>
-  <scene number="scene2">
-    <element>
-      <file filename="selmamarch.jpg"/>
-      <pos x="434" y="307"/>
-      <dimensions w="300.0" h="234.50002"/>
-      <triggers/>
-    </element>
-  </scene>
+  <scene number="scene1"/>
+  <scene number="scene2"/>
   <scene number="scene3"/>
-  <scene number="scene4">
-    <element>
-      <file filename="swannhome-etch.jpeg"/>
-      <pos x="651" y="477"/>
-      <dimensions w="300.0" h="264.75"/>
-      <triggers/>
-    </element>
-  </scene>
+  <scene number="scene4"/>
 </media>

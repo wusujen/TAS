@@ -95,6 +95,7 @@ void loadXMLNodes() {
     }
   }
   doneLoading=true;
+  // testing
   for (int i=0; i<sceneElementArray.size(); i++) {
     SceneElement thisElement =(SceneElement) sceneElementArray.get(i);
     println("Scene Element Loaded: " + thisElement.name + " for scene: " + thisElement.scene);

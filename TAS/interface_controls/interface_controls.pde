@@ -22,7 +22,7 @@ ListBox mediaList;
 Button saveBtn;
 
 ArrayList sceneArray;          // holds an array of scenes--looped through when saving to XML
-String activeScene;            // stores the name of the activeScene;
+String activeScene;           // stores the name of the activeScene;
 
 ArrayList sceneElementArray;
 String activeSceneElement;     //stores the name of activeSceneElement
