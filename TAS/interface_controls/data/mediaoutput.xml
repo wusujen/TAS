@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <media>
-  <scene number="1">
+  <scene number="scene1">
     <element>
-      <file filename="sitin.jpg"/>
-      <pos x="532" y="367"/>
-      <dimensions w="300.0" h="248.19276"/>
-      <triggers>
-        <trigger number="4"/>
-        <trigger number="5"/>
-      </triggers>
+      <file filename="selmamarch.jpg"/>
+      <pos x="427" y="358"/>
+      <dimensions w="300.0" h="234.50002"/>
+      <triggers/>
     </element>
+  </scene>
+  <scene number="scene2">
+    <element>
+      <file filename="selmamarch.jpg"/>
+      <pos x="434" y="307"/>
+      <dimensions w="300.0" h="234.50002"/>
+      <triggers/>
+    </element>
+  </scene>
+  <scene number="scene3"/>
+  <scene number="scene4">
     <element>
       <file filename="swannhome-etch.jpeg"/>
-      <pos x="295" y="114"/>
-      <dimensions w="237.67705" h="209.75"/>
-      <triggers>
-        <trigger number="0"/>
-        <trigger number="4"/>
-      </triggers>
+      <pos x="651" y="477"/>
+      <dimensions w="300.0" h="264.75"/>
+      <triggers/>
     </element>
   </scene>
 </media>

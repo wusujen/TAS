@@ -112,25 +112,16 @@ void setup() {
 
   //initialize dropCanvas
   canvas=new DropCanvas(255, 180, canvasX, canvasY, canvasWidth, canvasHeight);
-  // load save Button, which will trigger writing to XML
-  saveBtn = controlP5.addButton("save", 1 , appWidth - 100, appHeight - 50, 50, 20);
+
 
   // load XML file
   loadXMLFile();
 
   //loads controlp5 parts of propertyPanel
   setupPropertyPanel();
-  
-  //testing
-  println("---------------");
-  println("number of Scene Elements on load: " + sceneElementArray.size());
-  for(int i=0;i<sceneElementArray.size();i++){
-      SceneElement element=(SceneElement) sceneElementArray.get(i);
-      println(element.objName());
-  }
-  println("---------------");
-  // end testing
-  
+ 
+   // load save Button, which will trigger writing to XML
+   saveBtn = controlP5.addButton("save", 1 , appWidth - 100, appHeight - 50, 50, 20); 
 }
 
 void draw() {

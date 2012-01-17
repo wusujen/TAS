@@ -57,7 +57,7 @@ void loadXMLNodes() {
   proxml.XMLElement trigger;
     
   String filename;
-  int number;
+  String number;
   float w;
   float h;
   int x;
@@ -67,7 +67,7 @@ void loadXMLNodes() {
   for(int i = 0; i < media.countChildren();i++){ // the number of scenes
     
     scene = media.getChild(i);
-    number = scene.getIntAttribute("number");
+    number = scene.getAttribute("number");
     
     for(int j = 0; j < scene.countChildren(); j++) { // the number of elements in each scene
       
@@ -90,11 +90,15 @@ void loadXMLNodes() {
       }
       
       // add new SceneElement to the array.
-      // TODO: activeScene is INCORRECT. This must be loaded from the XML/sceneElemen
-      sceneElementArray.add(new SceneElement(filename, w, h, x, y, activeScene, myTriggers));
+      // TODO: activeScene is INCORRECT. This must be loaded from the XML/sceneElement
+      sceneElementArray.add(new SceneElement(filename, w, h, x, y, number, myTriggers));
     }
   }
   doneLoading=true;
+  for (int i=0; i<sceneElementArray.size(); i++) {
+    SceneElement thisElement =(SceneElement) sceneElementArray.get(i);
+    println("Scene Element Loaded: " + thisElement.name + " for scene: " + thisElement.scene);
+  }
 }
 
 
@@ -127,12 +131,15 @@ void saveXML() {
    
     // Once scenes are dynamic, iterate through sceneArray.size()
     // and construct a new scene element for each item, with a String 
-    // attribute for the name. NOT AN INTEGER! (this changes a lot of things).
-    // For now, we assume 1 scene and construct it manually
-    // outside of any loops.
-    proxml.XMLElement scene = new proxml.XMLElement("scene"); 
-    media.addChild(scene);
-    scene.addAttribute("number", 1);
+    // attribute for the name. NOT AN INTEGER! (this changes a lot of things).   
+    for(int i=0; i<sceneArray.size(); i++){
+      proxml.XMLElement scene = new proxml.XMLElement("scene"); 
+      media.addChild(scene);
+      String sceneName =(String) sceneArray.get(i);
+      scene.addAttribute("number", sceneName); // this is a string
+      println("scenes saved: " + sceneName);
+    }  
+
 
    for(int i = 0; i<elements.size(); i++) {
       // get the SceneElement info for each item in the Array
@@ -172,13 +179,14 @@ void saveXML() {
       
       // find the assigned scene from SceneElement.scene attribute;
       // TODO: I set this to 1 because thisElement.scene is now a STRING instead of an INT
-      int assignedScene = 1;//thisElement.scene;
+      //int assignedScene = 1;
+      String assignedScene = thisElement.scene;
       for (int j=0; j < media.countChildren(); j++) {  // go through all scene elements
         // store the looped scene in a temporary variable loopedScene
         proxml.XMLElement loopedScene = media.getChild(j);
          //println("media child: " + loopedScene);
          // save the number attribute of the scene
-         int sceneNum = loopedScene.getIntAttribute("number"); 
+         String sceneNum = loopedScene.getAttribute("number"); 
           // if the looped Scene has the same attribute as the assignedScene from the SceneElement array... 
           if (sceneNum == assignedScene) {
             //.. then add this XML element within that scene
