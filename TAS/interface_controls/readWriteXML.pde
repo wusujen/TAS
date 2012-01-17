@@ -110,11 +110,12 @@ void loadXMLNodes() {
 void saveXML() {
   println("saveXML called");
   ArrayList elements = sceneElementArray;
+    
 
   boolean xmlDeleted = false;
   if(media.countChildren() > 0) {
     println("there are childre nodes in the XML and they must be removed");
-    for(int i = media.countChildren()-1; i > -1; i--) { // remove each scene
+    for(int i = media.countChildren()-1; i > -1; i--) {  //remove each scene
       media.removeChild(i);
       if (i == 0) {
         println("Old XML deleted. All clear to repopulate!");
@@ -125,29 +126,41 @@ void saveXML() {
      println("There never were any children!");
      xmlDeleted = true;
    }
+
  
   if(xmlDeleted) {
   
    println("xml is deleted, work magic now."); 
+   println("--------------------");
+   // test print the scene array
+   for (int i=0;i<sceneElementArray.size();i++) {
+    SceneElement element=(SceneElement) sceneElementArray.get(i);
+    println("sceneElement:" + element.scene + " " + element.name);
+    }
+   println("Number of elements in SceneArray " + elements.size());
+   println("--------------------");
    
     // Once scenes are dynamic, iterate through sceneArray.size()
     // and construct a new scene element for each item, with a String 
     // attribute for the name. NOT AN INTEGER! (this changes a lot of things).   
     for(int i=0; i<sceneArray.size(); i++){
       proxml.XMLElement scene = new proxml.XMLElement("scene"); 
-      media.addChild(scene);
       String sceneName =(String) sceneArray.get(i);
       scene.addAttribute("number", sceneName); // this is a string
-      println("scenes saved: " + sceneName);
-    }  
+      media.addChild(scene);
+      println("<scene> node created: " + sceneName);
+    }
 
-
+   
    for(int i = 0; i<elements.size(); i++) {
       // get the SceneElement info for each item in the Array
      SceneElement thisElement=(SceneElement) elements.get(i);
-     
+    
+     println("Scene Element name: " + thisElement.name + " in scene: " + thisElement.scene);
+    
      //reconstruct the node
      proxml.XMLElement element = new proxml.XMLElement("element");
+     
      proxml.XMLElement file = new proxml.XMLElement("file");
      file.addAttribute("filename", thisElement.name);
      proxml.XMLElement pos = new proxml.XMLElement("pos");
@@ -163,12 +176,12 @@ void saveXML() {
      element.addChild(pos);
      element.addChild(dimensions);
      element.addChild(triggers);
+
      
      // Triggers are special, since the number of them vary.   
      // check for the number of items in the triggerList (ArrayList) and add elements accordingly.
      ArrayList thisTriggerList = thisElement.triggerList;
      int numTriggers = thisTriggerList.size();
-     println("Number of Triggers: " + numTriggers);
      for(int k = 0; k<numTriggers; k++) {
        println(numTriggers + " triggers added for item in loop: " + k + " filename: " + thisElement.name);
        int triggerNum =(Integer) thisTriggerList.get(k);
@@ -182,6 +195,8 @@ void saveXML() {
       // TODO: I set this to 1 because thisElement.scene is now a STRING instead of an INT
       //int assignedScene = 1;
       String assignedScene = thisElement.scene;
+      println("assigned scene: " + assignedScene);
+      
       for (int j=0; j < media.countChildren(); j++) {  // go through all scene elements
         // store the looped scene in a temporary variable loopedScene
         proxml.XMLElement loopedScene = media.getChild(j);
@@ -189,12 +204,14 @@ void saveXML() {
          // save the number attribute of the scene
          String sceneNum = loopedScene.getAttribute("number"); 
           // if the looped Scene has the same attribute as the assignedScene from the SceneElement array... 
-          if (sceneNum == assignedScene) {
+          //if (sceneNum == assignedScene) {
+           if (sceneNum.equals(assignedScene)) { 
             //.. then add this XML element within that scene
              loopedScene.addChild(element);
-          }
+             println(j + " XML element created");
+        }
       }    
-      //println(thisElement.name + " XML element created");
+      
    } 
 
   } 

@@ -19,7 +19,7 @@ int libH = 300;
 
 ControlP5 controlP5;
 ListBox mediaList;
-Button saveBtn;
+//Button saveBtn;
 
 ArrayList sceneArray;          // holds an array of scenes--looped through when saving to XML
 String activeScene;           // stores the name of the activeScene;
@@ -82,6 +82,7 @@ void setup() {
   MediaLibrary audioLib = new MediaLibrary(audioFiles, "Audio", 2);
   MediaLibrary movieLib = new MediaLibrary(movieFiles, "Movies", 3);
 
+
   // initialize array to hold scene names
   sceneArray = new ArrayList();
   sceneArray.add("scene1");
@@ -96,6 +97,9 @@ void setup() {
     Tab myTab=controlP5.tab((String) sceneArray.get(i));
     myTab.activateEvent(true);
   }  
+    // load save Button, which will trigger writing to XML
+  Button saveBtn=controlP5.addButton("save", 1 , appWidth - 100, appHeight - 50, 50, 20);
+  saveBtn.activateBy(ControlP5.PRESSED);
 
   // TODO: preload image files from imageLib;
 
@@ -119,9 +123,7 @@ void setup() {
 
   //loads controlp5 parts of propertyPanel
   setupPropertyPanel();
- 
-   // load save Button, which will trigger writing to XML
-   saveBtn = controlP5.addButton("save", 1 , appWidth - 100, appHeight - 50, 50, 20); 
+
 }
 
 void draw() {
@@ -140,5 +142,15 @@ void draw() {
     drawPropertyPanel();
   }
 
+  //printStatus();
+
+}
+
+void printStatus() {
+ println("activeScene : " + activeScene ); 
+ println("elements in SceneElementArray : " + sceneElementArray.size()); 
+ println(); 
+ println(); 
+ println(); 
 }
 
