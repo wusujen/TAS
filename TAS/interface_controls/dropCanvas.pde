@@ -85,6 +85,31 @@ class DropCanvas {
     clickedItemName=null;
     val=0;
   }
+  
+  
+/*========   removeDroppedItem   =========*
+ removes a fileObject that has been put into
+ dropCanvas and changes the color of the
+ listBoxItem
+*=========================================*/
+  void removeDroppedItem(){
+   // loop through the SceneElement array and check to see if the
+   // name of the currently clicked object matches any of those names
+   // if it does, then remove it and reset the listBoxItem color
+   for(int i=0; i<sceneElementArray.size(); i++){
+     SceneElement file = (SceneElement) sceneElementArray.get(i);
+     String droppedObjectName = file.objName();
+     //println("droppedObjectName ==> "+ droppedObjectName);
+     //println("clickToDelete ==> " + clickToDelete);
+     if(droppedObjectName==clickToDelete){
+       controlP5.remove(clickToDelete);
+       sceneElementArray.remove(i);
+       numberOfDroppedFiles = sceneElementArray.size();
+       break;
+      }
+   }
+  }
+/*========End of removeDroppedItem==============================*/
 
 
   /*========   getsceneElementById   =========*
