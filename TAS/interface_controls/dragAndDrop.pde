@@ -59,9 +59,21 @@ void controlEvent(ControlEvent theEvent) {
     println(theEvent.group().value()+" from "+theEvent.group());
     
     // set the val for future use as an item id &
-    // retrieve the respective item name from the itemName array
+    // retrieve the respective item name from the correct mediaList array 
+    // based upon which ListBox the item is being selected from!
     val=int(theEvent.group().value());
-    clickedItemName=itemNames[val];
+    if(theEvent.group().id()==1){
+      clickedItemName=(String) imageFiles.get(val);
+      println("imageFiles was clicked, and clicked Item Name is" + clickedItemName);
+    }
+    if(theEvent.group().id()==2){
+      clickedItemName=(String) audioFiles.get(val);
+      println("audioFiles was clicked, and clicked Item Name is" + clickedItemName);
+    }
+    if(theEvent.group().id()==3){
+      clickedItemName=(String) movieFiles.get(val);
+      println("movieFiles was clicked, and clicked Item Name is" + clickedItemName);
+    }
     
     // up the dragList by 1, to keep track of what 
     // has been dragged & add an Item to the dragToList

@@ -101,6 +101,7 @@ void setup() {
     // load save Button, which will trigger writing to XML
   Button saveBtn=controlP5.addButton("save", 1 , appWidth - 100, appHeight - 50, 50, 20);
   saveBtn.activateBy(ControlP5.PRESSED);
+  saveBtn.moveTo("global");
 
   // TODO: preload image files from imageLib;
 

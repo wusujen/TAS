@@ -105,14 +105,10 @@ void resetPropertyPanel(){
 }
 
 void widthBox(){
-  println("widthboth: " + widthBox.value());
   activeElement.updateWidth(widthBox.value());
 }
 void heightBox(){
-
-  //if (abs(activeElement.getMyHeight() - heightBox.value()) > 1) {
-    activeElement.updateHeight(heightBox.value());
-  //}
+  activeElement.updateHeight(heightBox.value());
 }
 void xBox(){
   activeElement.updateX(int(xBox.value()));

@@ -35,9 +35,6 @@ class SceneElement {
     xPos=objX;
     yPos=objY;
     scene=objScene;
-    //transition=objTransition;
-    //c=new CloseButton(w+xPos,yPos,1,1,12);
-    //triggerList=new ArrayList();
     triggerList = objTriggers;
 
     mEndX = 0;
@@ -46,8 +43,27 @@ class SceneElement {
     mStartX = 0;
     mStartY = 0;
     c=new CloseButton(int(w)+xPos,yPos,1,1,18);
-    //triggerList= new ArrayList();
-    myPImage=loadImage(objFilename);
+    
+    // to select which image should be displayed, figure out
+    // which type of file it is, and then based upon that get
+    // the correct image
+    // check for acceptable image formats
+    if( (name.endsWith("png")) || (name.endsWith("jpg")) || (name.endsWith("jpeg")) || name.endsWith("gif") ){ 
+      println("image");
+      myPImage=loadImage(sketchPath+"/media/"+name);
+    }
+    // check for accetable audio formats
+    else if( (name.endsWith("aif")) || (name.endsWith("mp3")) ){  
+      println("audio");
+      myPImage=loadImage(sketchPath+"/media/audio_icon.png");
+    }
+    // check for acceptable movie formats
+    else if( (name.endsWith("mov")) || (name.endsWith("mp4")) ){  
+      myPImage=loadImage(sketchPath+"/media/movie_icon.png");
+    }
+    else{
+      println("this is an unacceptable file");
+    }
   }
   
   float scaleFactor(){
@@ -56,16 +72,7 @@ class SceneElement {
   
   // this draws an actual rectangle instead of a button
   // later we can pass in PImages, and other parameters
-  void drawSceneElement(){
-    // the button code, just in case we need it again
-    // Button b;
-    // controlP5.addButton(name,val,xPos,yPos,w,h);
-   /* stroke(0);
-    fill(0);
-    rect(xPos,yPos,w,h);
-  
-    c.drawCloseButton();*/
-    //println(name + "drawn to " + scene);    
+  void drawSceneElement(){   
     fill(0);
     textSize(10);
     textAlign(LEFT,BOTTOM);
@@ -82,10 +89,6 @@ class SceneElement {
   
   // this changes the visual appearance of the object
   void hasBeenSelected(){
-    /*stroke(255,0,0);
-    fill(0);
-    rect(xPos,yPos,w,h);*/
-    
     fill(255,0,0);
     textSize(10);
     textAlign(LEFT,BOTTOM);
@@ -110,12 +113,6 @@ class SceneElement {
     String nameOfObject=name;
     return nameOfObject;
   }
-  
-  // basic functions for updating the object
-  /*void updateTrigger(int newTrigger){
-    trigger=newTrigger;
-  }
-  */
 
   void updateWidth(float newWidth){
     w=newWidth;
@@ -143,10 +140,6 @@ class SceneElement {
     activeElement.c.xPos = activeElement.xPos + int(activeElement.w);
     activeElement.c.yPos = activeElement.yPos;
   }
- /* void updateTransition(String newTransition){
-    transition=newTransition;
-  }
-*/  
   
   // this boolean returns true if mouse is over the sceneElement
   boolean isMouseOver(int mX, int mY){

@@ -15,21 +15,18 @@ void drawSceneElements() {
 
 
 /*=============   selectSceneElement   ==============*
- Check to see if mouse is over a sceneElement. If
- it is, then change the color properties of the
- element.
+ Check to see if mouse is over a sceneElement. If it
+ is, then change the color of the scene element text,
+ and also draw the properties panel/set the activeElement.
  ====================================================*/
 SceneElement selectSceneElement() {
   boolean mouseIsOver;
   for (int i=0;i<sceneElementArray.size();i++) {
     SceneElement element=(SceneElement) sceneElementArray.get(i);
     String elementScene = element.scene; 
-    //if (elementScene!=activeScene) {
     if (elementScene.compareTo(activeScene) != 0) {
-      println("SKIPPED: element scene: " + element.scene + " vs active Scene: " + activeScene);
       continue;
     }
-    println("check if on Element:" + element.scene);
     mouseIsOver=element.isMouseOver(mouseX, mouseY);
     if (mouseIsOver) {
       if (activeElement != element) {
@@ -41,7 +38,6 @@ SceneElement selectSceneElement() {
     }
   }
   if (activeElement!=null) {
-    println("deleselected"+activeElement.objName());
     activeElement=null;
     resetPropertyPanel();
   }

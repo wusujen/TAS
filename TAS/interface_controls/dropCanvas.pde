@@ -53,12 +53,30 @@ class DropCanvas {
       labelName="label"+val;
 
       // TODO: remove hardcoded variables for obj height, width, scene number, transition.
-
       //sceneElementArray.add(new SceneElement(clickedItemName, 0, 120, 15, mouseX, mouseY, 1, "none"));
       //sceneElementArray.add(new SceneElement(clickedItemName, 120, 15, mouseX, mouseY, 1, new ArrayList()));
 
-      PImage myPImage=loadImage(clickedItemName);
-      println(myPImage.width +" , "+ myPImage.height);
+       // to select which image should be displayed, figure out
+      // which type of file it is, and then based upon that get
+      // the correct image check for acceptable image formats
+      PImage myPImage=new PImage();
+      if((clickedItemName.endsWith("png")) || (clickedItemName.endsWith("jpg")) || (clickedItemName.endsWith("jpeg")) || clickedItemName.endsWith("gif") ){ 
+        println("image");
+        myPImage=loadImage(sketchPath+"/media/"+clickedItemName);
+      }
+      // check for accetable audio formats
+      else if( (clickedItemName.endsWith("aif")) || (clickedItemName.endsWith("mp3")) ){  
+        println("audio");
+        myPImage=loadImage(sketchPath+"/media/audio_icon.png");
+      }
+      // check for acceptable movie formats
+      else if( (clickedItemName.endsWith("mov")) || (clickedItemName.endsWith("mp4")) ){  
+        myPImage=loadImage(sketchPath+"/media/movie_icon.png");
+      }
+      else{
+        println("this is an unacceptable file");
+      }
+      
       float futureWidth;
       float futureHeight;
       float cWidth=float(myPImage.width);
