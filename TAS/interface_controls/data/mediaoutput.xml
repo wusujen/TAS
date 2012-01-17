@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <media>
-  <scene number="scene1">
-    <element>
-      <file filename="selmamarch.jpg"/>
-      <pos x="440" y="266"/>
-      <dimensions w="300.0" h="234.5"/>
-      <triggers/>
-    </element>
-  </scene>
+  <scene number="scene1"/>
   <scene number="scene2">
     <element>
       <file filename="selmamarch.jpg"/>
-      <pos x="411" y="314"/>
-      <dimensions w="300.0" h="234.50002"/>
-      <triggers/>
+      <pos x="571" y="450"/>
+      <dimensions w="300.0" h="234.5"/>
+      <triggers>
+        <trigger number="0"/>
+      </triggers>
     </element>
     <element>
       <file filename="sitin.jpg"/>
@@ -22,9 +17,9 @@
       <triggers/>
     </element>
     <element>
-      <file filename="sitin.jpg"/>
-      <pos x="299" y="133"/>
-      <dimensions w="300.0" h="248.19276"/>
+      <file filename="selmamarch.jpg"/>
+      <pos x="412" y="158"/>
+      <dimensions w="300.0" h="234.50002"/>
       <triggers/>
     </element>
   </scene>
