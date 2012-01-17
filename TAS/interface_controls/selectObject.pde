@@ -23,8 +23,10 @@ SceneElement selectSceneElement() {
   boolean mouseIsOver;
   for (int i=0;i<sceneElementArray.size();i++) {
     SceneElement element=(SceneElement) sceneElementArray.get(i);
-    if (element.scene!=activeScene) {
-      println("skipped Element:" + element.scene);
+    String elementScene = element.scene; 
+    //if (elementScene!=activeScene) {
+    if (elementScene.compareTo(activeScene) != 0) {
+      println("SKIPPED: element scene: " + element.scene + " vs active Scene: " + activeScene);
       continue;
     }
     println("check if on Element:" + element.scene);
