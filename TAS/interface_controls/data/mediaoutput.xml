@@ -2,25 +2,38 @@
 <media>
   <scene number="scene1">
     <element>
-      <file filename="03AKnockAtMidnight-2of7.mp3"/>
-      <pos x="280" y="513"/>
-      <dimensions w="161.60655" h="186.0"/>
-      <triggers/>
+      <file filename="selmamarch.jpg"/>
+      <pos x="309" y="100"/>
+      <dimensions w="258.42215" h="201.99997"/>
+      <triggers>
+        <trigger number="5"/>
+        <trigger number="0"/>
+      </triggers>
     </element>
     <element>
-      <file filename="sitin.jpg"/>
-      <pos x="580" y="101"/>
-      <dimensions w="300.0" h="248.19276"/>
+      <file filename="propellers.jpg"/>
+      <pos x="395" y="423"/>
+      <dimensions w="300.0" h="212.4"/>
       <triggers/>
     </element>
     <element>
       <file filename="selmamarch.jpg"/>
-      <pos x="580" y="350"/>
+      <pos x="549" y="415"/>
       <dimensions w="300.0" h="234.5"/>
-      <triggers/>
+      <triggers>
+        <trigger number="6"/>
+        <trigger number="7"/>
+      </triggers>
     </element>
   </scene>
   <scene number="scene2"/>
   <scene number="scene3"/>
-  <scene number="scene4"/>
+  <scene number="scene4">
+    <element>
+      <file filename="sitin.jpg"/>
+      <pos x="639" y="346"/>
+      <dimensions w="300.0" h="248.19278"/>
+      <triggers/>
+    </element>
+  </scene>
 </media>

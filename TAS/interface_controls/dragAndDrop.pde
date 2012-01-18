@@ -162,7 +162,8 @@ void mousePressed(){
         activeElement.c.overState = false;
         activeElement.c.pressedState = true;
         clickToDelete = activeElement.objName();
-        println("activeElement.objName() ==> " + activeElement.objName()); 
+        println("activeElement.objName() ==> " + activeElement.objName());
+        saveXML();
       }
       activeElement.mStartX = mouseX - activeElement.xPos;
       activeElement.mStartY = mouseY - activeElement.yPos;

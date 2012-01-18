@@ -4,7 +4,7 @@
 a global array by type, to access later.
 *=========================================*/
 void checkFileTypes() {
-  String path = sketchPath + "/data"; // path to media folder
+  String path = sketchPath + "/media"; // path to media folder
   // store the files to loop in a local array
   String[] filesToLoop = listFileNames(path);
  

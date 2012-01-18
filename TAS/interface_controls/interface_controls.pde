@@ -56,7 +56,7 @@ boolean doneLoading=false;      //is set to true when XML is done loading
 
 void setup() {
   // path to media folder
-  String path = sketchPath + "/data";
+  String path = sketchPath + "/media";
   // draw the applet
   size(appWidth, appHeight);
 
