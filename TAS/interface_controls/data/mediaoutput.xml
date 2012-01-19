@@ -7,13 +7,17 @@
       <dimensions w="258.42215" h="201.99997"/>
       <triggers>
         <trigger number="5"/>
+        <trigger number="0"/>
       </triggers>
     </element>
     <element>
       <file filename="propellers.jpg"/>
       <pos x="302" y="460"/>
       <dimensions w="300.0" h="212.4"/>
-      <triggers/>
+      <triggers>
+        <trigger number="4"/>
+        <trigger number="5"/>
+      </triggers>
     </element>
     <element>
       <file filename="selmamarch.jpg"/>

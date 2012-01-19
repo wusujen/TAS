@@ -1,6 +1,7 @@
 import controlP5.*;
 import proxml.*;
 import processing.opengl.*;
+ 
 
 int appWidth = 1200;            // processing applet measurements
 int appHeight = 800;            
@@ -147,9 +148,9 @@ void draw() {
     drawPropertyPanel();
   }
   
-  // run OSC
-  ts.update();
 
 }
 
-
+void keyReleased() {
+  ts.triggerEvent();
+}
