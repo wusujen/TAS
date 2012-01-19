@@ -79,7 +79,10 @@ class SceneElement {
     text(name,xPos,yPos);
     
     pushMatrix();
-    translate(xPos,yPos);
+    if (this == activeElement)
+      translate(xPos,yPos, 1);
+    else
+      translate(xPos,yPos, 0);
     scale(scaleFactor());
     image(myPImage,0,0);
     popMatrix();
@@ -208,7 +211,8 @@ class CloseButton{
   void drawNormalState(){
     overState = false;
     pressedState =false;
-    
+    pushMatrix();
+    translate(0,0,1.5);
     stroke(0);
     fill(0);
     rect(xPos-(wh+marginTop),yPos+marginRight,wh,wh);
@@ -217,6 +221,7 @@ class CloseButton{
     textAlign(CENTER,CENTER);
     textSize(wh-(wh/5));
     text("X",xPos-(wh/2),yPos+(wh/2));
+    popMatrix();
   }
   
   void drawHoverState(){
@@ -225,12 +230,15 @@ class CloseButton{
     
     stroke(0);
     fill(255,0,0);
+    pushMatrix();
+    translate(0,0,1.5);
     rect(xPos-(wh+marginTop),yPos+marginRight,wh,wh);
     
     fill(255);
     textAlign(CENTER,CENTER);
     textSize(wh-(wh/5));
     text("X",xPos-(wh/2),yPos+(wh/2));
+    popMatrix();
   }
   
   void drawPressedState(){
@@ -239,12 +247,15 @@ class CloseButton{
     
     stroke(0);
     fill(50);
+    pushMatrix();
+    translate(0,0,1.5);
     rect(xPos-(wh+marginTop),yPos+marginRight,wh,wh);
     
     fill(255);
     textAlign(CENTER,CENTER);
     textSize(wh-(wh/5));
     text("X",xPos-(wh/2),yPos+(wh/2));
+    popMatrix();
   }
   
   // this boolean returns true of mouse is over the sceneElement

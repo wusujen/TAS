@@ -8,7 +8,8 @@ void drawSceneElements() {
     // active scene, then draw the sceneElement.
     //if (drawIt.scene==activeScene) { 
     if (drawIt.scene.equals(activeScene)) { 
-      drawIt.drawSceneElement();
+        drawIt.drawSceneElement();
+
     }
   }
 }

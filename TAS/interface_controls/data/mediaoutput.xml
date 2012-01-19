@@ -3,23 +3,22 @@
   <scene number="scene1">
     <element>
       <file filename="selmamarch.jpg"/>
-      <pos x="309" y="100"/>
+      <pos x="333" y="159"/>
       <dimensions w="258.42215" h="201.99997"/>
       <triggers>
         <trigger number="5"/>
-        <trigger number="0"/>
       </triggers>
     </element>
     <element>
       <file filename="propellers.jpg"/>
-      <pos x="395" y="423"/>
+      <pos x="302" y="460"/>
       <dimensions w="300.0" h="212.4"/>
       <triggers/>
     </element>
     <element>
       <file filename="selmamarch.jpg"/>
-      <pos x="549" y="415"/>
-      <dimensions w="300.0" h="234.5"/>
+      <pos x="421" y="331"/>
+      <dimensions w="425.0" h="332.20834"/>
       <triggers>
         <trigger number="6"/>
         <trigger number="7"/>

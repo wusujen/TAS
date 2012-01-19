@@ -1,5 +1,6 @@
 import controlP5.*;
 import proxml.*;
+import processing.opengl.*;
 
 int appWidth = 1200;            // processing applet measurements
 int appHeight = 800;            
@@ -52,13 +53,13 @@ String clickedItemName;         // stores the name of the item clicked from medi
 int val;                        // stores the id of the item clicked from mediaList
 
 boolean doneLoading=false;      //is set to true when XML is done loading
-
+TriggerSimulation ts;
 
 void setup() {
   // path to media folder
   String path = sketchPath + "/media";
   // draw the applet
-  size(appWidth, appHeight);
+  size(appWidth, appHeight, OPENGL);
 
   // declare a global instance of ControlP5;
   controlP5 = new ControlP5(this);
@@ -82,6 +83,8 @@ void setup() {
   MediaLibrary imageLib = new MediaLibrary(imageFiles, "Images", 1);
   MediaLibrary audioLib = new MediaLibrary(audioFiles, "Audio", 2);
   MediaLibrary movieLib = new MediaLibrary(movieFiles, "Movies", 3);
+  
+  ts = new TriggerSimulation();
 
 
   // initialize array to hold scene names
@@ -143,16 +146,10 @@ void draw() {
     activeElement.hasBeenSelected();
     drawPropertyPanel();
   }
-
-  //printStatus();
+  
+  // run OSC
+  ts.update();
 
 }
 
-void printStatus() {
- println("activeScene : " + activeScene ); 
- println("elements in SceneElementArray : " + sceneElementArray.size()); 
- println(); 
- println(); 
- println(); 
-}
 
