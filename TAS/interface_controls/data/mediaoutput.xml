@@ -3,7 +3,7 @@
   <scene number="scene1">
     <element>
       <file filename="propellers.jpg"/>
-      <pos x="302" y="460"/>
+      <pos x="304" y="188"/>
       <dimensions w="300.0" h="212.4"/>
       <triggers>
         <trigger number="4"/>
@@ -12,17 +12,14 @@
     </element>
     <element>
       <file filename="selmamarch.jpg"/>
-      <pos x="421" y="331"/>
-      <dimensions w="425.0" h="332.20834"/>
-      <triggers>
-        <trigger number="6"/>
-        <trigger number="7"/>
-      </triggers>
+      <pos x="353" y="340"/>
+      <dimensions w="300.0" h="234.50002"/>
+      <triggers/>
     </element>
     <element>
-      <file filename="timetick.mp3"/>
-      <pos x="313" y="127"/>
-      <dimensions w="260.65573" h="300.0"/>
+      <file filename="selmamarch.jpg"/>
+      <pos x="580" y="442"/>
+      <dimensions w="300.0" h="234.5"/>
       <triggers/>
     </element>
   </scene>

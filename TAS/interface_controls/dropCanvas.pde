@@ -116,13 +116,11 @@ class DropCanvas {
    // if it does, then remove it and reset the listBoxItem color
    for(int i=0; i<sceneElementArray.size(); i++){
      SceneElement file = (SceneElement) sceneElementArray.get(i);
-     String droppedObjectName = file.objName();
      //println("droppedObjectName ==> "+ droppedObjectName);
      //println("clickToDelete ==> " + clickToDelete);
-     if(droppedObjectName==clickToDelete){
-       controlP5.remove(clickToDelete);
-       sceneElementArray.remove(i);
-       numberOfDroppedFiles = sceneElementArray.size();
+     if(file==activeElement){
+       sceneElementArray.remove(indexOfItemToRemove);
+       numberOfDroppedFiles=sceneElementArray.size();
        break;
       }
    }

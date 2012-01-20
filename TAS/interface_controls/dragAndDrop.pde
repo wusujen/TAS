@@ -160,7 +160,7 @@ void mousePressed(){
       if (activeElement.isHoveringOverCloseButton(mouseX,mouseY)){
         activeElement.c.overState = false;
         activeElement.c.pressedState = true;
-        clickToDelete = activeElement.objName();
+        indexOfItemToRemove = sceneElementArray.indexOf(activeElement);
         println("activeElement.objName() ==> " + activeElement.objName());
         saveXML();
       }
