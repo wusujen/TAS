@@ -6,7 +6,6 @@ void drawLibrary(ArrayList media, String title,  int id, int libY){
   mediaList.setBarHeight(15);
   mediaList.captionLabel().toUpperCase(true);
   mediaList.captionLabel().set(title);
-  
   mediaList.captionLabel().style().marginTop = 3;
   mediaList.valueLabel().style().marginTop = 3; // the +/- sign
   

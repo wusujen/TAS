@@ -21,7 +21,6 @@ int libH = 300;
 
 ControlP5 controlP5;
 ListBox mediaList;
-//Button saveBtn;
 
 ArrayList sceneArray;          // holds an array of scenes--looped through when saving to XML
 String activeScene;           // stores the name of the activeScene;
@@ -41,6 +40,8 @@ DropCanvas canvas;
 
 proxml.XMLElement media;        // xml element to store and load the media
 XMLInOut xmlIO;                
+
+Button saveBtn;
 
 String[] itemNames;             // stores names of items from media folder for later use
 File[] itemInfo;                // stores File information of items from media folder
@@ -84,9 +85,6 @@ void setup() {
   MediaLibrary imageLib = new MediaLibrary(imageFiles, "Images", 1);
   MediaLibrary audioLib = new MediaLibrary(audioFiles, "Audio", 2);
   MediaLibrary movieLib = new MediaLibrary(movieFiles, "Movies", 3);
-  
-  ts = new TriggerSimulation();
-
 
   // initialize array to hold scene names
   sceneArray = new ArrayList();
@@ -95,6 +93,7 @@ void setup() {
   sceneArray.add("scene3");
   sceneArray.add("scene4");
   
+  // make tabs for each scene
   activeScene=(String) sceneArray.get(0);
   controlP5.tab("default").setLabel(activeScene);
   controlP5.tab("default").activateEvent(true);
@@ -103,11 +102,9 @@ void setup() {
     myTab.activateEvent(true);
   }  
     // load save Button, which will trigger writing to XML
-  Button saveBtn=controlP5.addButton("save", 1 , appWidth - 100, appHeight - 50, 50, 20);
+  saveBtn=controlP5.addButton("save", 1 , appWidth - 100, appHeight - 50, 50, 20);
   saveBtn.activateBy(ControlP5.PRESSED);
   saveBtn.moveTo("global");
-
-  // TODO: preload image files from imageLib;
 
   itemNames=new String[allFiles.size()];
   for (int i=0;i<imageFiles.size();i++) {
@@ -122,14 +119,12 @@ void setup() {
 
   //initialize dropCanvas
   canvas=new DropCanvas(255, 180, canvasX, canvasY, canvasWidth, canvasHeight);
-
-
   // load XML file
   loadXMLFile();
-
   //loads controlp5 parts of propertyPanel
   setupPropertyPanel();
-
+    // OSC trigger
+  ts = new TriggerSimulation();
 }
 
 void draw() {
@@ -148,7 +143,6 @@ void draw() {
     drawPropertyPanel();
   }
   
-
 }
 
 void keyReleased() {

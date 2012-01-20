@@ -67,11 +67,11 @@ class DropCanvas {
       // check for accetable audio formats
       else if( (clickedItemName.endsWith("aif")) || (clickedItemName.endsWith("mp3")) ){  
         println("audio");
-        myPImage=loadImage(sketchPath+"/media/audio_icon.png");
+        myPImage=loadImage(sketchPath+"/data/audio_icon.png");
       }
       // check for acceptable movie formats
       else if( (clickedItemName.endsWith("mov")) || (clickedItemName.endsWith("mp4")) ){  
-        myPImage=loadImage(sketchPath+"/media/movie_icon.png");
+        myPImage=loadImage(sketchPath+"/data/video_icon.png");
       }
       else{
         println("this is an unacceptable file");

@@ -18,9 +18,9 @@ program created with openFrameworks.
 /***************************
   Libraries & Documentation
 ****************************/
-Shapetween		http://www.leebyron.com/else/shapetween/
 ProXML				http://creativecomputing.cc/p5libs/proxml/
 controlP5			http://www.sojamo.de/libraries/controlP5/reference/index.html
+GSVideo				http://gsvideo.sourceforge.net/
 
 
 /***************************
@@ -34,3 +34,9 @@ http://processing.org/learning/basics/loaddisplayimage.html
 Listing Files
 http://wiki.processing.org/w/Listing_files
 
+/***************************
+  OSC
+****************************/
+address String
+/filename/width/height/xPos/yPos/
+data String, int, int, float, float

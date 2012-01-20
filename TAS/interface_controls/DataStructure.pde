@@ -59,6 +59,5 @@ String[] listFileNames(String dir) {
  in SceneElementArray to the XML file.
 *=========================================*/
 public void save(int theValue) { // what is going on with this button.
-  println("button pushed to save the sketch");
   saveXML();
 }

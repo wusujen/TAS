@@ -2,15 +2,6 @@
 <media>
   <scene number="scene1">
     <element>
-      <file filename="selmamarch.jpg"/>
-      <pos x="333" y="159"/>
-      <dimensions w="258.42215" h="201.99997"/>
-      <triggers>
-        <trigger number="5"/>
-        <trigger number="0"/>
-      </triggers>
-    </element>
-    <element>
       <file filename="propellers.jpg"/>
       <pos x="302" y="460"/>
       <dimensions w="300.0" h="212.4"/>
@@ -28,9 +19,22 @@
         <trigger number="7"/>
       </triggers>
     </element>
+    <element>
+      <file filename="timetick.mp3"/>
+      <pos x="313" y="127"/>
+      <dimensions w="260.65573" h="300.0"/>
+      <triggers/>
+    </element>
   </scene>
   <scene number="scene2"/>
-  <scene number="scene3"/>
+  <scene number="scene3">
+    <element>
+      <file filename="selmamarch.jpg"/>
+      <pos x="505" y="210"/>
+      <dimensions w="300.0" h="234.50002"/>
+      <triggers/>
+    </element>
+  </scene>
   <scene number="scene4">
     <element>
       <file filename="sitin.jpg"/>
