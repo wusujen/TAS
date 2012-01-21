@@ -182,13 +182,13 @@ void mouseMoved(){
 }
 
 void mouseClicked(){
+  allowUpdates=false;
   // check if mouse was clicked within dropCanvas
   if(canvas.mouseIsWithinDropCanvas()){
     // get the topMost element
     SceneElement elementOnTop=getTopMostElement();
-    if(elementOnTop!=null){
-      selectSceneElement(elementOnTop);
-    }
+    selectSceneElement(elementOnTop);
   }
+  allowUpdates=true;
 }
 

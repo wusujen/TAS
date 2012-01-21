@@ -3,8 +3,8 @@
   <scene number="scene1">
     <element>
       <file filename="propellers.jpg"/>
-      <pos x="280" y="174"/>
-      <dimensions w="299.36035" h="211.94713"/>
+      <pos x="583" y="119"/>
+      <dimensions w="296.0" h="209.568"/>
       <triggers>
         <trigger number="4"/>
         <trigger number="5"/>
@@ -12,38 +12,38 @@
     </element>
     <element>
       <file filename="selmamarch.jpg"/>
-      <pos x="530" y="325"/>
-      <dimensions w="298.08102" h="233.0"/>
+      <pos x="280" y="282"/>
+      <dimensions w="298.0" h="232.93666"/>
       <triggers/>
     </element>
     <element>
       <file filename="selmamarch.jpg"/>
-      <pos x="327" y="466"/>
-      <dimensions w="298.08102" h="233.0"/>
+      <pos x="581" y="224"/>
+      <dimensions w="298.0" h="232.93666"/>
       <triggers/>
     </element>
     <element>
       <file filename="propellers.jpg"/>
-      <pos x="550" y="170"/>
+      <pos x="290" y="112"/>
       <dimensions w="172.41241" h="122.06799"/>
       <triggers/>
     </element>
     <element>
       <file filename="selmamarch.jpg"/>
-      <pos x="496" y="451"/>
-      <dimensions w="299.36035" h="234.0"/>
-      <triggers/>
-    </element>
-    <element>
-      <file filename="sitin.jpg"/>
-      <pos x="280" y="100"/>
-      <dimensions w="282.40952" h="233.64"/>
+      <pos x="592" y="133"/>
+      <dimensions w="136.0" h="106.30666"/>
       <triggers/>
     </element>
     <element>
       <file filename="timetick.mp3"/>
-      <pos x="395" y="316"/>
-      <dimensions w="260.65573" h="300.0"/>
+      <pos x="537" y="100"/>
+      <dimensions w="107.0" h="123.15094"/>
+      <triggers/>
+    </element>
+    <element>
+      <file filename="selmamarch.jpg"/>
+      <pos x="580" y="466"/>
+      <dimensions w="299.0" h="233.71834"/>
       <triggers/>
     </element>
   </scene>

@@ -106,15 +106,23 @@ void resetPropertyPanel(){
 }
 
 void widthBox(){
-  activeElement.updateWidth(widthBox.value());
+  if(allowUpdates){
+    activeElement.updateWidth(widthBox.value());
+  }
 }
 void heightBox(){
-  activeElement.updateHeight(heightBox.value());
+  if(allowUpdates){
+    activeElement.updateHeight(heightBox.value());
+  }
 }
 void xBox(){
-  activeElement.updateX(int(xBox.value()));
+  if(allowUpdates){
+    activeElement.updateX(int(xBox.value()));
+  }
 }
 void yBox(){
-  activeElement.updateY(int(yBox.value()));
+  if(allowUpdates){
+    activeElement.updateY(int(yBox.value()));
+  }
 }
 

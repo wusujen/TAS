@@ -27,22 +27,20 @@ void drawSceneElements() {
  This is triggered in MouseClicked, when the mouse is
  clicked in the dropCanvas.
  ====================================================*/
-SceneElement selectSceneElement(SceneElement elementOnTop) {
-  // If the active element doesn't equal the topMostElement that the user has clicked on
-  if (activeElement != elementOnTop) {
-    //then set the activeElement to the topMostElement and return that element
-    activeElement=elementOnTop;
-    // and set the propertyPanel to the properties of that topMostElement.
-    populatePropertyPanel();
-    return elementOnTop;
-  }
-  // otherwise, if the user didn't click anything, then set activeElement to null,
-  // and clear the property panel
-  if (activeElement!=null) {
-    activeElement=null;
-    resetPropertyPanel();
-  }
-  return null;
+void selectSceneElement(SceneElement elementOnTop) {
+   if (elementOnTop==null) {
+     // otherwise, if the user didn't click anything, then set activeElement to null,
+     // and clear the property panel
+        activeElement=null;
+        resetPropertyPanel();
+    }
+    // If the active element doesn't equal the topMostElement that the user has clicked on
+    if (activeElement != elementOnTop) {
+      //then set the activeElement to the topMostElement and return that element
+      activeElement=elementOnTop;
+      // and set the propertyPanel to the properties of that topMostElement.
+      populatePropertyPanel();
+    }
 }
 
 

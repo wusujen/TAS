@@ -38,6 +38,8 @@ ArrayList otherFiles;
 CColor defaultColor;
 DropCanvas canvas;
 
+boolean allowUpdates=true;    //this tracks whether or not the properties panel should be updated with the things
+
 proxml.XMLElement media;        // xml element to store and load the media
 XMLInOut xmlIO;                
 
