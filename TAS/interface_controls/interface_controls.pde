@@ -57,6 +57,7 @@ int val;                        // stores the id of the item clicked from mediaL
 boolean doneLoading=false;      //is set to true when XML is done loading
 TriggerSimulation ts;
 
+
 void setup() {
   // path to media folder
   String path = sketchPath + "/media";
@@ -138,10 +139,10 @@ void draw() {
 
   // if an element has been selected, then change
   // the visual properties of that element
-  if (activeElement!=null) {
+  /*if (activeElement!=null) {
     activeElement.hasBeenSelected();
     drawPropertyPanel();
-  }
+  }*/
   
 }
 

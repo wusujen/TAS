@@ -70,8 +70,6 @@ class SceneElement {
      return(h/float(myPImage.height));
   }
   
-  // this draws an actual rectangle instead of a button
-  // later we can pass in PImages, and other parameters
   void drawSceneElement(){   
     fill(0);
     textSize(10);
@@ -79,14 +77,15 @@ class SceneElement {
     text(name,xPos,yPos);
     
     pushMatrix();
-    if (this == activeElement)
+    if (this == activeElement){
       translate(xPos,yPos, 1);
-    else
+    }
+    else{
       translate(xPos,yPos, 0);
-    scale(scaleFactor());
-    image(myPImage,0,0);
-    popMatrix();
-
+    }
+      scale(scaleFactor());
+      image(myPImage,0,0);
+      popMatrix();
   }
   
   
@@ -120,6 +119,7 @@ class SceneElement {
   void updateWidth(float newWidth){
     w=newWidth;
     h=float(myPImage.height)*newWidth/float(myPImage.width);
+    println("name: " + activeElement.objName() + " w: " + w + " h: " + h);
     //include the closeButton with its sceneElement
     activeElement.c.xPos = activeElement.xPos + int(activeElement.w);
     activeElement.c.yPos = activeElement.yPos;
@@ -127,6 +127,7 @@ class SceneElement {
   void updateHeight(float newHeight){
     h=newHeight;
     w=float(myPImage.width)*newHeight/float(myPImage.height);
+    println("name: " + activeElement.objName() + " w: " + w + " h: " + h);
     //include the closeButton with its sceneElement
     activeElement.c.xPos = activeElement.xPos + int(activeElement.w);
     activeElement.c.yPos = activeElement.yPos;

@@ -94,6 +94,7 @@ void resetPropertyPanel(){
   titleLabel.hide();
   nameLabel.hide();
   triggerLabel.hide();
+  //need to reset the values to 0?
   widthBox.hide();
   heightBox.hide();
   xBox.hide();

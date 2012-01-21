@@ -9,35 +9,35 @@ void drawSceneElements() {
     //if (drawIt.scene==activeScene) { 
     if (drawIt.scene.equals(activeScene)) { 
         drawIt.drawSceneElement();
-
+        // if an element has been selected, then change
+        // the visual properties of that element
+        if (activeElement!=null) {
+          SceneElement iveBeenDrawnOnce=activeElement;
+          activeElement.hasBeenSelected();
+          if(activeElement!=iveBeenDrawnOnce){
+            drawPropertyPanel();
+          }
+        }
     }
   }
 }
 
 
 /*=============   selectSceneElement   ==============*
- Check to see if mouse is over a sceneElement. If it
- is, then change the color of the scene element text,
- and also draw the properties panel/set the activeElement.
+ This is triggered in MouseClicked, when the mouse is
+ clicked in the dropCanvas.
  ====================================================*/
-SceneElement selectSceneElement() {
-  boolean mouseIsOver;
-  for (int i=0;i<sceneElementArray.size();i++) {
-    SceneElement element=(SceneElement) sceneElementArray.get(i);
-    String elementScene = element.scene; 
-    if (elementScene.compareTo(activeScene) != 0) {
-      continue;
-    }
-    mouseIsOver=element.isMouseOver(mouseX, mouseY);
-    if (mouseIsOver) {
-      if (activeElement != element) {
-        println(element.objName());
-        activeElement=element;
-        populatePropertyPanel();
-      }
-      return element;
-    }
+SceneElement selectSceneElement(SceneElement elementOnTop) {
+  // If the active element doesn't equal the topMostElement that the user has clicked on
+  if (activeElement != elementOnTop) {
+    //then set the activeElement to the topMostElement and return that element
+    activeElement=elementOnTop;
+    // and set the propertyPanel to the properties of that topMostElement.
+    populatePropertyPanel();
+    return elementOnTop;
   }
+  // otherwise, if the user didn't click anything, then set activeElement to null,
+  // and clear the property panel
   if (activeElement!=null) {
     activeElement=null;
     resetPropertyPanel();
@@ -45,3 +45,34 @@ SceneElement selectSceneElement() {
   return null;
 }
 
+
+/*==================   getTopMostElement  =================*
+  This function will return the SceneElement object that is
+  on TOP of the other scene elements, based on its position
+  in the sceneElement Array. This is run in mouseClicked.
+ =========================================================*/
+SceneElement getTopMostElement(){
+    ArrayList overlappingElements=new ArrayList();
+    // loop through the sceneElementArray
+    for (int i=0;i<sceneElementArray.size();i++) {
+      SceneElement element=(SceneElement) sceneElementArray.get(i);
+      String elementScene=element.scene;
+      // make sure if the element is in the actual scene
+      if (elementScene.compareTo(activeScene)==0) {
+        // check and see if mouse is over ANY of them
+          if(element.isMouseOver(mouseX,mouseY)){
+            // store the elements into an arraylist if mouse is over it
+            overlappingElements.add(element);
+          }
+        continue;
+      }
+    }
+    // make sure that overlapping elements is not null
+    if(!overlappingElements.isEmpty()){
+      // return the LAST element in the array, because that is the one that is on top
+      SceneElement returnElement=(SceneElement) overlappingElements.get(overlappingElements.size()-1);
+      return returnElement;
+    }
+    //else, return null
+    return null;
+ }

@@ -150,6 +150,7 @@ void mouseReleased(){
     //print("mEnd = (" + activeElement.mEndX + "," + activeElement.mEndY + ")\n");
    populatePropertyPanel();
   }
+  
 }
 
 void mousePressed(){
@@ -181,10 +182,13 @@ void mouseMoved(){
 }
 
 void mouseClicked(){
-  // check if SceneElement has been selected, as long
-  // as the mouse is within the boundaries of the canvas
+  // check if mouse was clicked within dropCanvas
   if(canvas.mouseIsWithinDropCanvas()){
-    selectSceneElement();
+    // get the topMost element
+    SceneElement elementOnTop=getTopMostElement();
+    if(elementOnTop!=null){
+      selectSceneElement(elementOnTop);
+    }
   }
 }
 

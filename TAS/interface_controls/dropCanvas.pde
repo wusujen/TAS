@@ -84,12 +84,12 @@ class DropCanvas {
       if (cWidth>cHeight){
         futureWidth=300;
         futureHeight=300*(cHeight/cWidth);
-        println(futureHeight);
+        println("this is future height: " + futureHeight);
       }
       else{
         futureHeight=300;
         futureWidth=300*(cWidth/cHeight);
-        println(futureWidth);
+        println("this is future height: " + futureWidth);
       }
       //sceneElement now automatically sets to the currentScene
       sceneElementArray.add(new SceneElement(clickedItemName, futureWidth, futureHeight, mouseX, mouseY, activeScene, new ArrayList()));
