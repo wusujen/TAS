@@ -8,16 +8,13 @@ void drawSceneElements() {
     // active scene, then draw the sceneElement.
     //if (drawIt.scene==activeScene) { 
     if (drawIt.scene.equals(activeScene)) { 
-        drawIt.drawSceneElement();
-        // if an element has been selected, then change
-        // the visual properties of that element
-        if (activeElement!=null) {
-          SceneElement iveBeenDrawnOnce=activeElement;
-          activeElement.hasBeenSelected();
-          if(activeElement!=iveBeenDrawnOnce){
-            drawPropertyPanel();
-          }
-        }
+      drawIt.drawSceneElement();
+      // if an element has been selected, then change
+      // the visual properties of that element
+      if (activeElement!=null) {
+        activeElement.hasBeenSelected();
+        drawPropertyPanel();
+      }
     }
   }
 }
